@@ -9,14 +9,11 @@
 
     <command>
         <command-name>registration</command-name>
-        <command-class>by.online.pharmacy.controller.command.RegistrationCommand</command-class>
-    </command>
-
-
-    <command>
-        <command-name>save-customer</command-name>
         <command-class>by.online.pharmacy.controller.command.SaveCustomerCommand</command-class>
     </command>
+
+
+
 
 
     <command>

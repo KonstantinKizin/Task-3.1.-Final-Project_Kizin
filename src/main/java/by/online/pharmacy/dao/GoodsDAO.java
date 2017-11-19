@@ -1,4 +1,6 @@
 package by.online.pharmacy.dao;
 
-public interface GoodsDAO extends DAO {
+import by.online.pharmacy.entity.Goods;
+
+public interface GoodsDAO extends DAO<Goods> {
 }

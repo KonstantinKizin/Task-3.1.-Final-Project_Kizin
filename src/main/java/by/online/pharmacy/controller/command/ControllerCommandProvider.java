@@ -4,6 +4,7 @@ import by.online.pharmacy.controller.exception.ControllerException;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -13,7 +14,7 @@ public class ControllerCommandProvider implements Command {
     private final String HIDDEN_PARAMETER = "hidden";
 
     @Override
-    public void execute(HttpServletRequest request, HttpServletResponse response) throws ControllerException {
+    public void execute(HttpServletRequest request, HttpServletResponse response) throws ControllerException , IOException {
 
         String commandName = request.getParameter(HIDDEN_PARAMETER);
         Command command = commandMap.get(commandName);

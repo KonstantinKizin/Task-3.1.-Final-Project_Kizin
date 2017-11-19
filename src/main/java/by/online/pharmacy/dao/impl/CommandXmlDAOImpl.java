@@ -27,12 +27,9 @@ public class CommandXmlDAOImpl implements CommandXMLDAO {
     private final String XML_SETTING_FILE_NAME = "Command.cfg.xml";
 
 
-
     public CommandXmlDAOImpl(){
 
     }
-
-
 
     @Override
     public Map<String , String> getCommandMap(NodeList nodeList){

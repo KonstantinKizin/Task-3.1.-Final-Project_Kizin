@@ -1,6 +1,12 @@
 package by.online.pharmacy.dao;
 
-public interface CustomerDAO extends DAO {
+import by.online.pharmacy.dao.exception.DAOException;
+import by.online.pharmacy.entity.Customer;
 
-    int x = 10;
+import java.sql.ResultSet;
+
+public interface CustomerDAO extends DAO<Customer> {
+
+    Customer findCustomerByEmailAndPw(String emil , String pw) throws DAOException;
+
 }

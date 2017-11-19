@@ -1,4 +1,4 @@
 package by.online.pharmacy.dao;
 
-public interface AdminDAO extends DAO {
+public interface AdminDAO extends DAO<Object> {
 }
