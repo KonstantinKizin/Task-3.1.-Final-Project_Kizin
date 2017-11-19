@@ -35,8 +35,10 @@ public class SaveCustomerCommand implements Command {
             String phoneNumber = request.getParameter("phone");
             String birthDay = request.getParameter("birthDate");
             String gender = request.getParameter("gender");
+
             Customer customer = new Customer(name,sureName,date,login,password,
             email,phoneNumber, role,birthDay,gender);
+
             service.saveCustomer(customer);
             request.setAttribute("customer",customer);
             request.getRequestDispatcher(CUSTOMER_PAGE).forward(request,response);

@@ -23,7 +23,6 @@ public class ShowAllCustomersCommand implements Command {
 
         try {
             List<Customer> customers = service.getAllCustomers();
-            System.out.println(customers);
             request.setAttribute("customerList",customers);
             request.getRequestDispatcher(CUSTOMERS_PAGE).forward(request,response);
         } catch (ServiceException | ServletException e) {
