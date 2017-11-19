@@ -1,9 +1,11 @@
 package by.online.pharmacy.dao.impl;
 
+import by.online.pharmacy.controller.command.SingInCommand;
 import by.online.pharmacy.dao.ConnectionPool;
 import by.online.pharmacy.dao.CustomerDAO;
 import by.online.pharmacy.dao.exception.DAOException;
 import by.online.pharmacy.entity.Customer;
+import org.apache.log4j.Logger;
 
 import java.sql.*;
 
@@ -11,6 +13,7 @@ public class CustomerDAOImpl implements CustomerDAO {
 
     private ConnectionPool connectionPool = ConnectionPoolImpl.getInstance();
     private final String TABLE_NAME = "customer";
+    private final static Logger logger = Logger.getLogger(CustomerDAOImpl.class);
 
 
     @Override
@@ -36,6 +39,7 @@ public class CustomerDAOImpl implements CustomerDAO {
             roolBacked = connection;
             result = true;
         } catch (SQLException e) {
+            logger.debug("Exception from DAO, save method ",e);
             throw new DAOException(e);
         }finally {
             connectionPool.roleBack(roolBacked);
@@ -83,6 +87,7 @@ public class CustomerDAOImpl implements CustomerDAO {
             return customer;
 
         } catch (SQLException e) {
+            logger.debug("Exception from DAO , findByEmailAndPassword method" ,e);
             throw new DAOException(e);
         }finally {
             connectionPool.roleBack(roolBacked);

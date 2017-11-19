@@ -5,6 +5,7 @@ import by.online.pharmacy.entity.Customer;
 import by.online.pharmacy.service.CustomerService;
 import by.online.pharmacy.service.exception.ServiceException;
 import by.online.pharmacy.service.factory.ServiceFactory;
+import org.apache.log4j.Logger;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -18,6 +19,7 @@ public class SaveCustomerCommand implements Command {
     private CustomerService service = factory.getCustomerService();
     private final String CUSTOMER_PAGE = "/WEB-INF/jsp/customer.jsp";
     private final String ERROR_PAGE = "/WEB-INF/jsp/error.jsp";
+    private final static Logger logger = Logger.getLogger(SaveCustomerCommand.class);
 
     @Override
     public void execute(HttpServletRequest request, HttpServletResponse response) throws ControllerException, IOException {
@@ -39,10 +41,8 @@ public class SaveCustomerCommand implements Command {
             request.setAttribute("customer",customer);
             request.getRequestDispatcher(CUSTOMER_PAGE).forward(request,response);
         } catch (ServiceException | ServletException | IOException e) {
-            //loggining
-            System.out.println(new ControllerException(e));
+            logger.debug("Exception from SaveCustomer",e);
             response.sendRedirect(ERROR_PAGE);
-
         }
     }
 }

@@ -46,7 +46,7 @@ public class SingInCommand implements Command {
                 response.sendRedirect(MAIN_PAGE);
             }
         } catch (ServiceException | ServletException | IOException e ) {
-            logger.error("Exception from singIn",e);
+            logger.debug("Exception from singIn",e);
             response.sendRedirect(ERROR_PAGE);
         }
 

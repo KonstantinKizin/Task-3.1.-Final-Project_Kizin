@@ -6,6 +6,7 @@ import by.online.pharmacy.controller.exception.ControllerException;
 import by.online.pharmacy.service.CommandService;
 import by.online.pharmacy.service.exception.ServiceException;
 import by.online.pharmacy.service.factory.ServiceFactory;
+import org.apache.log4j.Logger;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -13,7 +14,6 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.util.Enumeration;
 import java.util.Map;
 
 @WebServlet(name = "FrontServlet")
@@ -22,6 +22,7 @@ public class FrontServlet extends HttpServlet {
     private final ServiceFactory factory = ServiceFactory.getInstance();
     private final CommandService commandService = factory.getCommandService();
     private Command producer = new ControllerCommandProvider();
+    private final static Logger logger = Logger.getLogger(FrontServlet.class);
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         this.doGet(request,response);
@@ -32,7 +33,7 @@ public class FrontServlet extends HttpServlet {
         try {
             producer.execute(request,response);
         } catch (ControllerException e) {
-            System.out.println(e);
+            logger.debug("Exception from FrontServlet",e);
         }
     }
 
