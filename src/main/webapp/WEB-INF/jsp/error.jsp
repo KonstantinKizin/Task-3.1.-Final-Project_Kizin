@@ -6,9 +6,7 @@
 </head>
 <body>
 
-<H1>OOOOOPS, something gone wrong:(</H1>
-
-<jsp:forward page="admin.jsp"></jsp:forward>
+<H1>OOOOOPS, something has gone wrong:(</H1>
 
 </body>
 </html>
