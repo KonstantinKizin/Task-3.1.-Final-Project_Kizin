@@ -13,6 +13,10 @@
     </command>
 
 
+    <command>
+        <command-name>showCustomers</command-name>
+        <command-class>by.online.pharmacy.controller.command.ShowAllCustomersCommand</command-class>
+    </command>
 
 
 
@@ -25,10 +29,5 @@
         <command-name>redirect-main</command-name>
         <command-class>by.online.pharmacy.controller.command.RedirectMainPageCommand</command-class>
     </command>
-
-
-
-
-
 
 </commands>

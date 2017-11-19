@@ -1,6 +1,5 @@
 package by.online.pharmacy.dao.impl;
 
-import by.online.pharmacy.controller.command.SingInCommand;
 import by.online.pharmacy.dao.ConnectionPool;
 import by.online.pharmacy.dao.CustomerDAO;
 import by.online.pharmacy.dao.exception.DAOException;
@@ -8,6 +7,8 @@ import by.online.pharmacy.entity.Customer;
 import org.apache.log4j.Logger;
 
 import java.sql.*;
+import java.util.ArrayList;
+import java.util.List;
 
 public class CustomerDAOImpl implements CustomerDAO {
 
@@ -48,24 +49,47 @@ public class CustomerDAOImpl implements CustomerDAO {
     }
 
 
-
-
-
     @Override
-    public Customer get(Object key) throws DAOException {
-        return null;
+    public List<Customer> getAll() throws DAOException {
+
+        List<Customer> customers = new ArrayList<>();
+        final String sql = "select * from customer";
+        Connection roolBacked = null;
+        try(Connection connection = connectionPool.getConnection();
+            Statement statement = connection.createStatement() ) {
+            ResultSet rs = statement.executeQuery(sql);
+
+            while (rs.next()){
+                Customer customer = null;
+                String name = rs.getString(1);
+                String sureName = rs.getString(2);
+                String phone = rs.getString(3);
+                String role =  rs.getString(4);
+                String email = rs.getString(5);
+                String password = rs.getString(6);
+                String login = rs.getString(7);
+                String date = rs.getString(8);
+                String birthDay = rs.getString(9);
+                String gender = rs.getString(10);
+                customer = new Customer(
+                        name,sureName,date,login,password,
+                        email,phone,role,birthDay,gender
+                );
+                customers.add(customer);
+            }
+
+            roolBacked = connection;
+            return customers;
+        } catch (SQLException e) {
+            logger.debug("Exception from DAO , getAll method ",e);
+            throw new DAOException(e);
+        }finally {
+            connectionPool.roleBack(roolBacked);
+        }
+
     }
 
 
-    @Override
-    public boolean update(Customer customer) throws DAOException {
-        return false;
-    }
-
-    @Override
-    public boolean delete(Object key) throws DAOException {
-        return false;
-    }
 
     @Override
     public Customer findCustomerByEmailAndPw(String emil, String pw) throws DAOException {
@@ -120,6 +144,22 @@ public class CustomerDAOImpl implements CustomerDAO {
             throw new DAOException(e);
         }
 
+    }
+
+    @Override
+    public Customer get(Object key) throws DAOException {
+        return null;
+    }
+
+
+    @Override
+    public boolean update(Customer customer) throws DAOException {
+        return false;
+    }
+
+    @Override
+    public boolean delete(Object key) throws DAOException {
+        return false;
     }
 
 }

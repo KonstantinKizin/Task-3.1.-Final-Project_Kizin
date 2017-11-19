@@ -4,6 +4,8 @@ import by.online.pharmacy.dao.GoodsDAO;
 import by.online.pharmacy.dao.exception.DAOException;
 import by.online.pharmacy.entity.Goods;
 
+import java.util.List;
+
 public class GoodsDAOImpl implements GoodsDAO {
     @Override
     public boolean save(Goods goods) throws DAOException {
@@ -24,5 +26,10 @@ public class GoodsDAOImpl implements GoodsDAO {
     @Override
     public boolean delete(Object key) throws DAOException {
         return false;
+    }
+
+    @Override
+    public List<Goods> getAll() throws DAOException {
+        return null;
     }
 }

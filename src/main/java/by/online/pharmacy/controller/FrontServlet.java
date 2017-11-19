@@ -45,6 +45,7 @@ public class FrontServlet extends HttpServlet {
             Map<String , Command> commandMap = commandService.getCommandMap();
             ((ControllerCommandProvider) producer).getCommandMap().putAll(commandMap);
         } catch (ServiceException e) {
+            logger.debug("Exception in init method",e);
             throw new RuntimeException(new ControllerException(e));
         }
 

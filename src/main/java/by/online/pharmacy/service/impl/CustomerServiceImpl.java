@@ -9,6 +9,8 @@ import by.online.pharmacy.service.CustomerService;
 import by.online.pharmacy.service.exception.ServiceException;
 import org.apache.log4j.Logger;
 
+import java.util.List;
+
 public class CustomerServiceImpl implements CustomerService {
 
     private final DAOFactory factory = DAOFactory.getInstance();
@@ -31,6 +33,16 @@ public class CustomerServiceImpl implements CustomerService {
             return customerDAO.findCustomerByEmailAndPw(email,password);
         } catch (DAOException e) {
             logger.debug("Exception from Service , findCustomerByEmailAndPassword method",e);
+            throw new ServiceException(e);
+        }
+    }
+
+    @Override
+    public List<Customer> getAllCustomers() throws ServiceException {
+        try {
+            return customerDAO.getAll();
+        } catch (DAOException e) {
+            logger.debug("Exception From Service in getAllCustomers method ",e);
             throw new ServiceException(e);
         }
     }

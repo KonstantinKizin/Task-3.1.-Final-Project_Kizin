@@ -8,6 +8,7 @@
 
 <H1>Hello admin ${customer.getName()}</H1>\
 
+<a href="/frontController?hidden=showCustomers">Show all customers</a>
 
 
 </body>
