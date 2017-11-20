@@ -6,7 +6,7 @@ import by.online.pharmacy.service.CustomerService;
 import by.online.pharmacy.service.exception.ServiceException;
 import by.online.pharmacy.service.factory.ServiceFactory;
 import org.apache.log4j.Logger;
-
+import static by.online.pharmacy.dao.impl.PropertyManager.getProperty;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -15,10 +15,7 @@ import java.util.List;
 public class ShowAllCustomersCommand implements Command {
     private ServiceFactory factory = ServiceFactory.getInstance();
     private CustomerService service = factory.getCustomerService();
-    private final String CUSTOMER_PAGE = "/WEB-INF/jsp/admin/customers.jsp";
-    private final String ERROR_PAGE = "/WEB-INF/jsp/error.jsp";
     private final static Logger logger = Logger.getLogger(ShowAllCustomersCommand.class);
-    private final String CUSTOMER_LIST_ATTR_NAME = "customerList";
     private CommandReturnObject commandReturn = new CommandReturnObject();
 
     @Override
@@ -26,15 +23,15 @@ public class ShowAllCustomersCommand implements Command {
 
         try {
             List<Customer> customers = service.getAllCustomers();
-            request.setAttribute(CUSTOMER_LIST_ATTR_NAME, customers);
-            commandReturn.setPage(CUSTOMER_PAGE);
+            request.setAttribute(getProperty("CUSTOMER_LIST_ATTR_NAME"), customers);
+            commandReturn.setPage(getProperty("CUSTOMERS_LIST_PAGE"));
             commandReturn.setRequest(request);
             commandReturn.setResponse(response);
 
         } catch (ServiceException e) {
             logger.debug("Exception in Controller ", e
             );
-            commandReturn.setPage(ERROR_PAGE);
+            commandReturn.setPage(getProperty("ERROR_PAGE"));
             commandReturn.setRequest(request);
             commandReturn.setResponse(response);
 

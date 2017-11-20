@@ -17,15 +17,15 @@
             <th>Phone number</th>
             <th>Date of birth</th>
             <th>Gender</th>
-            <c:forEach items = "${customerList}" var = "customer">
+            <c:forEach items = "${customerList}" var = "customers">
         <tr>
-            <td>${customer.getName()} </td>
-            <td>${customer.getSureName()} </td>
-            <td>${customer.getRegistrationDate()} </td>
-            <td>${customer.getEmail()} </td>
-            <td>${customer.getPhoneNumber()} </td>
-            <td>${customer.getDateOfBirth()} </td>
-            <td>${customer.getGender()} </td>
+            <td>${customers.getName()} </td>
+            <td>${customers.getSureName()} </td>
+            <td>${customers.getRegistrationDate()} </td>
+            <td>${customers.getEmail()} </td>
+            <td>${customers.getPhoneNumber()} </td>
+            <td>${customers.getDateOfBirth()} </td>
+            <td>${customers.getGender()} </td>
         </tr>
         </c:forEach>
         </tbody>

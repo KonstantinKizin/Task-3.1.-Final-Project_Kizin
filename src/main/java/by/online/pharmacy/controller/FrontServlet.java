@@ -18,6 +18,8 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.util.Map;
+import static by.online.pharmacy.dao.impl.PropertyManager.getProperty;
+
 
 @WebServlet(name = "FrontServlet")
 public class FrontServlet extends HttpServlet {
@@ -26,7 +28,6 @@ public class FrontServlet extends HttpServlet {
     private final CommandService commandService = factory.getCommandService();
     private Command producer = new ControllerCommandProvider();
     private final static Logger logger = Logger.getLogger(FrontServlet.class);
-    private final String INDEX_PAGE = "/index.jsp";
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         this.doGet(request,response);
@@ -45,9 +46,9 @@ public class FrontServlet extends HttpServlet {
                 RequestDispatcher rd = request.getRequestDispatcher(commandReturn.getPage());
                 rd.forward(httpRequest,httpResponse);
             }else {
-                page = INDEX_PAGE;
+                page = getProperty("MAIN_PAGE");
                 HttpSession session = request.getSession(false);
-                session.setAttribute("findOrValidationError", "Wrong Email or password");
+                session.setAttribute(getProperty("SING_IN_ERROR_ATTR_NAME"), "Wrong Email or password");
                 httpResponse.sendRedirect(page);
             }
 

@@ -10,15 +10,15 @@ import org.apache.log4j.Logger;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.Date;
+import static by.online.pharmacy.dao.impl.PropertyManager.getProperty;
 
 public class SaveCustomerCommand implements Command {
 
     private  ServiceFactory factory = ServiceFactory.getInstance();
     private CustomerService service = factory.getCustomerService();
-    private final String CUSTOMER_PAGE = "/WEB-INF/jsp/customer.jsp";
-    private final String ERROR_PAGE = "/WEB-INF/jsp/error.jsp";
     private final static Logger logger = Logger.getLogger(SaveCustomerCommand.class);
     private CommandReturnObject commandReturn = new CommandReturnObject();
+
 
     @Override
     public CommandReturnObject execute(HttpServletRequest request, HttpServletResponse response) throws ControllerException{
@@ -38,13 +38,13 @@ public class SaveCustomerCommand implements Command {
             Customer customer = new Customer(name,sureName,date,login,password,
             email,phoneNumber, role,birthDay,gender);
             service.saveCustomer(customer);
-            request.setAttribute("customer",customer);
-            commandReturn.setPage(CUSTOMER_PAGE);
+            request.setAttribute(getProperty("USER_ATTRIBUTE_NAME"),customer);
+            commandReturn.setPage(getProperty("CUSTOMER_PAGE"));
             commandReturn.setRequest(request);
             commandReturn.setResponse(response);
         } catch (ServiceException  e) {
             logger.debug("Exception from SaveCustomer",e);
-            commandReturn.setPage(ERROR_PAGE);
+            commandReturn.setPage(getProperty("ERROR_PAGE"));
             commandReturn.setRequest(request);
             commandReturn.setResponse(response);
         }
