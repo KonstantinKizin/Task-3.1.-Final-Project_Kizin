@@ -1,16 +1,21 @@
 <html>
 <body>
-<h2>Hello World!</h2>
-
-
 
 <div class="index-singIn">
-    <form method="get" action="/frontController">
+    <form method="post" action="/frontController">
         <input type="hidden" name="hidden" value="sing-in">
         E-mail: <input type="email" name="email"><br>
+        <br>
         Password:  <input type="password" name="password"><br>
+
+        <br>
+        ${findOrValidationError}
+
+        <br>
         <input type="submit" value="sing-in">
     </form>
+
+
 
 </div>
 

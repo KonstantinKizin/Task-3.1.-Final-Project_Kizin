@@ -1,6 +1,7 @@
 package by.online.pharmacy.controller;
 
 import by.online.pharmacy.controller.command.Command;
+import by.online.pharmacy.controller.command.CommandReturn;
 import by.online.pharmacy.controller.command.ControllerCommandProvider;
 import by.online.pharmacy.controller.exception.ControllerException;
 import by.online.pharmacy.service.CommandService;
@@ -8,11 +9,13 @@ import by.online.pharmacy.service.exception.ServiceException;
 import by.online.pharmacy.service.factory.ServiceFactory;
 import org.apache.log4j.Logger;
 
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.util.Map;
 
@@ -23,6 +26,7 @@ public class FrontServlet extends HttpServlet {
     private final CommandService commandService = factory.getCommandService();
     private Command producer = new ControllerCommandProvider();
     private final static Logger logger = Logger.getLogger(FrontServlet.class);
+    private final String INDEX_PAGE = "/index.jsp";
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         this.doGet(request,response);
@@ -31,7 +35,22 @@ public class FrontServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
         try {
-            producer.execute(request,response);
+            CommandReturn commandReturn = producer.execute(request,response);
+
+            String page = commandReturn.getPage();
+            HttpServletRequest httpRequest = commandReturn.getRequest();
+            HttpServletResponse httpResponse = commandReturn.getResponse();
+
+            if(commandReturn.getPage() != null){
+                RequestDispatcher rd = request.getRequestDispatcher(commandReturn.getPage());
+                rd.forward(httpRequest,httpResponse);
+            }else {
+                page = INDEX_PAGE;
+                HttpSession session = request.getSession(false);
+                session.setAttribute("findOrValidationError", "Wrong Email or password");
+                httpResponse.sendRedirect(page);
+            }
+
         } catch (ControllerException e) {
             logger.debug("Exception from FrontServlet",e);
         }

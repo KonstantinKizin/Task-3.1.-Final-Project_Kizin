@@ -1,6 +1,5 @@
 package by.online.pharmacy.service.impl;
 
-import by.online.pharmacy.controller.command.SingInCommand;
 import by.online.pharmacy.dao.CustomerDAO;
 import by.online.pharmacy.dao.exception.DAOException;
 import by.online.pharmacy.dao.factory.DAOFactory;
@@ -9,6 +8,7 @@ import by.online.pharmacy.service.CustomerService;
 import by.online.pharmacy.service.exception.ServiceException;
 import org.apache.log4j.Logger;
 
+import javax.servlet.ServletRequest;
 import java.util.List;
 
 public class CustomerServiceImpl implements CustomerService {
@@ -46,4 +46,20 @@ public class CustomerServiceImpl implements CustomerService {
             throw new ServiceException(e);
         }
     }
+
+    @Override
+    public boolean Loginvalidate(ServletRequest request){
+
+        String email = request.getParameter("email");
+        String pw = request.getParameter("password");
+
+        if(email != null && pw != null) {
+            if (email.isEmpty() || pw.isEmpty()) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+
 }

@@ -3,7 +3,7 @@
 
     <command>
         <command-name>sing-in</command-name>
-        <command-class>by.online.pharmacy.controller.command.SingInCommand</command-class>
+        <command-class>by.online.pharmacy.controller.command.SinginCommand</command-class>
     </command>
 
 
@@ -16,6 +16,11 @@
     <command>
         <command-name>showCustomers</command-name>
         <command-class>by.online.pharmacy.controller.command.ShowAllCustomersCommand</command-class>
+    </command>
+
+    <command>
+        <command-name>logout</command-name>
+        <command-class>by.online.pharmacy.controller.command.LogoutCommand</command-class>
     </command>
 
 

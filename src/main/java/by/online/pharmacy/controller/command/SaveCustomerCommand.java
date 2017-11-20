@@ -20,9 +20,10 @@ public class SaveCustomerCommand implements Command {
     private final String CUSTOMER_PAGE = "/WEB-INF/jsp/customer.jsp";
     private final String ERROR_PAGE = "/WEB-INF/jsp/error.jsp";
     private final static Logger logger = Logger.getLogger(SaveCustomerCommand.class);
+    private CommandReturn commandReturn = new CommandReturn();
 
     @Override
-    public void execute(HttpServletRequest request, HttpServletResponse response) throws ControllerException, IOException {
+    public CommandReturn execute(HttpServletRequest request, HttpServletResponse response) throws ControllerException{
 
         try {
             String name = request.getParameter("name");
@@ -38,13 +39,17 @@ public class SaveCustomerCommand implements Command {
 
             Customer customer = new Customer(name,sureName,date,login,password,
             email,phoneNumber, role,birthDay,gender);
-
             service.saveCustomer(customer);
             request.setAttribute("customer",customer);
-            request.getRequestDispatcher(CUSTOMER_PAGE).forward(request,response);
-        } catch (ServiceException | ServletException | IOException e) {
+            commandReturn.setPage(CUSTOMER_PAGE);
+            commandReturn.setRequest(request);
+            commandReturn.setResponse(response);
+        } catch (ServiceException  e) {
             logger.debug("Exception from SaveCustomer",e);
-            response.sendRedirect(ERROR_PAGE);
+            commandReturn.setPage(null);
+            commandReturn.setRequest(request);
+            commandReturn.setResponse(response);
         }
+        return commandReturn;
     }
 }

@@ -9,7 +9,8 @@
 <H1>Hello admin ${customer.getName()}</H1>\
 
 <a href="/frontController?hidden=showCustomers">Show all customers</a>
-
+<br>
+<a href="/frontController?hidden=logout">Sing out</a>
 
 </body>
 </html>
