@@ -3,12 +3,12 @@ package by.online.pharmacy.controller.command;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-public class CommandReturn {
+public class CommandReturnObject {
     private  String page;
     private  HttpServletResponse response;
     private  HttpServletRequest request;
 
-    public CommandReturn() {
+    public CommandReturnObject() {
 
     }
 

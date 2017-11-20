@@ -1,7 +1,7 @@
 package by.online.pharmacy.controller;
 
 import by.online.pharmacy.controller.command.Command;
-import by.online.pharmacy.controller.command.CommandReturn;
+import by.online.pharmacy.controller.command.CommandReturnObject;
 import by.online.pharmacy.controller.command.ControllerCommandProvider;
 import by.online.pharmacy.controller.exception.ControllerException;
 import by.online.pharmacy.service.CommandService;
@@ -35,7 +35,7 @@ public class FrontServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
         try {
-            CommandReturn commandReturn = producer.execute(request,response);
+            CommandReturnObject commandReturn = producer.execute(request,response);
 
             String page = commandReturn.getPage();
             HttpServletRequest httpRequest = commandReturn.getRequest();

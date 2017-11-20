@@ -7,10 +7,8 @@ import by.online.pharmacy.service.exception.ServiceException;
 import by.online.pharmacy.service.factory.ServiceFactory;
 import org.apache.log4j.Logger;
 
-import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.io.IOException;
 import java.util.Date;
 
 public class SaveCustomerCommand implements Command {
@@ -20,10 +18,10 @@ public class SaveCustomerCommand implements Command {
     private final String CUSTOMER_PAGE = "/WEB-INF/jsp/customer.jsp";
     private final String ERROR_PAGE = "/WEB-INF/jsp/error.jsp";
     private final static Logger logger = Logger.getLogger(SaveCustomerCommand.class);
-    private CommandReturn commandReturn = new CommandReturn();
+    private CommandReturnObject commandReturn = new CommandReturnObject();
 
     @Override
-    public CommandReturn execute(HttpServletRequest request, HttpServletResponse response) throws ControllerException{
+    public CommandReturnObject execute(HttpServletRequest request, HttpServletResponse response) throws ControllerException{
 
         try {
             String name = request.getParameter("name");
@@ -46,7 +44,7 @@ public class SaveCustomerCommand implements Command {
             commandReturn.setResponse(response);
         } catch (ServiceException  e) {
             logger.debug("Exception from SaveCustomer",e);
-            commandReturn.setPage(null);
+            commandReturn.setPage(ERROR_PAGE);
             commandReturn.setRequest(request);
             commandReturn.setResponse(response);
         }

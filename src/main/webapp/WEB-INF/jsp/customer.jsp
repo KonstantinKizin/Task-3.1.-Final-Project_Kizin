@@ -6,7 +6,7 @@
 </head>
 <body>
 
-<H1>Hello , ${customer.getLogin()}</H1>
+<H1>Hello , ${user.getLogin()}</H1>
 <br>
 <a href="/frontController?hidden=logout">Sing out</a>
 </body>

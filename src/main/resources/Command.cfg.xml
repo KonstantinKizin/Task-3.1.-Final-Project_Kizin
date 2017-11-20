@@ -25,14 +25,6 @@
 
 
 
-    <command>
-        <command-name>find-customer</command-name>
-        <command-class>by.online.pharmacy.controller.command.FindCustomerCommand</command-class>
-    </command>
 
-    <command>
-        <command-name>redirect-main</command-name>
-        <command-class>by.online.pharmacy.controller.command.RedirectMainPageCommand</command-class>
-    </command>
 
 </commands>

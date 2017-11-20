@@ -8,66 +8,60 @@ import by.online.pharmacy.service.factory.ServiceFactory;
 import org.apache.log4j.Logger;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.io.IOException;
 
 public class SinginCommand implements Command {
 
     private final ServiceFactory factory = ServiceFactory.getInstance();
     private final CustomerService customerService = factory.getCustomerService();
     private final String CUSTOMER_PAGE = "/WEB-INF/jsp/customer.jsp";
+    private final String ADMIN_PAGE = "/WEB-INF/jsp/admin.jsp";
+    private final String ERROR_PAGE = "/WEB-INF/jsp/error.jsp";
     private final String EMAIL_PARAMETER_NAME = "email";
     private final String PASSWORD_PARAMETER_NAME = "password";
-    private final String ADMIN_PAGE = "/WEB-INF/jsp/admin.jsp";
     private final String ADMIN_ROLE = "admin";
     private final String CUSTOMER_ROLE = "customer";
+    private final String USER_ATTRIBUTE_NAME = "user";
+
     private final static Logger logger = Logger.getLogger(SinginCommand.class);
-    private CommandReturn commandReturn = new CommandReturn();
+    private CommandReturnObject commandReturn = new CommandReturnObject();
 
     @Override
-    public CommandReturn execute(HttpServletRequest request, HttpServletResponse response) throws ControllerException, IOException {
-
-
-
-
-
-
-
-
+    public CommandReturnObject execute(HttpServletRequest request, HttpServletResponse response) throws ControllerException {
 
         try {
-            if(customerService.Loginvalidate(request)){
+            if(customerService.LoginValidate(request)){
                 String email = request.getParameter(EMAIL_PARAMETER_NAME);
                 String password = request.getParameter(PASSWORD_PARAMETER_NAME);
                 Customer customer = customerService.findCustomerByEmailAndPassword(email,password);
                 if(customer != null){
-                    request.setAttribute("customer",customer);
+                    request.setAttribute(USER_ATTRIBUTE_NAME,customer);
                     if(customer.getRole().equalsIgnoreCase(ADMIN_ROLE)){
-                        buildCommandReturn(ADMIN_PAGE,request,response);;
+                        buildCommandReturnObject(ADMIN_PAGE,request,response);;
+                    }
 
-                    }else if (customer.getRole().equalsIgnoreCase(CUSTOMER_ROLE)) {
-                        buildCommandReturn(CUSTOMER_PAGE,request,response);;
-                    }else {
-                        buildCommandReturn(null,request,response);
+                    if (customer.getRole().equalsIgnoreCase(CUSTOMER_ROLE)) {
+                        buildCommandReturnObject(CUSTOMER_PAGE,request,response);;
                     }
                 }
 
             }else {
-                buildCommandReturn(null,request,response);
+                buildCommandReturnObject(null,request,response);
             }
 
         } catch (ServiceException e ) {
             logger.debug("Exception from singIn",e);
+            buildCommandReturnObject(ERROR_PAGE,request,response);
         }
-
         return commandReturn;
-
     }
 
 
 
-    private CommandReturn buildCommandReturn(String page,
-                                             HttpServletRequest request,
-                                             HttpServletResponse response
+
+
+    private CommandReturnObject buildCommandReturnObject(String page,
+                                                   HttpServletRequest request,
+                                                   HttpServletResponse response
                                              )
     {
         this.commandReturn.setPage(page);

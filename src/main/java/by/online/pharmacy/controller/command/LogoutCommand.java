@@ -4,15 +4,14 @@ import by.online.pharmacy.controller.exception.ControllerException;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.io.IOException;
 
 public class LogoutCommand implements Command {
 
     private final String MAIN_PAGE = "/index.jsp";
-    private CommandReturn commandReturn = new CommandReturn();
+    private CommandReturnObject commandReturn = new CommandReturnObject();
 
     @Override
-    public CommandReturn  execute(HttpServletRequest request, HttpServletResponse response) throws ControllerException, IOException {
+    public CommandReturnObject execute(HttpServletRequest request, HttpServletResponse response) throws ControllerException {
 
         request.getSession().invalidate();
         commandReturn.setPage(MAIN_PAGE);

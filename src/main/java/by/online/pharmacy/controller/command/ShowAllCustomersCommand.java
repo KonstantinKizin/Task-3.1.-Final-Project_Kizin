@@ -10,22 +10,23 @@ import org.apache.log4j.Logger;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.io.IOException;
 import java.util.List;
 
 public class ShowAllCustomersCommand implements Command {
     private ServiceFactory factory = ServiceFactory.getInstance();
     private CustomerService service = factory.getCustomerService();
     private final String CUSTOMER_PAGE = "/WEB-INF/jsp/admin/customers.jsp";
+    private final String ERROR_PAGE = "/WEB-INF/jsp/error.jsp";
     private final static Logger logger = Logger.getLogger(ShowAllCustomersCommand.class);
-    private CommandReturn commandReturn = new CommandReturn();
+    private final String CUSTOMER_LIST_ATTR_NAME = "customerList";
+    private CommandReturnObject commandReturn = new CommandReturnObject();
 
     @Override
-    public CommandReturn execute(HttpServletRequest request, HttpServletResponse response) throws ControllerException {
+    public CommandReturnObject execute(HttpServletRequest request, HttpServletResponse response) throws ControllerException {
 
         try {
             List<Customer> customers = service.getAllCustomers();
-            request.setAttribute("customerList", customers);
+            request.setAttribute(CUSTOMER_LIST_ATTR_NAME, customers);
             commandReturn.setPage(CUSTOMER_PAGE);
             commandReturn.setRequest(request);
             commandReturn.setResponse(response);
@@ -33,7 +34,7 @@ public class ShowAllCustomersCommand implements Command {
         } catch (ServiceException e) {
             logger.debug("Exception in Controller ", e
             );
-            commandReturn.setPage(null);
+            commandReturn.setPage(ERROR_PAGE);
             commandReturn.setRequest(request);
             commandReturn.setResponse(response);
 

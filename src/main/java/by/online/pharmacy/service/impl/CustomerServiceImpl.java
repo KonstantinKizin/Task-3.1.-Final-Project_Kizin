@@ -48,7 +48,7 @@ public class CustomerServiceImpl implements CustomerService {
     }
 
     @Override
-    public boolean Loginvalidate(ServletRequest request){
+    public boolean LoginValidate(ServletRequest request){
 
         String email = request.getParameter("email");
         String pw = request.getParameter("password");
