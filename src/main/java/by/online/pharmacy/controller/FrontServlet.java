@@ -47,7 +47,7 @@ public class FrontServlet extends HttpServlet {
                 rd.forward(httpRequest,httpResponse);
             }else {
                 page = getProperty("MAIN_PAGE");
-                HttpSession session = request.getSession(false);
+                HttpSession session = request.getSession();
                 session.setAttribute(getProperty("SING_IN_ERROR_ATTR_NAME"), "Wrong Email or password");
                 httpResponse.sendRedirect(page);
             }
