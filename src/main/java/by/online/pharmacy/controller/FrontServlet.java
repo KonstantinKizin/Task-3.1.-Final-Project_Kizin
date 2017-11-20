@@ -53,6 +53,7 @@ public class FrontServlet extends HttpServlet {
             }
 
         } catch (ControllerException e) {
+            response.sendRedirect(getProperty("ERROR_PAGE"));
             logger.debug("Exception from FrontServlet",e);
         }
     }
