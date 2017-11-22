@@ -26,7 +26,6 @@ public class CommandReturnObject {
 
     public String getPage() {
         return page;
-
     }
 
     public HttpServletResponse getResponse() {

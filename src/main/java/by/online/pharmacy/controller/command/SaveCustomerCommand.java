@@ -29,7 +29,7 @@ public class SaveCustomerCommand implements Command {
             String login = request.getParameter("login");
             String password = request.getParameter("password");
             String date = new Date().toString();
-            String role = "customer";
+            String role = getProperty("CUSTOMER_ROLE");
             String email = request.getParameter("email");
             String phoneNumber = request.getParameter("phone");
             String birthDay = request.getParameter("birthDate");

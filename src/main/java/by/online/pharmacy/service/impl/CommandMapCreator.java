@@ -18,11 +18,9 @@ public class CommandMapCreator {
     public CommandMapCreator()  {
 
     }
-
     private Command buildCommand(String commandClassName) throws  ServiceException {
 
         try {
-
             Class clazz = Class.forName(commandClassName);
             Command command =  (Command) clazz.newInstance();
             return command;

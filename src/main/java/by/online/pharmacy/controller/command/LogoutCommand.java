@@ -8,7 +8,6 @@ import static by.online.pharmacy.dao.impl.PropertyManager.getProperty;
 
 public class LogoutCommand implements Command {
 
-   ;
     private CommandReturnObject commandReturn = new CommandReturnObject();
 
     @Override
