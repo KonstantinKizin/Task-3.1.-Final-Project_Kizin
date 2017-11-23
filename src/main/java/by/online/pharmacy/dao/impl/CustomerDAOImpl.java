@@ -5,8 +5,6 @@ import by.online.pharmacy.dao.CustomerDAO;
 import by.online.pharmacy.dao.exception.DAOException;
 import by.online.pharmacy.entity.Customer;
 import org.apache.log4j.Logger;
-
-
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
@@ -19,10 +17,10 @@ public class CustomerDAOImpl implements CustomerDAO {
 
     private ConnectionPool connectionPool = ConnectionPoolImpl.getInstance();
     private final String TABLE_NAME = "customer";
-    private final static Logger logger = Logger.getLogger(CustomerDAOImpl.class);
-    private String SAVE_SQL_PREPARED_STATEMENT = "insert into "+TABLE_NAME+" values(?,?,?,?,?,?,?,?,?,?)";
+    private final static Logger lOGGER = Logger.getLogger(CustomerDAOImpl.class);
+    private final String SAVE_SQL_PREPARED_STATEMENT = "insert into "+TABLE_NAME+" values(?,?,?,?,?,?,?,?,?,?)";
     private final String SELECT_ALL_SQL = "select * from customer";
-
+    private final String FIND_BY_EMAIL_AND_PW_SQL_STATEMENT = "select * from "+TABLE_NAME+" where email = ? and password=?";
     private final int NAME_COLUMN_INDEX = 1;
     private final int SURE_NAME_COLUMN_INDEX = 2;
     private final int PHONE_COLUMN_INDEX = 3;
@@ -58,7 +56,7 @@ public class CustomerDAOImpl implements CustomerDAO {
             roolBacked = connection;
             result = true;
         } catch (SQLException e) {
-            logger.debug("Exception from DAO, save method ",e);
+            lOGGER.debug("Exception from DAO, save method ",e);
             throw new DAOException(e);
         }finally {
             connectionPool.roleBack(roolBacked);
@@ -98,7 +96,7 @@ public class CustomerDAOImpl implements CustomerDAO {
             roolBacked = connection;
             return customers;
         } catch (SQLException e) {
-            logger.debug("Exception from DAO , getAll method ",e);
+            lOGGER.debug("Exception from DAO , getAll method ",e);
             throw new DAOException(e);
         }finally {
             connectionPool.roleBack(roolBacked);
@@ -110,14 +108,13 @@ public class CustomerDAOImpl implements CustomerDAO {
 
     @Override
     public Customer findCustomerByEmailAndPw(String emil, String pw) throws DAOException {
-
-        final String sqlQuery = "select * from "+TABLE_NAME+" where email = ? and password=?";
         Connection roolBacked = null;
         Customer customer = null;
 
         try(Connection connection = connectionPool.getConnection();
-            PreparedStatement statement = connection.prepareStatement(sqlQuery)
+            PreparedStatement statement = connection.prepareStatement(FIND_BY_EMAIL_AND_PW_SQL_STATEMENT)
         ){
+
             statement.setString(1,emil);
             statement.setString(2,pw);
             ResultSet rs = statement.executeQuery();
@@ -128,7 +125,7 @@ public class CustomerDAOImpl implements CustomerDAO {
             return customer;
 
         } catch (SQLException e) {
-            logger.debug("Exception from findByEmailAndPassword method" ,e);
+            lOGGER.debug("Exception from findByEmailAndPassword method" ,e);
             throw new DAOException(e);
         }finally {
             connectionPool.roleBack(roolBacked);
@@ -158,7 +155,7 @@ public class CustomerDAOImpl implements CustomerDAO {
             }
             return customer;
         } catch (SQLException e) {
-            logger.debug("Exception when Build Customer from uildCustomer method ",e);
+            lOGGER.debug("Exception when Build Customer from buildCustomer method ",e);
             throw new DAOException(e);
         }
 

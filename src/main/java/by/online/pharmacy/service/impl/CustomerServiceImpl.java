@@ -15,14 +15,16 @@ public class CustomerServiceImpl implements CustomerService {
 
     private final DAOFactory factory = DAOFactory.getInstance();
     private final CustomerDAO customerDAO = factory.getCustomerDao();
-    private final static Logger logger = Logger.getLogger(CustomerServiceImpl.class);
+    private final static Logger LOGGER = Logger.getLogger(CustomerServiceImpl.class);
+    private final String EMAIL_REQUEST_PARAMETER = "email";
+    private final String PW_REQUEST_PARAMETER = "password";
 
     @Override
     public boolean saveCustomer(Customer customer) throws ServiceException {
         try {
             return customerDAO.save(customer);
         } catch (DAOException e) {
-            logger.debug("Exception from Service , saveCustomer method",e);
+            LOGGER.debug("Exception from Service , saveCustomer method",e);
             throw new ServiceException(e);
         }
     }
@@ -32,7 +34,7 @@ public class CustomerServiceImpl implements CustomerService {
         try {
             return customerDAO.findCustomerByEmailAndPw(email,password);
         } catch (DAOException e) {
-            logger.debug("Exception from Service , findCustomerByEmailAndPassword method",e);
+            LOGGER.debug("Exception from Service , findCustomerByEmailAndPassword method",e);
             throw new ServiceException(e);
         }
     }
@@ -42,7 +44,7 @@ public class CustomerServiceImpl implements CustomerService {
         try {
             return customerDAO.getAll();
         } catch (DAOException e) {
-            logger.debug("Exception From Service in getAllCustomers method ",e);
+            LOGGER.debug("Exception From Service in getAllCustomers method ",e);
             throw new ServiceException(e);
         }
     }
@@ -50,8 +52,8 @@ public class CustomerServiceImpl implements CustomerService {
     @Override
     public boolean LoginValidate(ServletRequest request){
 
-        String email = request.getParameter("email");
-        String pw = request.getParameter("password");
+        String email = request.getParameter(EMAIL_REQUEST_PARAMETER);
+        String pw = request.getParameter(PW_REQUEST_PARAMETER);
 
         if(email != null && pw != null) {
             if (email.isEmpty() || pw.isEmpty()) {
