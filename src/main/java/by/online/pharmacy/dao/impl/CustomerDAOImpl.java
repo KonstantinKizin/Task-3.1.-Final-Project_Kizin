@@ -6,7 +6,12 @@ import by.online.pharmacy.dao.exception.DAOException;
 import by.online.pharmacy.entity.Customer;
 import org.apache.log4j.Logger;
 
-import java.sql.*;
+
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
+import java.sql.Statement;
+import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -15,27 +20,40 @@ public class CustomerDAOImpl implements CustomerDAO {
     private ConnectionPool connectionPool = ConnectionPoolImpl.getInstance();
     private final String TABLE_NAME = "customer";
     private final static Logger logger = Logger.getLogger(CustomerDAOImpl.class);
+    private String SAVE_SQL_PREPARED_STATEMENT = "insert into "+TABLE_NAME+" values(?,?,?,?,?,?,?,?,?,?)";
+    private final String SELECT_ALL_SQL = "select * from customer";
+
+    private final int NAME_COLUMN_INDEX = 1;
+    private final int SURE_NAME_COLUMN_INDEX = 2;
+    private final int PHONE_COLUMN_INDEX = 3;
+    private final int ROLE_COLUMN_INDEX = 4;
+    private final int EMAIL_COLUMN_INDEX = 5;
+    private final int LOGIN_COLUMN_INDEX = 7;
+    private final int PW_COLUMN_INDEX = 6;
+    private final int DATE_COLUMN_INDEX = 8;
+    private final int BIRTH_DAY_COLUMN_INDEX = 9;
+    private final int GENDER_COLUMN_INDEX = 10;
+
 
 
     @Override
     public boolean save(Customer customer) throws DAOException {
-        String sql = "insert into "+TABLE_NAME+" values(?,?,?,?,?,?,?,?,?,?)";
         Connection roolBacked = null;
 
         boolean result = false;
         try(Connection connection = connectionPool.getConnection();
-            PreparedStatement statement = connection.prepareStatement(sql)
+            PreparedStatement statement = connection.prepareStatement(SAVE_SQL_PREPARED_STATEMENT)
         ){
-            statement.setString(1,customer.getName());
-            statement.setString(2,customer.getSureName());
-            statement.setString(3,customer.getPhoneNumber());
-            statement.setString(4,customer.getRole());
-            statement.setString(5,customer.getEmail());
-            statement.setString(6,customer.getPassword());
-            statement.setString(7, customer.getLogin());
-            statement.setString(8, customer.getRegistrationDate());
-            statement.setString(9,customer.getDateOfBirth());
-            statement.setString(10,customer.getGender());
+            statement.setString(NAME_COLUMN_INDEX,customer.getName());
+            statement.setString(SURE_NAME_COLUMN_INDEX,customer.getSureName());
+            statement.setString(PHONE_COLUMN_INDEX,customer.getPhoneNumber());
+            statement.setString(ROLE_COLUMN_INDEX,customer.getRole());
+            statement.setString(EMAIL_COLUMN_INDEX,customer.getEmail());
+            statement.setString(PW_COLUMN_INDEX,customer.getPassword());
+            statement.setString(LOGIN_COLUMN_INDEX, customer.getLogin());
+            statement.setString(DATE_COLUMN_INDEX, customer.getRegistrationDate());
+            statement.setString(BIRTH_DAY_COLUMN_INDEX,customer.getDateOfBirth());
+            statement.setString(GENDER_COLUMN_INDEX,customer.getGender());
             statement.executeUpdate();
             roolBacked = connection;
             result = true;
@@ -53,24 +71,23 @@ public class CustomerDAOImpl implements CustomerDAO {
     public List<Customer> getAll() throws DAOException {
 
         List<Customer> customers = new ArrayList<>();
-        final String sql = "select * from customer";
         Connection roolBacked = null;
         try(Connection connection = connectionPool.getConnection();
             Statement statement = connection.createStatement() ) {
-            ResultSet rs = statement.executeQuery(sql);
+            ResultSet rs = statement.executeQuery(SELECT_ALL_SQL);
 
             while (rs.next()){
                 Customer customer = null;
-                String name = rs.getString(1);
-                String sureName = rs.getString(2);
-                String phone = rs.getString(3);
-                String role =  rs.getString(4);
-                String email = rs.getString(5);
-                String password = rs.getString(6);
-                String login = rs.getString(7);
-                String date = rs.getString(8);
-                String birthDay = rs.getString(9);
-                String gender = rs.getString(10);
+                String name = rs.getString(NAME_COLUMN_INDEX);
+                String sureName = rs.getString(SURE_NAME_COLUMN_INDEX);
+                String phone = rs.getString(PHONE_COLUMN_INDEX);
+                String role =  rs.getString(ROLE_COLUMN_INDEX);
+                String email = rs.getString(EMAIL_COLUMN_INDEX);
+                String password = rs.getString(PW_COLUMN_INDEX);
+                String login = rs.getString(LOGIN_COLUMN_INDEX);
+                String date = rs.getString(DATE_COLUMN_INDEX);
+                String birthDay = rs.getString(BIRTH_DAY_COLUMN_INDEX);
+                String gender = rs.getString(GENDER_COLUMN_INDEX);
                 customer = new Customer(
                         name,sureName,date,login,password,
                         email,phone,role,birthDay,gender
@@ -111,7 +128,7 @@ public class CustomerDAOImpl implements CustomerDAO {
             return customer;
 
         } catch (SQLException e) {
-            logger.debug("Exception from DAO , findByEmailAndPassword method" ,e);
+            logger.debug("Exception from findByEmailAndPassword method" ,e);
             throw new DAOException(e);
         }finally {
             connectionPool.roleBack(roolBacked);
@@ -124,16 +141,16 @@ public class CustomerDAOImpl implements CustomerDAO {
         try {
             while (rs.next()){
 
-                String name = rs.getString(1);
-                String sureName = rs.getString(2);
-                String phone = rs.getString(3);
-                String role =  rs.getString(4);
-                String email = rs.getString(5);
-                String password = rs.getString(6);
-                String login = rs.getString(7);
-                String date = rs.getString(8);
-                String birthDay = rs.getString(9);
-                String gender = rs.getString(10);
+                String name = rs.getString(NAME_COLUMN_INDEX);
+                String sureName = rs.getString(SURE_NAME_COLUMN_INDEX);
+                String phone = rs.getString(PHONE_COLUMN_INDEX);
+                String role =  rs.getString(ROLE_COLUMN_INDEX);
+                String email = rs.getString(EMAIL_COLUMN_INDEX);
+                String password = rs.getString(PW_COLUMN_INDEX);
+                String login = rs.getString(LOGIN_COLUMN_INDEX);
+                String date = rs.getString(DATE_COLUMN_INDEX);
+                String birthDay = rs.getString(BIRTH_DAY_COLUMN_INDEX);
+                String gender = rs.getString(GENDER_COLUMN_INDEX);
                 customer = new Customer(
                 name,sureName,date,login,password,
                 email,phone,role,birthDay,gender
@@ -141,6 +158,7 @@ public class CustomerDAOImpl implements CustomerDAO {
             }
             return customer;
         } catch (SQLException e) {
+            logger.debug("Exception when Build Customer from uildCustomer method ",e);
             throw new DAOException(e);
         }
 

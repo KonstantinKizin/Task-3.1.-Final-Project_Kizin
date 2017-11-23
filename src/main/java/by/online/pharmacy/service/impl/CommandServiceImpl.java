@@ -7,6 +7,7 @@ import by.online.pharmacy.service.exception.ServiceException;
 import java.util.Map;
 
 public class CommandServiceImpl implements CommandService {
+
     private final CommandMapCreator mapCreator = new CommandMapCreator();
 
     @Override
