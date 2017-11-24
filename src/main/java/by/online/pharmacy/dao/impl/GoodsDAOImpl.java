@@ -2,7 +2,7 @@ package by.online.pharmacy.dao.impl;
 
 import by.online.pharmacy.dao.GoodsDAO;
 import by.online.pharmacy.dao.exception.DAOException;
-import by.online.pharmacy.entity.Goods;
+import by.online.pharmacy.entity.model.Goods;
 
 import java.util.List;
 

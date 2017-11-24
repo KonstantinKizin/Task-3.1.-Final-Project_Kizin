@@ -1,16 +1,18 @@
 package by.online.pharmacy.controller.command;
 
 import by.online.pharmacy.controller.exception.ControllerException;
-import by.online.pharmacy.entity.Customer;
+import by.online.pharmacy.entity.model.Customer;
 import by.online.pharmacy.service.CustomerService;
 import by.online.pharmacy.service.exception.ServiceException;
 import by.online.pharmacy.service.factory.ServiceFactory;
 import org.apache.log4j.Logger;
-
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.Date;
-import static by.online.pharmacy.dao.impl.PropertyManager.getProperty;
+import static by.online.pharmacy.service.impl.PropertyLoader.getConstant;
+import static by.online.pharmacy.entity.constant.PropertyEnum.WebProperty;
+import static by.online.pharmacy.entity.constant.PropertyEnum.RegistrationProperty;
+
 
 public class SaveCustomerCommand implements Command {
 
@@ -20,31 +22,32 @@ public class SaveCustomerCommand implements Command {
     private CommandReturnObject commandReturn = new CommandReturnObject();
 
 
+
     @Override
     public CommandReturnObject execute(HttpServletRequest request, HttpServletResponse response) throws ControllerException{
 
         try {
-            String name = request.getParameter("name");
-            String sureName = request.getParameter("sureName");
-            String login = request.getParameter("login");
-            String password = request.getParameter("password");
+            String name = request.getParameter(getConstant(RegistrationProperty.NAME_PARAMETER.name()));
+            String sureName = request.getParameter(getConstant(RegistrationProperty.SURE_NAME_PARAMETER.name()));
+            String login = request.getParameter(getConstant(RegistrationProperty.LOGIN_PARAMETER.name()));
+            String password = request.getParameter(getConstant(RegistrationProperty.PW_PARAMETER.name()));
             String date = new Date().toString();
-            String role = getProperty("CUSTOMER_ROLE");
-            String email = request.getParameter("email");
-            String phoneNumber = request.getParameter("phone");
-            String birthDay = request.getParameter("birthDate");
-            String gender = request.getParameter("gender");
+            String role = getConstant(getConstant(WebProperty.CUSTOMER_ROLE.name()));
+            String email = request.getParameter(getConstant(RegistrationProperty.EMAIL_PARAMETER.name()));
+            String phoneNumber = request.getParameter(getConstant(RegistrationProperty.PHONE_PARAMETER.name()));
+            String birthDay = request.getParameter(getConstant(RegistrationProperty.BIRTH_DATE_PARAMETER.name()));
+            String gender = request.getParameter(getConstant(RegistrationProperty.GENDER_PARAMETER.name()));
 
             Customer customer = new Customer(name,sureName,date,login,password,
             email,phoneNumber, role,birthDay,gender);
             service.saveCustomer(customer);
-            request.setAttribute(getProperty("USER_ATTRIBUTE_NAME"),customer);
-            commandReturn.setPage(getProperty("CUSTOMER_PAGE"));
+            request.setAttribute(getConstant(WebProperty.USER_ATTRIBUTE_NAME.name()),customer);
+            commandReturn.setPage(getConstant(WebProperty.CUSTOMER_PAGE.name()));
             commandReturn.setRequest(request);
             commandReturn.setResponse(response);
         } catch (ServiceException  e) {
             logger.debug("Exception from SaveCustomer",e);
-            commandReturn.setPage(getProperty("ERROR_PAGE"));
+            commandReturn.setPage(getConstant(WebProperty.ERROR_PAGE.name()));
             commandReturn.setRequest(request);
             commandReturn.setResponse(response);
         }

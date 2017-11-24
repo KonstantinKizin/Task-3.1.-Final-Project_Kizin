@@ -1,6 +1,6 @@
 package by.online.pharmacy.service;
 
-import by.online.pharmacy.entity.Customer;
+import by.online.pharmacy.entity.model.Customer;
 import by.online.pharmacy.service.exception.ServiceException;
 
 import javax.servlet.ServletRequest;

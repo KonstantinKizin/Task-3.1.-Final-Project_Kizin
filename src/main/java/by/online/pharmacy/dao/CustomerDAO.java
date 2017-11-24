@@ -1,9 +1,7 @@
 package by.online.pharmacy.dao;
 
 import by.online.pharmacy.dao.exception.DAOException;
-import by.online.pharmacy.entity.Customer;
-
-import java.sql.ResultSet;
+import by.online.pharmacy.entity.model.Customer;
 
 public interface CustomerDAO extends DAO<Customer> {
 

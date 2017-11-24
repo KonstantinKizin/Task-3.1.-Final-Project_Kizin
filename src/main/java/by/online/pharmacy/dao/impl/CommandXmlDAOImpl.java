@@ -17,7 +17,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import static by.online.pharmacy.dao.impl.PropertyManager.getProperty;
+import static by.online.pharmacy.service.impl.PropertyLoader.getConstant;
+import static by.online.pharmacy.entity.constant.PropertyEnum.WebProperty;
 
 public class CommandXmlDAOImpl implements CommandXMLDAO {
 
@@ -25,7 +26,7 @@ public class CommandXmlDAOImpl implements CommandXMLDAO {
     private final List<String > CLASS_NAMES_LIST = new ArrayList<>();
     private final String COMMAND_NAME_TAG = "command-name";
     private final String COMMAND_CLASS_NAME_TAG = "command-class";
-    private final String XML_SETTING_FILE_NAME = getProperty("COMMAND_CONFIG_FILE_NAME");
+    private final String XML_SETTING_FILE_NAME = getConstant(WebProperty.COMMAND_CONFIG_FILE_NAME.name());
 
 
     public CommandXmlDAOImpl(){

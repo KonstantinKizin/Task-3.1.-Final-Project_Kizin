@@ -2,13 +2,13 @@ package by.online.pharmacy.controller;
 
 import by.online.pharmacy.controller.command.Command;
 import by.online.pharmacy.controller.command.CommandReturnObject;
-import by.online.pharmacy.controller.command.ControllerCommandProvider;
+import by.online.pharmacy.controller.command.CommandProvider;
 import by.online.pharmacy.controller.exception.ControllerException;
 import by.online.pharmacy.service.CommandService;
 import by.online.pharmacy.service.exception.ServiceException;
 import by.online.pharmacy.service.factory.ServiceFactory;
+import by.online.pharmacy.service.impl.PropertyLoader;
 import org.apache.log4j.Logger;
-
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -17,13 +17,14 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.util.Map;
-import static by.online.pharmacy.dao.impl.PropertyManager.getProperty;
+import static by.online.pharmacy.service.impl.PropertyLoader.getConstant;
+import static by.online.pharmacy.entity.constant.PropertyEnum.WebProperty;
 
 public class FrontServlet extends HttpServlet {
 
     private final ServiceFactory factory = ServiceFactory.getInstance();
     private final CommandService commandService = factory.getCommandService();
-    private Command producer = new ControllerCommandProvider();
+    private Command producer = new CommandProvider();
     private final static Logger logger = Logger.getLogger(FrontServlet.class);
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -34,23 +35,24 @@ public class FrontServlet extends HttpServlet {
 
         try {
             CommandReturnObject commandReturn = producer.execute(request,response);
+            HttpServletRequest httpReturnedRequest = commandReturn.getRequest();
+            HttpServletResponse httpReturnedResponse = commandReturn.getResponse();
 
             String page = commandReturn.getPage();
-            HttpServletRequest httpRequest = commandReturn.getRequest();
-            HttpServletResponse httpResponse = commandReturn.getResponse();
 
-            if(commandReturn.getPage() != null){
+            if(!page.equalsIgnoreCase(getConstant(WebProperty.MAIN_PAGE.name()))){
                 RequestDispatcher rd = request.getRequestDispatcher(commandReturn.getPage());
-                rd.forward(httpRequest,httpResponse);
+                rd.forward(httpReturnedRequest,httpReturnedResponse);
             }else {
-                page = getProperty("MAIN_PAGE");
                 HttpSession session = request.getSession();
-                session.setAttribute(getProperty("SING_IN_ERROR_ATTR_NAME"), getProperty("SING_IN_ERROR_MESSAGE"));
-                httpResponse.sendRedirect(page);
+                session.setAttribute(getConstant(WebProperty.SING_IN_ERROR_ATTR_NAME.name()),
+                                     getConstant(WebProperty.SING_IN_ERROR_MESSAGE.name()));
+
+                httpReturnedResponse.sendRedirect(page);
             }
 
         } catch (ControllerException e) {
-            response.sendRedirect(getProperty("ERROR_PAGE"));
+            response.sendRedirect(getConstant(WebProperty.ERROR_PAGE.name()));
             logger.debug("Exception from FrontServlet",e);
         }
     }
@@ -61,10 +63,10 @@ public class FrontServlet extends HttpServlet {
         super.init();
         try {
             Map<String , Command> commandMap = commandService.getCommandMap();
-            ((ControllerCommandProvider) producer).getCommandMap().putAll(commandMap);
+            ((CommandProvider) producer).getCommandMap().putAll(commandMap);
         } catch (ServiceException e) {
             logger.debug("Exception in init method",e);
-            throw new RuntimeException(new ControllerException(e));
+            e.printStackTrace();
         }
 
     }

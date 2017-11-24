@@ -1,4 +1,4 @@
-package by.online.pharmacy.entity;
+package by.online.pharmacy.entity.model;
 
 public class Customer {
 
