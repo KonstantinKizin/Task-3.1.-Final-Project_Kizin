@@ -34,7 +34,7 @@ public class CustomerServiceImpl implements CustomerService {
         try {
             return customerDAO.findCustomerByEmailAndPw(email,password);
         } catch (DAOException e) {
-            LOGGER.debug("Exception from Service , findCustomerByEmailAndPassword method",e);
+            LOGGER.error("Exception from Service , findCustomerByEmailAndPassword method",e);
             throw new ServiceException(e);
         }
     }
@@ -44,7 +44,7 @@ public class CustomerServiceImpl implements CustomerService {
         try {
             return customerDAO.getAll();
         } catch (DAOException e) {
-            LOGGER.debug("Exception From Service in getAllCustomers method ",e);
+            LOGGER.error("Exception From Service in getAllCustomers method ",e);
             throw new ServiceException(e);
         }
     }

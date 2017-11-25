@@ -5,6 +5,7 @@ import by.online.pharmacy.dao.CommandXMLDAO;
 import by.online.pharmacy.dao.exception.DAOException;
 import by.online.pharmacy.dao.factory.DAOFactory;
 import by.online.pharmacy.service.exception.ServiceException;
+import org.apache.log4j.Logger;
 import org.w3c.dom.Document;
 import java.util.HashMap;
 import java.util.Map;
@@ -14,6 +15,7 @@ public class CommandMapCreator {
 
     private final DAOFactory factory = DAOFactory.getInstance();
     private final CommandXMLDAO xmlDao = factory.getCommandXMLDao();
+    private final static Logger lOGGER = Logger.getLogger(CommandMapCreator.class);
 
     public CommandMapCreator()  {
 
@@ -26,7 +28,7 @@ public class CommandMapCreator {
             return command;
 
         } catch (ClassNotFoundException | IllegalAccessException | InstantiationException e) {
-            throw new ServiceException(e);
+            throw new ServiceException("Creating command from config xml file",e);
         }
     }
 
@@ -45,8 +47,10 @@ public class CommandMapCreator {
             }
             return commandMap;
         }catch (ServiceException e){
+            lOGGER.error("Build command Exception",e);
             throw e;
         } catch (DAOException e) {
+            lOGGER.error("From build Command map method",e);
             throw new ServiceException(e);
         }
 

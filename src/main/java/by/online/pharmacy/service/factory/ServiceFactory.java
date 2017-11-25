@@ -8,6 +8,8 @@ import by.online.pharmacy.service.impl.AdminServiceImpl;
 import by.online.pharmacy.service.impl.CommandServiceImpl;
 import by.online.pharmacy.service.impl.CustomerServiceImpl;
 import by.online.pharmacy.service.impl.GoodsServiceImpl;
+import by.online.pharmacy.service.validator.Validator;
+import by.online.pharmacy.service.validator.impl.ValidatorImpl;
 
 public class ServiceFactory {
     private static final ServiceFactory instance = new ServiceFactory();
@@ -15,6 +17,7 @@ public class ServiceFactory {
     private final CustomerService customerService = new CustomerServiceImpl();
     private final GoodsService goodsService = new GoodsServiceImpl();
     private final CommandService commandService = new CommandServiceImpl();
+    private final Validator validator = new ValidatorImpl();
 
     private ServiceFactory() {}
 
@@ -34,6 +37,8 @@ public class ServiceFactory {
     public CommandService getCommandService(){
         return commandService;
     }
+
+    public Validator getValidator(){return validator; }
 
     public static ServiceFactory getInstance() {
         return instance;

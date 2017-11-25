@@ -5,6 +5,7 @@ import by.online.pharmacy.entity.model.Customer;
 import by.online.pharmacy.service.CustomerService;
 import by.online.pharmacy.service.exception.ServiceException;
 import by.online.pharmacy.service.factory.ServiceFactory;
+import by.online.pharmacy.service.validator.Validator;
 import org.apache.log4j.Logger;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -17,6 +18,7 @@ public class SinginCommand implements Command {
 
     private final ServiceFactory factory = ServiceFactory.getInstance();
     private final CustomerService customerService = factory.getCustomerService();
+    private final Validator customerValidator = factory.getValidator();
     private final static Logger logger = Logger.getLogger(SinginCommand.class);
     private CommandReturnObject commandReturn = new CommandReturnObject();
     private String email;
@@ -27,7 +29,7 @@ public class SinginCommand implements Command {
     public CommandReturnObject execute(HttpServletRequest request, HttpServletResponse response) throws ControllerException {
 
         try {
-            if(!customerService.LoginValidate(request)){
+            if(!customerValidator.loginValidate(request)){
                 buildCommandReturnObject(getConstant(WebProperty.MAIN_PAGE.name()),request,response);
             }else {
                 email = request.getParameter(getConstant(RegistrationProperty.EMAIL_PARAMETER.name()));
@@ -46,7 +48,7 @@ public class SinginCommand implements Command {
                 }
             }
         } catch (ServiceException e ) {
-            logger.debug("Exception from singIn",e);
+            logger.error("Exception from singIn",e);
             throw new ControllerException(e);
         }
         return commandReturn;
