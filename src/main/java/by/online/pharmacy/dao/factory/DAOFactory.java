@@ -1,6 +1,9 @@
 package by.online.pharmacy.dao.factory;
+import by.online.pharmacy.dao.AdminDAO;
+import by.online.pharmacy.dao.CustomerDAO;
+import by.online.pharmacy.dao.GoodsDAO;
+import by.online.pharmacy.dao.CommandXMLDAO;
 
-import by.online.pharmacy.dao.*;
 import by.online.pharmacy.dao.impl.AdminDAOImpl;
 import by.online.pharmacy.dao.impl.CommandXmlDAOImpl;
 import by.online.pharmacy.dao.impl.CustomerDAOImpl;
