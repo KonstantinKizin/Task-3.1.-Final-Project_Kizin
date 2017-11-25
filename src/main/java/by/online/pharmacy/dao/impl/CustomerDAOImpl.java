@@ -20,7 +20,7 @@ public class CustomerDAOImpl implements CustomerDAO {
     private final static Logger lOGGER = Logger.getLogger(CustomerDAOImpl.class);
     private final String SAVE_SQL_PREPARED_STATEMENT = "insert into "+TABLE_NAME+" values(?,?,?,?,?,?,?,?,?,?)";
     private final String SELECT_ALL_SQL = "select * from customer";
-    private final String FIND_BY_EMAIL_AND_PW_SQL_STATEMENT = "select * from "+TABLE_NAME+" where email = ? and password=?";
+    private  String FIND_BY_EMAIL_AND_PW_SQL_STATEMENT = "SELECT * FROM "+TABLE_NAME+" WHERE email=? AND password=?";
     private final int NAME_COLUMN_INDEX = 1;
     private final int SURE_NAME_COLUMN_INDEX = 2;
     private final int PHONE_COLUMN_INDEX = 3;
@@ -31,6 +31,8 @@ public class CustomerDAOImpl implements CustomerDAO {
     private final int DATE_COLUMN_INDEX = 8;
     private final int BIRTH_DAY_COLUMN_INDEX = 9;
     private final int GENDER_COLUMN_INDEX = 10;
+    private final int EMAIL_PARAMETER_INDEX = 1;
+    private final int PASSWORD_PARAMETER_INDEX = 2;
 
 
 
@@ -115,8 +117,8 @@ public class CustomerDAOImpl implements CustomerDAO {
             PreparedStatement statement = connection.prepareStatement(FIND_BY_EMAIL_AND_PW_SQL_STATEMENT)
         ){
 
-            statement.setString(1,emil);
-            statement.setString(2,pw);
+            statement.setString(EMAIL_PARAMETER_INDEX,emil);
+            statement.setString(PASSWORD_PARAMETER_INDEX,pw);
             ResultSet rs = statement.executeQuery();
             if(rs != null){
               customer = buildCustomer(rs);

@@ -7,7 +7,6 @@ import by.online.pharmacy.controller.exception.ControllerException;
 import by.online.pharmacy.service.CommandService;
 import by.online.pharmacy.service.exception.ServiceException;
 import by.online.pharmacy.service.factory.ServiceFactory;
-import by.online.pharmacy.service.impl.PropertyLoader;
 import org.apache.log4j.Logger;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -41,10 +40,11 @@ public class FrontServlet extends HttpServlet {
             String page = commandReturn.getPage();
 
             if(!page.equalsIgnoreCase(getConstant(WebProperty.MAIN_PAGE.name()))){
-                RequestDispatcher rd = request.getRequestDispatcher(commandReturn.getPage());
+                RequestDispatcher rd = request.getRequestDispatcher(page);
                 rd.forward(httpReturnedRequest,httpReturnedResponse);
             }else {
                 HttpSession session = request.getSession();
+
                 session.setAttribute(getConstant(WebProperty.SING_IN_ERROR_ATTR_NAME.name()),
                                      getConstant(WebProperty.SING_IN_ERROR_MESSAGE.name()));
 

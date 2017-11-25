@@ -19,29 +19,32 @@ public class SinginCommand implements Command {
     private final CustomerService customerService = factory.getCustomerService();
     private final static Logger logger = Logger.getLogger(SinginCommand.class);
     private CommandReturnObject commandReturn = new CommandReturnObject();
+    private String email;
+    private String password;
+    private Customer customer;
 
     @Override
     public CommandReturnObject execute(HttpServletRequest request, HttpServletResponse response) throws ControllerException {
 
         try {
-            if(customerService.LoginValidate(request)){
-                String email = request.getParameter(getConstant(RegistrationProperty.EMAIL_PARAMETER.name()));
-                String password = request.getParameter(getConstant(RegistrationProperty.PW_PARAMETER.name()));
-                Customer customer = customerService.findCustomerByEmailAndPassword(email,password);
-                if(customer != null){
-                    request.setAttribute(getConstant(WebProperty.USER_ATTRIBUTE_NAME.name()),customer);
-                    if(customer.getRole().equalsIgnoreCase(getConstant(WebProperty.ADMIN_ROLE.name()))){
-                        buildCommandReturnObject(getConstant(WebProperty.ADMIN_PAGE.name()),request,response);;
-                    }
-
-                    if (customer.getRole().equalsIgnoreCase(getConstant(WebProperty.CUSTOMER_ROLE.name()))) {
-                        buildCommandReturnObject(getConstant(WebProperty.CUSTOMER_PAGE.name()),request,response);;
-                    }
-                }
-            }else {
+            if(!customerService.LoginValidate(request)){
                 buildCommandReturnObject(getConstant(WebProperty.MAIN_PAGE.name()),request,response);
-            }
+            }else {
+                email = request.getParameter(getConstant(RegistrationProperty.EMAIL_PARAMETER.name()));
+                password = request.getParameter(getConstant(RegistrationProperty.PW_PARAMETER.name()));
+                customer = customerService.findCustomerByEmailAndPassword(email,password);
 
+                if(customer != null){
+                    request.getSession().setAttribute(getConstant(WebProperty.USER_ATTRIBUTE_NAME.name()),customer);
+                    if(customer.getRole().equalsIgnoreCase(getConstant(WebProperty.ADMIN_ROLE.name()))){
+                        buildCommandReturnObject(getConstant(WebProperty.ADMIN_PAGE.name()),request,response);
+                    }else {
+                        buildCommandReturnObject(getConstant(WebProperty.CUSTOMER_PAGE.name()),request,response);
+                    }
+                }else {
+                    buildCommandReturnObject(getConstant(WebProperty.MAIN_PAGE.name()),request,response);
+                }
+            }
         } catch (ServiceException e ) {
             logger.debug("Exception from singIn",e);
             buildCommandReturnObject(getConstant(WebProperty.ERROR_PAGE.name()),request,response);
