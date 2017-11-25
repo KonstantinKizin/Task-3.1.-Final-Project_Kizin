@@ -1,7 +1,11 @@
 package by.online.pharmacy.controller.filter;
-
-import javax.servlet.*;
+import javax.servlet.Filter;
+import javax.servlet.ServletException;
 import java.io.IOException;
+import javax.servlet.ServletRequest;
+import javax.servlet.ServletResponse;
+import javax.servlet.FilterChain;
+import javax.servlet.FilterConfig;
 
 public class EncodingFilter implements Filter {
 
@@ -25,7 +29,6 @@ public class EncodingFilter implements Filter {
 
     @Override
     public void destroy() {
-
         code = null;
     }
 }
