@@ -30,6 +30,7 @@ public class SinginCommand implements Command {
 
         try {
             if(!customerValidator.loginValidate(request)){
+
                 buildCommandReturnObject(getConstant(WebProperty.MAIN_PAGE.name()),request,response);
             }else {
                 email = request.getParameter(getConstant(RegistrationProperty.EMAIL_PARAMETER.name()));

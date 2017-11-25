@@ -44,7 +44,6 @@ public class FrontServlet extends HttpServlet {
                 rd.forward(httpReturnedRequest,httpReturnedResponse);
             }else {
                 HttpSession session = request.getSession();
-
                 session.setAttribute(getConstant(WebProperty.SING_IN_ERROR_ATTR_NAME.name()),
                                      getConstant(WebProperty.SING_IN_ERROR_MESSAGE.name()));
 

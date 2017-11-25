@@ -18,7 +18,7 @@ public class SaveCustomerCommand implements Command {
 
     private  ServiceFactory factory = ServiceFactory.getInstance();
     private CustomerService service = factory.getCustomerService();
-    private final static Logger logger = Logger.getLogger(SaveCustomerCommand.class);
+    private final static Logger lOGGER = Logger.getLogger(SaveCustomerCommand.class);
     private CommandReturnObject commandReturn = new CommandReturnObject();
 
 
@@ -46,7 +46,7 @@ public class SaveCustomerCommand implements Command {
             commandReturn.setRequest(request);
             commandReturn.setResponse(response);
         } catch (ServiceException  e) {
-            logger.debug("Exception from SaveCustomer",e);
+            lOGGER.debug("Exception from SaveCustomer",e);
             commandReturn.setPage(getConstant(WebProperty.ERROR_PAGE.name()));
             commandReturn.setRequest(request);
             commandReturn.setResponse(response);
