@@ -47,7 +47,7 @@ public class SinginCommand implements Command {
             }
         } catch (ServiceException e ) {
             logger.debug("Exception from singIn",e);
-            buildCommandReturnObject(getConstant(WebProperty.ERROR_PAGE.name()),request,response);
+            throw new ControllerException(e);
         }
         return commandReturn;
     }
