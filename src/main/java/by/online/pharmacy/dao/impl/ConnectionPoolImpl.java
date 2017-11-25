@@ -2,8 +2,8 @@ package by.online.pharmacy.dao.impl;
 
 import by.online.pharmacy.dao.ConnectionPool;
 import by.online.pharmacy.dao.exception.ConnectionPoolException;
-
-
+import by.online.pharmacy.dao.exception.DAOException;
+import org.apache.log4j.Logger;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
@@ -16,17 +16,23 @@ public final class ConnectionPoolImpl implements ConnectionPool {
     private final int CONNECTION_POOL_SIZE = 20;
     private Vector<Connection> availableConnections;
     private Vector<Connection> usedConnections;
+    private final static Logger lOGGER = Logger.getLogger(ConnectionPoolImpl.class);
+
     private static final ConnectionPool instance = new ConnectionPoolImpl();
 
-    private ConnectionPoolImpl() {
+
+
+    private ConnectionPoolImpl()  {
         try {
             Class.forName(getConstant(DateBaseProperty.DB_DRIVER_NAME.name()));
         } catch (ClassNotFoundException e) {
-
+           lOGGER.error("JDBC driver not found",new DAOException(e));
+           throw new RuntimeException(e);
         }
+
         availableConnections = new Vector<>(CONNECTION_POOL_SIZE);
         usedConnections = new Vector<>(CONNECTION_POOL_SIZE);
-        makeConnectionsQueu(CONNECTION_POOL_SIZE);
+        makeConnectionsQueue(CONNECTION_POOL_SIZE);
     }
 
 
@@ -60,10 +66,16 @@ public final class ConnectionPoolImpl implements ConnectionPool {
 
 
 
-    private void makeConnectionsQueu(int count) throws ConnectionPoolException  {
+    private void makeConnectionsQueue(int count)  {
         for(int i = 0; i < count;i++){
-                Connection connection = createConnection();
-                availableConnections.add(connection);
+            Connection connection = null;
+            try {
+                connection = createConnection();
+            } catch (ConnectionPoolException e) {
+                lOGGER.error("Exception in make connections method",e);
+                throw new RuntimeException(e);
+            }
+            availableConnections.add(connection);
         }
     }
 
@@ -77,8 +89,8 @@ public final class ConnectionPoolImpl implements ConnectionPool {
             );
             return connection;
         } catch (SQLException  e) {
+            lOGGER.error("create Connection exception ",e);
             throw new ConnectionPoolException(e);
         }
-
     }
 }

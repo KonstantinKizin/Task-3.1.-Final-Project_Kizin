@@ -2,6 +2,7 @@ package by.online.pharmacy.dao.impl;
 
 import by.online.pharmacy.dao.CommandXMLDAO;
 import by.online.pharmacy.dao.exception.DAOException;
+import org.apache.log4j.Logger;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
@@ -27,6 +28,7 @@ public class CommandXmlDAOImpl implements CommandXMLDAO {
     private final String COMMAND_NAME_TAG = "command-name";
     private final String COMMAND_CLASS_NAME_TAG = "command-class";
     private final String XML_SETTING_FILE_NAME = getConstant(WebProperty.COMMAND_CONFIG_FILE_NAME.name());
+    private final static Logger lOGGER = Logger.getLogger(CommandXMLDAO.class);
 
 
     public CommandXmlDAOImpl(){
@@ -91,7 +93,7 @@ public class CommandXmlDAOImpl implements CommandXMLDAO {
             final Document document = builder.parse(file);
             return document;
         }catch (ParserConfigurationException | IOException | SAXException e ){
-            throw new DAOException(e);
+            throw new DAOException("Exception in build Xml command config parse",e);
         }
 
 

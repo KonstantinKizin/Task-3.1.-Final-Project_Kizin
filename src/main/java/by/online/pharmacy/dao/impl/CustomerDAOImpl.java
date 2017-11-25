@@ -58,7 +58,7 @@ public class CustomerDAOImpl implements CustomerDAO {
             roolBacked = connection;
             result = true;
         } catch (SQLException e) {
-            lOGGER.debug("Exception from DAO, save method ",e);
+            lOGGER.error("Exception from DAO, save method ",e);
             throw new DAOException(e);
         }finally {
             connectionPool.roleBack(roolBacked);
@@ -97,7 +97,7 @@ public class CustomerDAOImpl implements CustomerDAO {
             roolBacked = connection;
             return customers;
         } catch (SQLException e) {
-            lOGGER.debug("Exception from DAO , getAll method ",e);
+            lOGGER.error("Exception from DAO , getAll method ",e);
             throw new DAOException(e);
         }finally {
             connectionPool.roleBack(roolBacked);

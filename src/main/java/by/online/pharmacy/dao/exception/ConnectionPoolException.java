@@ -1,6 +1,6 @@
 package by.online.pharmacy.dao.exception;
 
-public class ConnectionPoolException extends RuntimeException {
+public class ConnectionPoolException extends DAOException {
 
     public ConnectionPoolException() {
         super();
@@ -17,14 +17,5 @@ public class ConnectionPoolException extends RuntimeException {
     public ConnectionPoolException(Throwable cause) {
         super(cause);
     }
-
-    protected ConnectionPoolException(String message, Throwable cause,
-                               boolean enableSuppression,
-                               boolean writableStackTrace) {
-        super(message, cause, enableSuppression, writableStackTrace);
-    }
-
-
-
 
 }
