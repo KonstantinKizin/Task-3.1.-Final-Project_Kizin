@@ -3,7 +3,6 @@ package by.online.pharmacy.controller.command;
 import by.online.pharmacy.controller.exception.ControllerException;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import java.util.HashMap;
 import java.util.Map;
 import static by.online.pharmacy.service.impl.PropertyLoader.getConstant;
