@@ -5,7 +5,6 @@ import javax.servlet.http.HttpServletResponse;
 
 public class CommandReturnObject {
     private  String page;
-    private  HttpServletResponse response;
     private  HttpServletRequest request;
 
     public CommandReturnObject() {
@@ -16,10 +15,6 @@ public class CommandReturnObject {
         this.page = page;
     }
 
-    public void setResponse(HttpServletResponse response) {
-        this.response = response;
-    }
-
     public void setRequest(HttpServletRequest request) {
         this.request = request;
     }
@@ -28,9 +23,6 @@ public class CommandReturnObject {
         return page;
     }
 
-    public HttpServletResponse getResponse() {
-        return response;
-    }
 
     public HttpServletRequest getRequest() {
         return request;

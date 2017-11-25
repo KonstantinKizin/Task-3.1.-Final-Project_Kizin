@@ -26,14 +26,13 @@ public class ShowAllCustomersCommand implements Command {
             request.setAttribute(getConstant(WebProperty.CUSTOMER_LIST_ATTR_NAME.name()), customers);
             commandReturn.setPage(getConstant(WebProperty.CUSTOMERS_LIST_PAGE.name()));
             commandReturn.setRequest(request);
-            commandReturn.setResponse(response);
 
         } catch (ServiceException e) {
             logger.debug("Exception in Controller ", e
             );
             commandReturn.setPage(getConstant(WebProperty.ERROR_PAGE.name()));
             commandReturn.setRequest(request);
-            commandReturn.setResponse(response);
+
 
         }
 

@@ -18,7 +18,6 @@ public class LogoutCommand implements Command {
         request.getSession().invalidate();
         commandReturn.setPage(getConstant(WebProperty.MAIN_PAGE.name()));
         commandReturn.setRequest(request);
-        commandReturn.setResponse(response);
         return commandReturn;
     }
 }

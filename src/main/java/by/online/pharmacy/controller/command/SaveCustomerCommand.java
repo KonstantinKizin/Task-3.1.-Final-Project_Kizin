@@ -44,12 +44,12 @@ public class SaveCustomerCommand implements Command {
             request.setAttribute(getConstant(WebProperty.USER_ATTRIBUTE_NAME.name()),customer);
             commandReturn.setPage(getConstant(WebProperty.CUSTOMER_PAGE.name()));
             commandReturn.setRequest(request);
-            commandReturn.setResponse(response);
+
         } catch (ServiceException  e) {
             lOGGER.debug("Exception from SaveCustomer",e);
             commandReturn.setPage(getConstant(WebProperty.ERROR_PAGE.name()));
             commandReturn.setRequest(request);
-            commandReturn.setResponse(response);
+
         }
         return commandReturn;
     }

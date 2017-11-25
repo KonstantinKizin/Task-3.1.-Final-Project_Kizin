@@ -13,7 +13,6 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.util.Map;
 import static by.online.pharmacy.service.impl.PropertyLoader.getConstant;
@@ -35,15 +34,14 @@ public class FrontServlet extends HttpServlet {
         try {
             CommandReturnObject commandReturn = producer.execute(request,response);
             HttpServletRequest httpReturnedRequest = commandReturn.getRequest();
-            HttpServletResponse httpReturnedResponse = commandReturn.getResponse();
 
             String page = commandReturn.getPage();
 
             if(!page.equalsIgnoreCase(getConstant(WebProperty.MAIN_PAGE.name()))){
                 RequestDispatcher rd = request.getRequestDispatcher(page);
-                rd.forward(httpReturnedRequest,httpReturnedResponse);
+                rd.forward(httpReturnedRequest,response);
             }else {
-                httpReturnedResponse.sendRedirect(page);
+                response.sendRedirect(page);
             }
 
         } catch (ControllerException e) {

@@ -49,6 +49,9 @@ public class SinginCommand implements Command {
                         lOGGER.info("User "+customer.getName()+" "+customer.getSureName()+" sing-in as Customer");
                     }
                 }else {
+                    request.getSession().setAttribute(getConstant(WebProperty.SING_IN_ERROR_ATTR_NAME.name()),
+                            getConstant(WebProperty.SING_IN_ERROR_MESSAGE.name()));
+
                     buildCommandReturnObject(getConstant(WebProperty.MAIN_PAGE.name()),request,response);
                 }
             }
@@ -70,7 +73,6 @@ public class SinginCommand implements Command {
     {
         this.commandReturn.setPage(page);
         this.commandReturn.setRequest(request);
-        this.commandReturn.setResponse(response);
         return commandReturn;
 
     }
