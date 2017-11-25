@@ -13,7 +13,6 @@ public class PropertyEnum {
         SING_IN_ERROR_MESSAGE,
         COMMAND_CONFIG_FILE_NAME,
         USER_ATTRIBUTE_NAME,
-        PASSWORD_PARAMETER_NAME,
         ADMIN_ROLE,
         CUSTOMER_ROLE,
         CUSTOMER_LIST_ATTR_NAME,
