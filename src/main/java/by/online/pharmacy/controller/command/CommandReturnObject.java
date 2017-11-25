@@ -1,7 +1,6 @@
 package by.online.pharmacy.controller.command;
-
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
+
 
 public class CommandReturnObject {
     private  String page;

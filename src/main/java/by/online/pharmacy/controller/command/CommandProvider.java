@@ -14,11 +14,11 @@ public class CommandProvider implements Command {
     private Map<String , Command> commandMap = new HashMap<>();;
 
     @Override
-    public CommandReturnObject execute(HttpServletRequest request, HttpServletResponse response) throws ControllerException {
+    public CommandReturnObject execute(HttpServletRequest request) throws ControllerException {
 
         String commandName = request.getParameter(getConstant(WebProperty.HIDDEN_PARAMETER.name()));
         Command command = commandMap.get(commandName);
-        return command.execute(request,response);
+        return command.execute(request);
     }
 
     public Map<String, Command> getCommandMap() {

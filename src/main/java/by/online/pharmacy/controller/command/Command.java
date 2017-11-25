@@ -6,5 +6,5 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 public interface Command {
-    CommandReturnObject execute(HttpServletRequest request , HttpServletResponse response) throws ControllerException;
+    CommandReturnObject execute(HttpServletRequest request ) throws ControllerException;
 }

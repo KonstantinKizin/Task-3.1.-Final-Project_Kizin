@@ -24,7 +24,7 @@ public class SaveCustomerCommand implements Command {
 
 
     @Override
-    public CommandReturnObject execute(HttpServletRequest request, HttpServletResponse response) throws ControllerException{
+    public CommandReturnObject execute(HttpServletRequest request) throws ControllerException{
 
         try {
             String name = request.getParameter(getConstant(RegistrationProperty.NAME_PARAMETER.name()));

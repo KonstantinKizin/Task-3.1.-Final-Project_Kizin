@@ -32,7 +32,7 @@ public class FrontServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
         try {
-            CommandReturnObject commandReturn = producer.execute(request,response);
+            CommandReturnObject commandReturn = producer.execute(request);
             HttpServletRequest httpReturnedRequest = commandReturn.getRequest();
 
             String page = commandReturn.getPage();

@@ -19,7 +19,7 @@ public class ShowAllCustomersCommand implements Command {
     private CommandReturnObject commandReturn = new CommandReturnObject();
 
     @Override
-    public CommandReturnObject execute(HttpServletRequest request, HttpServletResponse response) throws ControllerException {
+    public CommandReturnObject execute(HttpServletRequest request) throws ControllerException {
 
         try {
             List<Customer> customers = service.getAllCustomers();
