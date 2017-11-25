@@ -28,7 +28,6 @@ public class CommandXmlDAOImpl implements CommandXMLDAO {
     private final String COMMAND_NAME_TAG = "command-name";
     private final String COMMAND_CLASS_NAME_TAG = "command-class";
     private final String XML_SETTING_FILE_NAME = getConstant(WebProperty.COMMAND_CONFIG_FILE_NAME.name());
-    private final static Logger lOGGER = Logger.getLogger(CommandXMLDAO.class);
 
 
     public CommandXmlDAOImpl(){

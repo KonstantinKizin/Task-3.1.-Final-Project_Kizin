@@ -15,7 +15,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
-import java.net.ConnectException;
 import java.util.Map;
 import static by.online.pharmacy.service.impl.PropertyLoader.getConstant;
 import static by.online.pharmacy.entity.constant.PropertyEnum.WebProperty;

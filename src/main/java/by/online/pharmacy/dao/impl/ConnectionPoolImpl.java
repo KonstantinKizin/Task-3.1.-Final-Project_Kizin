@@ -26,7 +26,7 @@ public final class ConnectionPoolImpl implements ConnectionPool {
         try {
             Class.forName(getConstant(DateBaseProperty.DB_DRIVER_NAME.name()));
         } catch (ClassNotFoundException e) {
-           lOGGER.error("JDBC driver not found",new DAOException(e));
+            lOGGER.error("JDBC driver not found",new DAOException(e));
            throw new RuntimeException(e);
         }
 

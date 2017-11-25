@@ -19,7 +19,7 @@ public class SinginCommand implements Command {
     private final ServiceFactory factory = ServiceFactory.getInstance();
     private final CustomerService customerService = factory.getCustomerService();
     private final Validator customerValidator = factory.getValidator();
-    private final static Logger logger = Logger.getLogger(SinginCommand.class);
+    private final static Logger lOGGER = Logger.getLogger(SinginCommand.class);
     private CommandReturnObject commandReturn = new CommandReturnObject();
     private String email;
     private String password;
@@ -40,15 +40,17 @@ public class SinginCommand implements Command {
                     request.getSession().setAttribute(getConstant(WebProperty.USER_ATTRIBUTE_NAME.name()),customer);
                     if(customer.getRole().equalsIgnoreCase(getConstant(WebProperty.ADMIN_ROLE.name()))){
                         buildCommandReturnObject(getConstant(WebProperty.ADMIN_PAGE.name()),request,response);
+                        lOGGER.info("User "+customer.getName()+" "+customer.getSureName()+" sing-in as Admin");
                     }else {
                         buildCommandReturnObject(getConstant(WebProperty.CUSTOMER_PAGE.name()),request,response);
+                        lOGGER.info("User "+customer.getName()+" "+customer.getSureName()+" sing-in as Customer");
                     }
                 }else {
                     buildCommandReturnObject(getConstant(WebProperty.MAIN_PAGE.name()),request,response);
                 }
             }
         } catch (ServiceException e ) {
-            logger.error("Exception from singIn",e);
+            lOGGER.error("Exception from singIn",e);
             throw new ControllerException(e);
         }
         return commandReturn;
