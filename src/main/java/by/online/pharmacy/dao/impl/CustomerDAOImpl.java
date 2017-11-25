@@ -72,12 +72,11 @@ public class CustomerDAOImpl implements CustomerDAO {
 
         List<Customer> customers = new ArrayList<>();
         Connection roolBacked = null;
+        Customer customer = null;
         try(Connection connection = connectionPool.getConnection();
             Statement statement = connection.createStatement() ) {
             ResultSet rs = statement.executeQuery(SELECT_ALL_SQL);
-
             while (rs.next()){
-                Customer customer = null;
                 String name = rs.getString(NAME_COLUMN_INDEX);
                 String sureName = rs.getString(SURE_NAME_COLUMN_INDEX);
                 String phone = rs.getString(PHONE_COLUMN_INDEX);

@@ -17,11 +17,10 @@ public final class ConnectionPoolImpl implements ConnectionPool {
     private Vector<Connection> availableConnections;
     private Vector<Connection> usedConnections;
     private static final ConnectionPool instance = new ConnectionPoolImpl();
-    private final String DB_CLASS = "org.postgresql.Driver";
 
     private ConnectionPoolImpl() {
         try {
-            Class.forName(DB_CLASS);
+            Class.forName(getConstant(DateBaseProperty.DB_DRIVER_NAME.name()));
         } catch (ClassNotFoundException e) {
 
         }

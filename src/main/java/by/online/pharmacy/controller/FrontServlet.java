@@ -15,6 +15,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
+import java.net.ConnectException;
 import java.util.Map;
 import static by.online.pharmacy.service.impl.PropertyLoader.getConstant;
 import static by.online.pharmacy.entity.constant.PropertyEnum.WebProperty;
@@ -66,7 +67,7 @@ public class FrontServlet extends HttpServlet {
             ((CommandProvider) producer).getCommandMap().putAll(commandMap);
         } catch (ServiceException e) {
             logger.debug("Exception in init method",e);
-            e.printStackTrace();
+            throw new RuntimeException(new ControllerException("Something has gone wrong in init method",e));
         }
 
     }
