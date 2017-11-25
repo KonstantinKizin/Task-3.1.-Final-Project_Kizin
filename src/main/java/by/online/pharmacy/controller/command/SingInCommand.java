@@ -30,6 +30,8 @@ public class SinginCommand implements Command {
 
         try {
             if(!customerValidator.loginValidate(request)){
+                request.getSession().setAttribute(getConstant(WebProperty.SING_IN_ERROR_ATTR_NAME.name()),
+                        getConstant(WebProperty.SING_IN_ERROR_MESSAGE.name()));
 
                 buildCommandReturnObject(getConstant(WebProperty.MAIN_PAGE.name()),request,response);
             }else {
