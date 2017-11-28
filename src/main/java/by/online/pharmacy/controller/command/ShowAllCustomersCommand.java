@@ -15,7 +15,7 @@ public class ShowAllCustomersCommand implements Command {
     private ServiceFactory factory = ServiceFactory.getInstance();
     private CustomerService service = factory.getCustomerService();
     private final static Logger logger = Logger.getLogger(ShowAllCustomersCommand.class);
-    private CommandReturnObject commandReturn = new CommandReturnObject();
+    private final CommandReturnObject commandReturn = new CommandReturnObject();
 
     @Override
     public CommandReturnObject execute(HttpServletRequest request) throws ControllerException {
@@ -31,8 +31,6 @@ public class ShowAllCustomersCommand implements Command {
             );
             commandReturn.setPage(getConstant(WebProperty.ERROR_PAGE.name()));
             commandReturn.setRequest(request);
-
-
         }
 
         return commandReturn;

@@ -18,15 +18,14 @@ public class SinginCommand implements Command {
     private final ServiceFactory factory = ServiceFactory.getInstance();
     private final CustomerService customerService = factory.getCustomerService();
     private final Validator customerValidator = factory.getValidator();
-    private final static Logger lOGGER = Logger.getLogger(SinginCommand.class);
-    private CommandReturnObject commandReturn = new CommandReturnObject();
-    private String email;
-    private String password;
-    private Customer customer;
+    private final static Logger logger = Logger.getLogger(SinginCommand.class);
+    private final CommandReturnObject commandReturn = new CommandReturnObject();
 
     @Override
     public CommandReturnObject execute(HttpServletRequest request) throws ControllerException {
-
+         String email = null;
+         String password = null;
+         Customer customer = null;
         try {
             if(!customerValidator.loginValidate(request)){
                 buildLoginErrorMsg(request);
@@ -40,10 +39,10 @@ public class SinginCommand implements Command {
                     request.getSession().setAttribute(getConstant(WebProperty.USER_ATTRIBUTE_NAME.name()),customer);
                     if(customer.getRole().equalsIgnoreCase(getConstant(WebProperty.ADMIN_ROLE.name()))){
                         buildCommandReturnObject(getConstant(WebProperty.ADMIN_PAGE.name()),request);
-                        lOGGER.info("User "+customer.getName()+" "+customer.getSureName()+" sing-in as Admin");
+                        logger.info("User "+customer.getName()+" "+customer.getSureName()+" sing-in as Admin");
                     }else {
                         buildCommandReturnObject(getConstant(WebProperty.CUSTOMER_PAGE.name()),request);
-                        lOGGER.info("User "+customer.getName()+" "+customer.getSureName()+" sing-in as Customer");
+                        logger.info("User "+customer.getName()+" "+customer.getSureName()+" sing-in as Customer");
                     }
                 }else {
                     buildLoginErrorMsg(request);
@@ -51,7 +50,7 @@ public class SinginCommand implements Command {
                 }
             }
         } catch (ServiceException e ) {
-            lOGGER.error("Exception from singIn",e);
+            logger.error("Exception from singIn",e);
             throw new ControllerException(e);
         }
         return commandReturn;

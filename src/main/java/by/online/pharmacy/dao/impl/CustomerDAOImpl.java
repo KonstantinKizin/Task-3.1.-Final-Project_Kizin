@@ -15,12 +15,12 @@ import java.util.List;
 
 public class CustomerDAOImpl implements CustomerDAO {
 
-    private ConnectionPool connectionPool = ConnectionPoolImpl.getInstance();
+    private final ConnectionPool connectionPool = ConnectionPoolImpl.getInstance();
     private final String TABLE_NAME = "customer";
     private final static Logger lOGGER = Logger.getLogger(CustomerDAOImpl.class);
     private final String SAVE_SQL_PREPARED_STATEMENT = "insert into "+TABLE_NAME+" values(?,?,?,?,?,?,?,?,?,?)";
     private final String SELECT_ALL_SQL = "select * from customer";
-    private  String FIND_BY_EMAIL_AND_PW_SQL_STATEMENT = "SELECT * FROM "+TABLE_NAME+" WHERE email=? AND password=?";
+    private final String FIND_BY_EMAIL_AND_PW_SQL_STATEMENT = "SELECT * FROM "+TABLE_NAME+" WHERE email=? AND password=?";
     private final int NAME_COLUMN_INDEX = 1;
     private final int SURE_NAME_COLUMN_INDEX = 2;
     private final int PHONE_COLUMN_INDEX = 3;
@@ -38,7 +38,7 @@ public class CustomerDAOImpl implements CustomerDAO {
 
     @Override
     public boolean save(Customer customer) throws DAOException {
-        Connection roolBacked = null;
+        Connection usedConnect = null;
 
         boolean result = false;
         try(Connection connection = connectionPool.getConnection();
@@ -55,13 +55,13 @@ public class CustomerDAOImpl implements CustomerDAO {
             statement.setString(BIRTH_DAY_COLUMN_INDEX,customer.getDateOfBirth());
             statement.setString(GENDER_COLUMN_INDEX,customer.getGender());
             statement.executeUpdate();
-            roolBacked = connection;
+            usedConnect = connection;
             result = true;
         } catch (SQLException e) {
             lOGGER.error("Exception from DAO, save method ",e);
             throw new DAOException(e);
         }finally {
-            connectionPool.roleBack(roolBacked);
+            connectionPool.rollBack(usedConnect);
             return result;
         }
     }
@@ -71,7 +71,7 @@ public class CustomerDAOImpl implements CustomerDAO {
     public List<Customer> getAll() throws DAOException {
 
         List<Customer> customers = new ArrayList<>();
-        Connection roolBacked = null;
+        Connection usedConnect = null;
         Customer customer = null;
         try(Connection connection = connectionPool.getConnection();
             Statement statement = connection.createStatement() ) {
@@ -94,13 +94,13 @@ public class CustomerDAOImpl implements CustomerDAO {
                 customers.add(customer);
             }
 
-            roolBacked = connection;
+            usedConnect = connection;
             return customers;
         } catch (SQLException e) {
             lOGGER.error("Exception from DAO , getAll method ",e);
             throw new DAOException(e);
         }finally {
-            connectionPool.roleBack(roolBacked);
+            connectionPool.rollBack(usedConnect);
         }
 
     }
@@ -115,7 +115,6 @@ public class CustomerDAOImpl implements CustomerDAO {
         try(Connection connection = connectionPool.getConnection();
             PreparedStatement statement = connection.prepareStatement(FIND_BY_EMAIL_AND_PW_SQL_STATEMENT)
         ){
-
             statement.setString(EMAIL_PARAMETER_INDEX,emil);
             statement.setString(PASSWORD_PARAMETER_INDEX,pw);
             ResultSet rs = statement.executeQuery();
@@ -129,7 +128,7 @@ public class CustomerDAOImpl implements CustomerDAO {
             lOGGER.debug("Exception from findByEmailAndPassword method" ,e);
             throw new DAOException(e);
         }finally {
-            connectionPool.roleBack(roolBacked);
+            connectionPool.rollBack(roolBacked);
         }
     }
 

@@ -7,6 +7,6 @@ public interface ConnectionPool {
 
     Connection getConnection() throws ConnectionPoolException;
 
-    boolean roleBack(Connection connection);
+    boolean rollBack(Connection connection);
 
 }

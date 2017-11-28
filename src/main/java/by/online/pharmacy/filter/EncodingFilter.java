@@ -1,4 +1,4 @@
-package by.online.pharmacy.controller.filter;
+package by.online.pharmacy.filter;
 import javax.servlet.Filter;
 import javax.servlet.ServletException;
 import java.io.IOException;

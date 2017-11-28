@@ -2,6 +2,7 @@ package by.online.pharmacy.dao.impl;
 
 import by.online.pharmacy.dao.ConnectionPool;
 import by.online.pharmacy.dao.exception.ConnectionPoolException;
+import by.online.pharmacy.dao.exception.ConnectionPoolInitializationException;
 import by.online.pharmacy.dao.exception.DAOException;
 import org.apache.log4j.Logger;
 import java.sql.Connection;
@@ -14,25 +15,24 @@ import static by.online.pharmacy.entity.constant.PropertyEnum.DateBaseProperty;
 public final class ConnectionPoolImpl implements ConnectionPool {
 
     private final int CONNECTION_POOL_SIZE = 20;
-    private Vector<Connection> availableConnections;
-    private Vector<Connection> usedConnections;
-    private final static Logger lOGGER = Logger.getLogger(ConnectionPoolImpl.class);
-
+    private final Vector<Connection> availableConnections;
+    private final Vector<Connection> usedConnections;
+    private final static Logger logger = Logger.getLogger(ConnectionPoolImpl.class);
     private static final ConnectionPool instance = new ConnectionPoolImpl();
 
 
 
     private ConnectionPoolImpl()  {
-        try {
-            Class.forName(getConstant(DateBaseProperty.DB_DRIVER_NAME.name()));
-        } catch (ClassNotFoundException e) {
-            lOGGER.error("JDBC driver not found",new DAOException(e));
-           throw new RuntimeException(e);
-        }
-
         availableConnections = new Vector<>(CONNECTION_POOL_SIZE);
         usedConnections = new Vector<>(CONNECTION_POOL_SIZE);
-        makeConnectionsQueue(CONNECTION_POOL_SIZE);
+        try {
+            Class.forName(getConstant(DateBaseProperty.DB_DRIVER_NAME.name()));
+            makeConnectionsQueue(CONNECTION_POOL_SIZE);
+        } catch (ClassNotFoundException | ConnectionPoolException e) {
+            logger.error("Error in initialize Connection Pool",new DAOException(e));
+            throw new ConnectionPoolInitializationException("Error in initialize Connection Pool",e);
+        }
+
     }
 
 
@@ -47,33 +47,33 @@ public final class ConnectionPoolImpl implements ConnectionPool {
         Connection connection = null;
         if(availableConnections.isEmpty()){
             connection = createConnection();
-            return connection;
         }else {
             connection = availableConnections.firstElement();
             usedConnections.add(connection);
             availableConnections.remove(connection);
-            return connection;
+
         }
+        return connection;
     }
 
 
 
     @Override
-    public boolean roleBack(Connection connection) {
+    public boolean rollBack(Connection connection) {
         usedConnections.remove(connection);
         return availableConnections.add(connection);
     }
 
 
 
-    private void makeConnectionsQueue(int count)  {
+    private void makeConnectionsQueue(int count) throws ConnectionPoolException {
         for(int i = 0; i < count;i++){
             Connection connection = null;
             try {
                 connection = createConnection();
             } catch (ConnectionPoolException e) {
-                lOGGER.error("Exception in make connections method",e);
-                throw new RuntimeException(e);
+                logger.error("Exception in make connections method",e);
+                throw new ConnectionPoolException(e);
             }
             availableConnections.add(connection);
         }
@@ -89,7 +89,7 @@ public final class ConnectionPoolImpl implements ConnectionPool {
             );
             return connection;
         } catch (SQLException  e) {
-            lOGGER.error("create Connection exception ",e);
+            logger.error("create Connection exception ",e);
             throw new ConnectionPoolException(e);
         }
     }

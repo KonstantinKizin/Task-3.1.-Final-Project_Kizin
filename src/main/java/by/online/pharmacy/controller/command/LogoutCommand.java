@@ -9,7 +9,7 @@ import static by.online.pharmacy.entity.constant.PropertyEnum.WebProperty;
 
 public class LogoutCommand implements Command {
 
-    private CommandReturnObject commandReturn = new CommandReturnObject();
+    private final CommandReturnObject commandReturn = new CommandReturnObject();
 
     @Override
     public CommandReturnObject execute(HttpServletRequest request) throws ControllerException {
