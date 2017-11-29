@@ -11,9 +11,9 @@ public  class PropertyLoader {
 
     private static final PropertyLoader instance = new PropertyLoader();
 
-    private static   ResourceBundle resource;
+    private static  ResourceBundle resource;
 
-    private final static    Map<String , String> propertyMap = new HashMap<>();
+    private final static  Map<String , String> propertyMap = new HashMap<>();
 
     static {
         resource = ResourceBundle.getBundle(DB_PROPERTY_NAME);
@@ -24,8 +24,7 @@ public  class PropertyLoader {
 
 
 
-    public PropertyLoader(){
-
+    private PropertyLoader(){
 
     }
 

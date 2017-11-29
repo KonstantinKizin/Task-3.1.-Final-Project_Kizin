@@ -15,7 +15,7 @@ public class CommandMapCreator {
 
     private final DAOFactory factory = DAOFactory.getInstance();
     private final CommandXMLDAO xmlDao = factory.getCommandXMLDao();
-    private final static Logger lOGGER = Logger.getLogger(CommandMapCreator.class);
+    private final static Logger logger = Logger.getLogger(CommandMapCreator.class);
 
     public CommandMapCreator()  {
 
@@ -47,10 +47,10 @@ public class CommandMapCreator {
             }
             return commandMap;
         }catch (ServiceException e){
-            lOGGER.error("Build command Exception",e);
+            logger.error("Build command map  Exception fom CommandMapCreatorFile",e);
             throw e;
         } catch (DAOException e) {
-            lOGGER.error("From build Command map method",e);
+            logger.error("From build Command map method",e);
             throw new ServiceException(e);
         }
 

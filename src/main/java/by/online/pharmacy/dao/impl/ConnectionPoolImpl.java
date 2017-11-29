@@ -51,7 +51,6 @@ public final class ConnectionPoolImpl implements ConnectionPool {
             connection = availableConnections.firstElement();
             usedConnections.add(connection);
             availableConnections.remove(connection);
-
         }
         return connection;
     }
@@ -71,11 +70,12 @@ public final class ConnectionPoolImpl implements ConnectionPool {
             Connection connection = null;
             try {
                 connection = createConnection();
+                availableConnections.add(connection);
             } catch (ConnectionPoolException e) {
                 logger.error("Exception in make connections method",e);
                 throw new ConnectionPoolException(e);
             }
-            availableConnections.add(connection);
+
         }
     }
 

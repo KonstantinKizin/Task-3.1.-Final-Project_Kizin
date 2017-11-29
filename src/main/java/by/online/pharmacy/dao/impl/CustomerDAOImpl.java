@@ -17,7 +17,7 @@ public class CustomerDAOImpl implements CustomerDAO {
 
     private final ConnectionPool connectionPool = ConnectionPoolImpl.getInstance();
     private final String TABLE_NAME = "customer";
-    private final static Logger lOGGER = Logger.getLogger(CustomerDAOImpl.class);
+    private final static Logger logger = Logger.getLogger(CustomerDAOImpl.class);
     private final String SAVE_SQL_PREPARED_STATEMENT = "insert into "+TABLE_NAME+" values(?,?,?,?,?,?,?,?,?,?)";
     private final String SELECT_ALL_SQL = "select * from customer";
     private final String FIND_BY_EMAIL_AND_PW_SQL_STATEMENT = "SELECT * FROM "+TABLE_NAME+" WHERE email=? AND password=?";
@@ -58,7 +58,7 @@ public class CustomerDAOImpl implements CustomerDAO {
             usedConnect = connection;
             result = true;
         } catch (SQLException e) {
-            lOGGER.error("Exception from DAO, save method ",e);
+            logger.error("Exception from DAO, save method ",e);
             throw new DAOException(e);
         }finally {
             connectionPool.rollBack(usedConnect);
@@ -97,7 +97,7 @@ public class CustomerDAOImpl implements CustomerDAO {
             usedConnect = connection;
             return customers;
         } catch (SQLException e) {
-            lOGGER.error("Exception from DAO , getAll method ",e);
+            logger.error("Exception from DAO , getAll method",e);
             throw new DAOException(e);
         }finally {
             connectionPool.rollBack(usedConnect);
@@ -125,7 +125,7 @@ public class CustomerDAOImpl implements CustomerDAO {
             return customer;
 
         } catch (SQLException e) {
-            lOGGER.debug("Exception from findByEmailAndPassword method" ,e);
+            logger.debug("Exception from findByEmailAndPassword method" ,e);
             throw new DAOException(e);
         }finally {
             connectionPool.rollBack(roolBacked);
@@ -155,7 +155,7 @@ public class CustomerDAOImpl implements CustomerDAO {
             }
             return customer;
         } catch (SQLException e) {
-            lOGGER.debug("Exception when Build Customer from buildCustomer method ",e);
+            logger.debug("Exception when Build Customer from buildCustomer method ",e);
             throw new DAOException(e);
         }
 

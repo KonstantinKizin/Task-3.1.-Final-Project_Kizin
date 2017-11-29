@@ -15,7 +15,7 @@ public class CustomerServiceImpl implements CustomerService {
 
     private final DAOFactory factory = DAOFactory.getInstance();
     private final CustomerDAO customerDAO = factory.getCustomerDao();
-    private final static Logger LOGGER = Logger.getLogger(CustomerServiceImpl.class);
+    private final static Logger logger = Logger.getLogger(CustomerServiceImpl.class);
     private final String EMAIL_REQUEST_PARAMETER = "email";
     private final String PW_REQUEST_PARAMETER = "password";
 
@@ -24,7 +24,7 @@ public class CustomerServiceImpl implements CustomerService {
         try {
             return customerDAO.save(customer);
         } catch (DAOException e) {
-            LOGGER.debug("Exception from Service , saveCustomer method",e);
+            logger.debug("Exception from Service , saveCustomer method",e);
             throw new ServiceException(e);
         }
     }
@@ -34,7 +34,7 @@ public class CustomerServiceImpl implements CustomerService {
         try {
             return customerDAO.findCustomerByEmailAndPw(email,password);
         } catch (DAOException e) {
-            LOGGER.error("Exception from Service , findCustomerByEmailAndPassword method",e);
+            logger.error("Exception from Service , findCustomerByEmailAndPassword method",e);
             throw new ServiceException(e);
         }
     }
@@ -44,7 +44,7 @@ public class CustomerServiceImpl implements CustomerService {
         try {
             return customerDAO.getAll();
         } catch (DAOException e) {
-            LOGGER.error("Exception From Service in getAllCustomers method ",e);
+            logger.error("Exception From Service in getAllCustomers method ",e);
             throw new ServiceException(e);
         }
     }

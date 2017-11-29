@@ -12,8 +12,8 @@ import static by.online.pharmacy.service.impl.PropertyLoader.getConstant;
 import static by.online.pharmacy.entity.constant.PropertyEnum.WebProperty;
 
 public class ShowAllCustomersCommand implements Command {
-    private ServiceFactory factory = ServiceFactory.getInstance();
-    private CustomerService service = factory.getCustomerService();
+    private final ServiceFactory factory = ServiceFactory.getInstance();
+    private final CustomerService service = factory.getCustomerService();
     private final static Logger logger = Logger.getLogger(ShowAllCustomersCommand.class);
     private final CommandReturnObject commandReturn = new CommandReturnObject();
 
