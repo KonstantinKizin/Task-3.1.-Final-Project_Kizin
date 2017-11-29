@@ -87,7 +87,7 @@ public class CommandXmlDAOImpl implements CommandXMLDAO {
             File file = new File(this.getAbsoluteFilePath(XML_SETTING_FILE_NAME));
             DocumentBuilderFactory builderFactory = DocumentBuilderFactory.newInstance();
             DocumentBuilder builder = builderFactory.newDocumentBuilder();
-            final Document document = builder.parse(file);
+            Document document = builder.parse(file);
             return document;
         }catch (ParserConfigurationException | IOException | SAXException e ){
             throw new DAOException("Exception in build Xml command config parse",e);
