@@ -15,16 +15,14 @@ import static by.online.pharmacy.entity.constant.PropertyEnum.DateBaseProperty;
 public final class ConnectionPoolImpl implements ConnectionPool {
 
     private final int CONNECTION_POOL_SIZE = 20;
-    private final Vector<Connection> availableConnections;
-    private final Vector<Connection> usedConnections;
+    private final Vector<Connection> availableConnections= new Vector<>(CONNECTION_POOL_SIZE);
+    private final Vector<Connection> usedConnections = new Vector<>(CONNECTION_POOL_SIZE);
     private final static Logger logger = Logger.getLogger(ConnectionPoolImpl.class);
     private static final ConnectionPool instance = new ConnectionPoolImpl();
 
 
 
     private ConnectionPoolImpl()  {
-        availableConnections = new Vector<>(CONNECTION_POOL_SIZE);
-        usedConnections = new Vector<>(CONNECTION_POOL_SIZE);
         try {
             Class.forName(getConstant(DateBaseProperty.DB_DRIVER_NAME.name()));
             makeConnectionsQueue(CONNECTION_POOL_SIZE);

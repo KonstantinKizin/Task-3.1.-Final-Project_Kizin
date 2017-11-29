@@ -16,23 +16,23 @@ import java.util.List;
 public class CustomerDAOImpl implements CustomerDAO {
 
     private final ConnectionPool connectionPool = ConnectionPoolImpl.getInstance();
-    private final String TABLE_NAME = "customer";
+    private final static String TABLE_NAME = "customer";
     private final static Logger logger = Logger.getLogger(CustomerDAOImpl.class);
-    private final String SAVE_SQL_PREPARED_STATEMENT = "insert into "+TABLE_NAME+" values(?,?,?,?,?,?,?,?,?,?)";
-    private final String SELECT_ALL_SQL = "select * from customer";
-    private final String FIND_BY_EMAIL_AND_PW_SQL_STATEMENT = "SELECT * FROM "+TABLE_NAME+" WHERE email=? AND password=?";
-    private final int NAME_COLUMN_INDEX = 1;
-    private final int SURE_NAME_COLUMN_INDEX = 2;
-    private final int PHONE_COLUMN_INDEX = 3;
-    private final int ROLE_COLUMN_INDEX = 4;
-    private final int EMAIL_COLUMN_INDEX = 5;
-    private final int LOGIN_COLUMN_INDEX = 7;
-    private final int PW_COLUMN_INDEX = 6;
-    private final int DATE_COLUMN_INDEX = 8;
-    private final int BIRTH_DAY_COLUMN_INDEX = 9;
-    private final int GENDER_COLUMN_INDEX = 10;
-    private final int EMAIL_PARAMETER_INDEX = 1;
-    private final int PASSWORD_PARAMETER_INDEX = 2;
+    private final static String SAVE_SQL_PREPARED_STATEMENT = "insert into "+TABLE_NAME+" values(?,?,?,?,?,?,?,?,?,?)";
+    private final static String SELECT_ALL_SQL = "select * from customer";
+    private final static String FIND_BY_EMAIL_AND_PW_SQL_STATEMENT = "SELECT * FROM "+TABLE_NAME+" WHERE email=? AND password=?";
+    private final static int NAME_COLUMN_INDEX = 1;
+    private final static int SURE_NAME_COLUMN_INDEX = 2;
+    private final static int PHONE_COLUMN_INDEX = 3;
+    private final static int ROLE_COLUMN_INDEX = 4;
+    private final static int EMAIL_COLUMN_INDEX = 5;
+    private final static int LOGIN_COLUMN_INDEX = 7;
+    private final static int PW_COLUMN_INDEX = 6;
+    private final static int DATE_COLUMN_INDEX = 8;
+    private final static int BIRTH_DAY_COLUMN_INDEX = 9;
+    private final static int GENDER_COLUMN_INDEX = 10;
+    private final static int EMAIL_PARAMETER_INDEX = 1;
+    private final static int PASSWORD_PARAMETER_INDEX = 2;
 
 
 
