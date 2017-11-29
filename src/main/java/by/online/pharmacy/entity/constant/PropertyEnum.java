@@ -23,6 +23,7 @@ public class PropertyEnum {
         DB_LOGIN,
         DB_PASSWORD,
         DB_URL,
+        CONNECTION_POOL_SIZE
     }
 
     public static enum RegistrationProperty{

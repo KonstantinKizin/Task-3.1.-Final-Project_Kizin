@@ -14,7 +14,7 @@ import static by.online.pharmacy.entity.constant.PropertyEnum.DateBaseProperty;
 
 public final class ConnectionPoolImpl implements ConnectionPool {
 
-    private final int CONNECTION_POOL_SIZE = 20;
+    private final int CONNECTION_POOL_SIZE = Integer.parseInt(getConstant(DateBaseProperty.CONNECTION_POOL_SIZE.name()));
     private final Vector<Connection> availableConnections= new Vector<>(CONNECTION_POOL_SIZE);
     private final Vector<Connection> usedConnections = new Vector<>(CONNECTION_POOL_SIZE);
     private final static Logger logger = Logger.getLogger(ConnectionPoolImpl.class);
