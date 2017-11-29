@@ -58,8 +58,8 @@ public class CustomerDAOImpl implements CustomerDAO {
             usedConnect = connection;
             result = true;
         } catch (SQLException e) {
-            logger.error("Exception from DAO, save method ",e);
-            throw new DAOException(e);
+            logger.error("Exception from DAO, save Customer method ",e);
+            throw new DAOException("Save Customer method",e);
         }finally {
             connectionPool.rollBack(usedConnect);
             return result;
@@ -97,8 +97,8 @@ public class CustomerDAOImpl implements CustomerDAO {
             usedConnect = connection;
             return customers;
         } catch (SQLException e) {
-            logger.error("Exception from DAO , getAll method",e);
-            throw new DAOException(e);
+            logger.error("Exception from DAO , getAll customers  method",e);
+            throw new DAOException("getAll customers  method",e);
         }finally {
             connectionPool.rollBack(usedConnect);
         }
@@ -109,7 +109,7 @@ public class CustomerDAOImpl implements CustomerDAO {
 
     @Override
     public Customer findCustomerByEmailAndPw(String emil, String pw) throws DAOException {
-        Connection roolBacked = null;
+        Connection usedConnect = null;
         Customer customer = null;
 
         try(Connection connection = connectionPool.getConnection();
@@ -121,14 +121,14 @@ public class CustomerDAOImpl implements CustomerDAO {
             if(rs != null){
               customer = buildCustomer(rs);
             }
-            roolBacked = connection;
+            usedConnect = connection;
             return customer;
 
         } catch (SQLException e) {
             logger.debug("Exception from findByEmailAndPassword method" ,e);
             throw new DAOException(e);
         }finally {
-            connectionPool.rollBack(roolBacked);
+            connectionPool.rollBack(usedConnect);
         }
     }
 
