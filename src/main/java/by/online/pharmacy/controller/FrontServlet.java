@@ -36,7 +36,6 @@ public class FrontServlet extends HttpServlet {
             CommandReturnObject commandReturn = producer.execute(request);
             HttpServletRequest httpReturnedRequest = commandReturn.getRequest();
             String page = commandReturn.getPage();
-
             if(!page.equalsIgnoreCase(getConstant(WebProperty.MAIN_PAGE.name()))){
                 RequestDispatcher rd = request.getRequestDispatcher(page);
                 rd.forward(httpReturnedRequest,response);

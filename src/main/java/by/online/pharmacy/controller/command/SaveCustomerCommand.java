@@ -15,10 +15,10 @@ import static by.online.pharmacy.entity.constant.PropertyEnum.RegistrationProper
 
 public class SaveCustomerCommand implements Command {
 
-    private  ServiceFactory factory = ServiceFactory.getInstance();
-    private CustomerService service = factory.getCustomerService();
+    private final ServiceFactory factory = ServiceFactory.getInstance();
+    private final CustomerService service = factory.getCustomerService();
     private final static Logger lOGGER = Logger.getLogger(SaveCustomerCommand.class);
-    private CommandReturnObject commandReturn = new CommandReturnObject();
+    private final CommandReturnObject commandReturn = new CommandReturnObject();
 
 
 

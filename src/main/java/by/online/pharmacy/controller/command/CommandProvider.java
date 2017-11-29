@@ -10,7 +10,7 @@ import static by.online.pharmacy.entity.constant.PropertyEnum.WebProperty;
 
 public class CommandProvider implements Command {
 
-    private Map<String , Command> commandMap = new HashMap<>();;
+    private final Map<String , Command> commandMap = new HashMap<>();;
 
     @Override
     public CommandReturnObject execute(HttpServletRequest request) throws ControllerException {
