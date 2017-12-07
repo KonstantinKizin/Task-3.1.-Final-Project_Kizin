@@ -15,9 +15,6 @@ public class SwitchLanguageCommand implements Command {
 
         Object attrObject = request.getSession().getAttribute(REQUEST_PAGE_PARAMETER);
         String page = (String)attrObject;
-        if(page.isEmpty()){
-           page = request.getParameter(REQUEST_PAGE_PARAMETER);
-        }
         String lang = request.getParameter(REQUEST_LANGUAGE_PARAMETER);
         request.setAttribute(REQUEST_LANGUAGE_PARAMETER,lang);
         commandReturn.setRequest(request);
