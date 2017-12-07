@@ -23,20 +23,17 @@ public class SinginCommand implements Command {
 
     @Override
     public CommandReturnObject execute(HttpServletRequest request) throws ControllerException {
-         String email = null;
-         String password = null;
-         Customer customer = null;
-
+        String email = null;
+        String password = null;
+        Customer customer = null;
         try {
             if(!customerValidator.loginValidate(request)){
                 buildLoginErrorMsg(request);
                 buildCommandReturnObject(getConstant(WebProperty.MAIN_PAGE.name()),request);
-
             }else {
                 email = request.getParameter(getConstant(RegistrationProperty.EMAIL_PARAMETER.name()));
                 password = request.getParameter(getConstant(RegistrationProperty.PW_PARAMETER.name()));
                 customer = customerService.findCustomerByEmailAndPassword(email,password);
-
                 if(customer != null){
                     request.getSession().setAttribute(getConstant(WebProperty.USER_ATTRIBUTE_NAME.name()),customer);
                     if(customer.getRole().equalsIgnoreCase(getConstant(WebProperty.ADMIN_ROLE.name()))){
@@ -56,6 +53,7 @@ public class SinginCommand implements Command {
             logger.error("Exception from singIn",e);
             throw new ControllerException(e);
         }
+
         return commandReturn;
     }
 
@@ -70,7 +68,6 @@ public class SinginCommand implements Command {
 
 
     private CommandReturnObject buildCommandReturnObject(String page,HttpServletRequest request){
-
         this.commandReturn.setPage(page);
         this.commandReturn.setRequest(request);
         return commandReturn;

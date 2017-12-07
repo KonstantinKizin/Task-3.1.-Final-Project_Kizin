@@ -22,7 +22,7 @@
     </Header>
 
 
-<H1>Hello admin ${user.getName()}</H1>\
+<H1><fmt:message key="WELCOME_TO_ADMIN_PAGE"/> ${user.getName()}</H1>
 
 <a href="/frontController?hidden=showCustomers"><fmt:message key="SHOW_ALL_CUSTOMERS_LABEL"/></a>
 <br>

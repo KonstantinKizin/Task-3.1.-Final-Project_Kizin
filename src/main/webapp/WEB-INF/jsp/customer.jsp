@@ -21,7 +21,7 @@
 
 
 
-<H1>Hello , ${user.getLogin()}</H1>
+<H1><fmt:message key="WELCOME_TO_CUSTOMER_PAGE"/> , ${user.getLogin()}</H1>
 <br>
 <a href="/frontController?hidden=logout"><fmt:message key="SING_OUT_LABEL"/></a>
 </body>

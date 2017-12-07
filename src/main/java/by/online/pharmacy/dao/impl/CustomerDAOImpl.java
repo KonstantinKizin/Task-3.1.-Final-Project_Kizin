@@ -104,8 +104,6 @@ public class CustomerDAOImpl implements CustomerDAO {
 
     }
 
-
-
     @Override
     public Customer findCustomerByEmailAndPw(String emil, String pw) throws DAOException {
         Connection usedConnect = null;
