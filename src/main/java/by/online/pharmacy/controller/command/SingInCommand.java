@@ -26,30 +26,42 @@ public class SinginCommand implements Command {
          String email = null;
          String password = null;
          Customer customer = null;
+        System.out.println("Попали сюда 1");
+
         try {
             if(!customerValidator.loginValidate(request)){
                 buildLoginErrorMsg(request);
                 buildCommandReturnObject(getConstant(WebProperty.MAIN_PAGE.name()),request);
+                System.out.println("Попали сюда 2");
+
             }else {
                 email = request.getParameter(getConstant(RegistrationProperty.EMAIL_PARAMETER.name()));
                 password = request.getParameter(getConstant(RegistrationProperty.PW_PARAMETER.name()));
                 customer = customerService.findCustomerByEmailAndPassword(email,password);
 
+                System.out.println("Попали сюда 3");
                 if(customer != null){
+                    System.out.println("Попали сюда 4");
                     request.getSession().setAttribute(getConstant(WebProperty.USER_ATTRIBUTE_NAME.name()),customer);
                     if(customer.getRole().equalsIgnoreCase(getConstant(WebProperty.ADMIN_ROLE.name()))){
+                        System.out.println("Попали сюда 5");
                         buildCommandReturnObject(getConstant(WebProperty.ADMIN_PAGE.name()),request);
                         logger.info("User "+customer.getName()+" "+customer.getSureName()+" sing-in as Admin");
-                    }else {
+                    }else if(customer.getRole().equalsIgnoreCase(getConstant(WebProperty.CUSTOMER_ROLE.name()))) {
+                        System.out.println("Попали сюда 6");
                         buildCommandReturnObject(getConstant(WebProperty.CUSTOMER_PAGE.name()),request);
                         logger.info("User "+customer.getName()+" "+customer.getSureName()+" sing-in as Customer");
                     }
                 }else {
+                    System.out.println("Попали сюда 7");
                     buildLoginErrorMsg(request);
                     buildCommandReturnObject(getConstant(WebProperty.MAIN_PAGE.name()),request);
                 }
             }
+
         } catch (ServiceException e ) {
+            System.out.println("Попали сюда 8");
+            System.out.println(e);
             logger.error("Exception from singIn",e);
             throw new ControllerException(e);
         }

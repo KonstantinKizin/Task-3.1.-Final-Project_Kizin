@@ -23,5 +23,11 @@
         <command-class>by.online.pharmacy.controller.command.LogoutCommand</command-class>
     </command>
 
+    <command>
+        <command-name>switch_language</command-name>
+        <command-class>by.online.pharmacy.controller.command.SwitchLanguageCommand</command-class>
+    </command>
+
+
 
 </commands>

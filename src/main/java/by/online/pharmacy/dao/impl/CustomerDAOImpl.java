@@ -40,6 +40,7 @@ public class CustomerDAOImpl implements CustomerDAO {
     public boolean save(Customer customer) throws DAOException {
         Connection usedConnect = null;
 
+        System.out.println(customer);
         boolean result = false;
         try(Connection connection = connectionPool.getConnection();
             PreparedStatement statement = connection.prepareStatement(SAVE_SQL_PREPARED_STATEMENT)

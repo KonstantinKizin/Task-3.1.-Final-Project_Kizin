@@ -22,7 +22,6 @@ public class CommandReturnObject {
         return page;
     }
 
-
     public HttpServletRequest getRequest() {
         return request;
     }

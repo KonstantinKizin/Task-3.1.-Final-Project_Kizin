@@ -9,11 +9,12 @@ import javax.servlet.FilterConfig;
 
 public class EncodingFilter implements Filter {
 
+    private final static String ENCODING_PARAMETER = "encoding";
     private String code;
 
     @Override
     public void init(FilterConfig filterConfig) throws ServletException {
-        code = filterConfig.getInitParameter("encoding");
+        code = filterConfig.getInitParameter(ENCODING_PARAMETER);
     }
 
     @Override

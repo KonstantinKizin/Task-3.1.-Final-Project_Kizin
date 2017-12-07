@@ -1,27 +1,42 @@
-<html>
+<%@ page pageEncoding="UTF-8" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<c:set var="language" value="${not empty param.language ? param.language : not empty language ? language : pageContext.request.locale}" scope="session" />
+<fmt:setLocale value="${language}" />
+<fmt:setBundle basename="Text" />
+
+<html lang="${language}">
 <body>
 
+<%--change to JSTL this screplet!!--%>
+<Header>
+    <a href="/index.jsp?language=en">en</a>
+    <a href="/index.jsp?language=ru">rus</a>
+</Header>
+
+
 <div class="index-singIn">
-    <form method="post" action="/frontController">
+    <form method="get" action="/frontController">
         <input type="hidden" name="hidden" value="sing-in">
-        E-mail: <input type="email" name="email"><br>
+        <label for="email"><fmt:message key="EMAIL_LABEL" />:</label>
+        <input type="email" name="email" id="email"><br>
         <br>
-        Password:  <input type="password" name="password"><br>
+        <label for="email"><fmt:message key="PASSWORD_LABEL" />:</label>
+        <input type="password" name="password"><br>
 
         <br>
 
         ${findOrValidationError}
 
         <br>
-        <input type="submit" value="sing-in">
+        <fmt:message key="SING_IN_BUTTON" var="buttonValue" />
+        <input type="submit" value="${buttonValue}">
     </form>
-
-
 
 </div>
 
 <div class="index-registration">
-    <a href="registration.jsp">Registration</a>
+    <a href="registration.jsp"><fmt:message key="REGISTRATION_LABEL"/></a>
 </div>
 
 </body>

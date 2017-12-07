@@ -16,6 +16,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.Map;
+import java.util.Set;
+
 import static by.online.pharmacy.service.impl.PropertyLoader.getConstant;
 import static by.online.pharmacy.entity.constant.PropertyEnum.WebProperty;
 
@@ -33,6 +35,7 @@ public class FrontServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
         try {
+            request.setCharacterEncoding(getConstant(WebProperty.CHARACTER_ENCODING.name()));
             CommandReturnObject commandReturn = producer.execute(request);
             HttpServletRequest httpReturnedRequest = commandReturn.getRequest();
             String page = commandReturn.getPage();

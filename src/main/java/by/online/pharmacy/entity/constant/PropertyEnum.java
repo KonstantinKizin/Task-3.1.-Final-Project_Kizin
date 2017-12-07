@@ -16,6 +16,9 @@ public class PropertyEnum {
         ADMIN_ROLE,
         CUSTOMER_ROLE,
         CUSTOMER_LIST_ATTR_NAME,
+        RUSSIAN_LANGUAGE_PARAMETER,
+        ENGLISH_LANGUAGE_PARAMETER,
+        CHARACTER_ENCODING
     }
 
     public static enum  DateBaseProperty{
