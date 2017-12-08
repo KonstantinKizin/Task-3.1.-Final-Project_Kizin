@@ -42,8 +42,6 @@ public class SaveCustomerCommand implements Command {
 
             Customer customer = new Customer(name,sureName,date,login,password,
             email,phoneNumber, role,birthDay,gender);
-            System.out.println("FROM COMMAND ");
-            System.out.println(customer);
             service.saveCustomer(customer);
             request.setAttribute(getConstant(WebProperty.USER_ATTRIBUTE_NAME.name()),customer);
             commandReturn.setPage(getConstant(WebProperty.CUSTOMER_PAGE.name()));
