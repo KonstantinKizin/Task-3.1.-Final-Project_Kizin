@@ -25,10 +25,10 @@
         <input type="password" name="password"><br>
 
         <br>
-        <c:set var="par" value="${singin}" scope="request"></c:set>
+
+        <c:set var="par" value="${sing_in_error}" scope="request"></c:set>
         <c:if test="${par.length() > 0}">
             <p><fmt:message key="LOG_IN_MSG_ERROR"/></p>
-
         </c:if>
 
 

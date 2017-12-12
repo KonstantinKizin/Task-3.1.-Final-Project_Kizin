@@ -14,7 +14,6 @@ import javax.servlet.http.HttpServletResponse;
 
 import java.io.IOException;
 import java.util.Locale;
-import java.util.ResourceBundle;
 
 import static by.online.pharmacy.controller.constant.ControllerConstant.WebProperty;
 import static by.online.pharmacy.controller.constant.ControllerConstant.RegistrationProperty;
@@ -27,6 +26,8 @@ public class SinginCommand implements Command {
     private final Validator customerValidator = factory.getValidator();
     private final static Logger logger = Logger.getLogger(SinginCommand.class);
     private final CommandReturnObject commandReturn = new CommandReturnObject();
+    private final String SING_IN_ERROR_PARAMETER = "sing_in_error";
+    private final String SING_IN_ERROR_VALUE = "error_value";
 
     @Override
     public void execute(HttpServletRequest request, HttpServletResponse response) throws ControllerException {
@@ -51,8 +52,8 @@ public class SinginCommand implements Command {
                     request.getRequestDispatcher(WebProperty.CUSTOMER_PAGE).forward(request,response);
                 }
             }else {
-                request.getSession().setAttribute("singin",
-                        "sing-in-error");
+                request.getSession().setAttribute(SING_IN_ERROR_PARAMETER,
+                        SING_IN_ERROR_VALUE);
                 response.sendRedirect(WebProperty.MAIN_PAGE);
             }
 
