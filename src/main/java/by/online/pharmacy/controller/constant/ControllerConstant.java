@@ -11,7 +11,6 @@ public class ControllerConstant {
         public final static String MAIN_PAGE = "/index.jsp";
         public final static String HIDDEN_PARAMETER = "hidden";
         public final static String USER_ATTRIBUTE_NAME = "user";
-        public final static String PASSWORD_PARAMETER_NAME = "password";
         public final static String ADMIN_ROLE = "admin";
         public final static String CUSTOMER_ROLE = "customer";
         public final static String CUSTOMER_LIST_ATTR_NAME = "customerList";

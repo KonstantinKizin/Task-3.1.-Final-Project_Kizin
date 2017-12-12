@@ -64,7 +64,7 @@
         <div class="form-group">
             <label for="login" class="col-sm-3 control-label"><fmt:message key="REGISTRATION_LOGIN_LABEL" /></label>
             <div class="col-sm-9">
-                <input type="text" id="login" placeholder="Password" class="form-control" name="login">
+                <input type="text" id="login" placeholder="Login" class="form-control" name="login">
             </div>
         </div>
 

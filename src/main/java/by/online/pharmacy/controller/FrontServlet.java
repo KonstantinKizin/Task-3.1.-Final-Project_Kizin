@@ -31,20 +31,23 @@ public class FrontServlet extends HttpServlet {
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
+
         try {
             request.setCharacterEncoding(WebProperty.CHARACTER_ENCODING);
             CommandReturnObject commandReturn = producer.execute(request);
             HttpServletRequest httpReturnedRequest = commandReturn.getRequest();
             String page = commandReturn.getPage();
             if(!page.equalsIgnoreCase(WebProperty.MAIN_PAGE)){
+
                 RequestDispatcher rd = request.getRequestDispatcher(page);
                 rd.forward(httpReturnedRequest,response);
+
             }else {
                 response.sendRedirect(page);
             }
         } catch (ControllerException e) {
             response.sendRedirect(WebProperty.ERROR_PAGE);
-            logger.debug("Exception from FrontServlet",e);
+            logger.error("Exception from FrontServlet",e);
         }
     }
 
@@ -58,7 +61,7 @@ public class FrontServlet extends HttpServlet {
             ((CommandProvider) producer).getCommandMap().putAll(commandMap);
         } catch (ServiceException e) {
             logger.error("Exception in init method",e);
-            throw new InitializeServletException(new ControllerException("Something has gone wrong in init method",e));
+            throw new InitializeServletException();
         }
 
     }

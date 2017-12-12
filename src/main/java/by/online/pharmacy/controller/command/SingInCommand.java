@@ -34,7 +34,6 @@ public class SinginCommand implements Command {
                 password = customerService.generateHashPassword(
                         request.getParameter(RegistrationProperty.PW_PARAMETER)
                 );
-                System.out.println(password);
 
                 customer = customerService.findCustomerByEmailAndPassword(email,password);
                 if(customer != null){

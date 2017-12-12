@@ -26,8 +26,8 @@ public class CustomerDAOImpl implements CustomerDAO {
     private final static int PHONE_COLUMN_INDEX = 3;
     private final static int ROLE_COLUMN_INDEX = 4;
     private final static int EMAIL_COLUMN_INDEX = 5;
-    private final static int LOGIN_COLUMN_INDEX = 7;
-    private final static int PW_COLUMN_INDEX = 6;
+    private final static int LOGIN_COLUMN_INDEX = 6;
+    private final static int PW_COLUMN_INDEX = 7;
     private final static int DATE_COLUMN_INDEX = 8;
     private final static int BIRTH_DAY_COLUMN_INDEX = 9;
     private final static int GENDER_COLUMN_INDEX = 10;
@@ -124,7 +124,7 @@ public class CustomerDAOImpl implements CustomerDAO {
 
         } catch (SQLException e) {
             logger.debug("Exception from findByEmailAndPassword method" ,e);
-            throw new DAOException(e);
+            throw new DAOException("From DAO, findByEmailAndPassword method "+e);
         }finally {
             connectionPool.rollBack(usedConnect);
         }
@@ -154,7 +154,7 @@ public class CustomerDAOImpl implements CustomerDAO {
             return customer;
         } catch (SQLException e) {
             logger.debug("Exception when Build Customer from buildCustomer method ",e);
-            throw new DAOException(e);
+            throw new DAOException("From DAO, buildCustomer method",e);
         }
     }
 

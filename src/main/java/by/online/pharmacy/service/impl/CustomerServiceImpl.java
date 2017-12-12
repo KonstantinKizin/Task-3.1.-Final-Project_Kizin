@@ -29,8 +29,7 @@ public class CustomerServiceImpl implements CustomerService {
         try {
             return customerDAO.save(customer);
         } catch (DAOException e) {
-            logger.debug("Exception from Service , saveCustomer method",e);
-            throw new ServiceException(e);
+            throw new ServiceException("exception from saveCustomer method",e);
         }
     }
 
@@ -39,8 +38,7 @@ public class CustomerServiceImpl implements CustomerService {
         try {
             return customerDAO.findCustomerByEmailAndPw(email,password);
         } catch (DAOException e) {
-            logger.error("Exception from Service , findCustomerByEmailAndPassword method",e);
-            throw new ServiceException(e);
+            throw new ServiceException("exception from findCustomerByEmailAndPassword method",e);
         }
     }
 
@@ -49,8 +47,7 @@ public class CustomerServiceImpl implements CustomerService {
         try {
             return customerDAO.getAll();
         } catch (DAOException e) {
-            logger.error("Exception From Service in getAllCustomers method ",e);
-            throw new ServiceException(e);
+            throw new ServiceException("exception from getAllCustomers method",e);
         }
     }
 
@@ -80,9 +77,8 @@ public class CustomerServiceImpl implements CustomerService {
                 hash.append(DIGITS[b & 0x0f]);
             }
         } catch (NoSuchAlgorithmException e) {
-            throw new ServiceException("Exception from creating hash password");
+            throw new ServiceException("Exception from creating generateHashPassword method",e);
         }
-
         return hash.toString();
     }
 

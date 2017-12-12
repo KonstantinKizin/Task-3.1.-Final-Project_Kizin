@@ -9,12 +9,12 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.util.Vector;
-import static by.online.pharmacy.service.impl.PropertyLoader.getConstant;
-import static by.online.pharmacy.entity.constant.PropertyEnum.DateBaseProperty;
+import static by.online.pharmacy.dao.constant.DaoConstant.JDBCProperty;
+
 
 public final class ConnectionPoolImpl implements ConnectionPool {
 
-    private final int CONNECTION_POOL_SIZE = Integer.parseInt(getConstant(DateBaseProperty.CONNECTION_POOL_SIZE.name()));
+    private final int CONNECTION_POOL_SIZE = JDBCProperty.CONNECTION_POOL_SIZE;
     private final Vector<Connection> availableConnections= new Vector<>(CONNECTION_POOL_SIZE);
     private final Vector<Connection> usedConnections = new Vector<>(CONNECTION_POOL_SIZE);
     private final static Logger logger = Logger.getLogger(ConnectionPoolImpl.class);
@@ -24,7 +24,7 @@ public final class ConnectionPoolImpl implements ConnectionPool {
 
     private ConnectionPoolImpl()  {
         try {
-            Class.forName(getConstant(DateBaseProperty.DB_DRIVER_NAME.name()));
+            Class.forName(JDBCProperty.DB_DRIVER_NAME);
             makeConnectionsQueue(CONNECTION_POOL_SIZE);
         } catch (ClassNotFoundException | ConnectionPoolException e) {
             logger.error("Error in initialize Connection Pool",new DAOException(e));
@@ -81,9 +81,9 @@ public final class ConnectionPoolImpl implements ConnectionPool {
     private Connection  createConnection() throws ConnectionPoolException {
         try {
             Connection connection = DriverManager.getConnection(
-                    getConstant(DateBaseProperty.DB_URL.name()),
-                    getConstant(DateBaseProperty.DB_LOGIN.name()),
-                    getConstant(DateBaseProperty.DB_PASSWORD.name())
+                    JDBCProperty.DB_URL,
+                    JDBCProperty.DB_LOGIN,
+                    JDBCProperty.DB_PASSWORD
             );
             return connection;
         } catch (SQLException  e) {
