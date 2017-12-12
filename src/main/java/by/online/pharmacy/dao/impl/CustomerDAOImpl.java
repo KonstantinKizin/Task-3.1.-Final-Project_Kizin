@@ -108,6 +108,7 @@ public class CustomerDAOImpl implements CustomerDAO {
     public Customer findCustomerByEmailAndPw(String emil, String pw) throws DAOException {
         Connection usedConnect = null;
         Customer customer = null;
+        System.out.printf(pw);
 
         try(Connection connection = connectionPool.getConnection();
             PreparedStatement statement = connection.prepareStatement(FIND_BY_EMAIL_AND_PW_SQL_STATEMENT)
@@ -155,7 +156,6 @@ public class CustomerDAOImpl implements CustomerDAO {
             logger.debug("Exception when Build Customer from buildCustomer method ",e);
             throw new DAOException(e);
         }
-
     }
 
     @Override

@@ -8,9 +8,8 @@ import by.online.pharmacy.service.factory.ServiceFactory;
 import by.online.pharmacy.service.validator.Validator;
 import org.apache.log4j.Logger;
 import javax.servlet.http.HttpServletRequest;
-import static by.online.pharmacy.service.impl.PropertyLoader.getConstant;
-import static by.online.pharmacy.entity.constant.PropertyEnum.WebProperty;
-import static by.online.pharmacy.entity.constant.PropertyEnum.RegistrationProperty;
+import static by.online.pharmacy.controller.constant.ControllerConstant.WebProperty;
+import static by.online.pharmacy.controller.constant.ControllerConstant.RegistrationProperty;
 
 
 public class SinginCommand implements Command {
@@ -29,23 +28,27 @@ public class SinginCommand implements Command {
         try {
             if(!customerValidator.loginValidate(request)){
                 buildLoginErrorMsg(request);
-                buildCommandReturnObject(getConstant(WebProperty.MAIN_PAGE.name()),request);
+                buildCommandReturnObject(WebProperty.MAIN_PAGE,request);
             }else {
-                email = request.getParameter(getConstant(RegistrationProperty.EMAIL_PARAMETER.name()));
-                password = request.getParameter(getConstant(RegistrationProperty.PW_PARAMETER.name()));
+                email = request.getParameter(RegistrationProperty.EMAIL_PARAMETER);
+                password = customerService.generateHashPassword(
+                        request.getParameter(RegistrationProperty.PW_PARAMETER)
+                );
+                System.out.println(password);
+
                 customer = customerService.findCustomerByEmailAndPassword(email,password);
                 if(customer != null){
-                    request.getSession().setAttribute(getConstant(WebProperty.USER_ATTRIBUTE_NAME.name()),customer);
-                    if(customer.getRole().equalsIgnoreCase(getConstant(WebProperty.ADMIN_ROLE.name()))){
-                        buildCommandReturnObject(getConstant(WebProperty.ADMIN_PAGE.name()),request);
+                    request.getSession().setAttribute(WebProperty.USER_ATTRIBUTE_NAME,customer);
+                    if(customer.getRole().equalsIgnoreCase(WebProperty.ADMIN_ROLE)){
+                        buildCommandReturnObject(WebProperty.ADMIN_PAGE,request);
                         logger.info("User "+customer.getName()+" "+customer.getSureName()+" sing-in as Admin");
-                    }else if(customer.getRole().equalsIgnoreCase(getConstant(WebProperty.CUSTOMER_ROLE.name()))) {
-                        buildCommandReturnObject(getConstant(WebProperty.CUSTOMER_PAGE.name()),request);
+                    }else if(customer.getRole().equalsIgnoreCase(WebProperty.CUSTOMER_ROLE)){
+                        buildCommandReturnObject(WebProperty.CUSTOMER_PAGE,request);
                         logger.info("User "+customer.getName()+" "+customer.getSureName()+" sing-in as Customer");
                     }
                 }else {
                     buildLoginErrorMsg(request);
-                    buildCommandReturnObject(getConstant(WebProperty.MAIN_PAGE.name()),request);
+                    buildCommandReturnObject(WebProperty.MAIN_PAGE,request);
                 }
             }
 
@@ -60,8 +63,8 @@ public class SinginCommand implements Command {
 
 
     private void buildLoginErrorMsg(HttpServletRequest request){
-        request.getSession().setAttribute(getConstant(WebProperty.SING_IN_ERROR_ATTR_NAME.name()),
-                getConstant(WebProperty.SING_IN_ERROR_MESSAGE.name()));
+        request.getSession().setAttribute(WebProperty.SING_IN_ERROR_ATTR_NAME,
+                WebProperty.SING_IN_ERROR_MESSAGE);
     }
 
 

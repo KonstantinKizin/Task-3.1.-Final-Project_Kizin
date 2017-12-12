@@ -8,8 +8,7 @@ import by.online.pharmacy.service.factory.ServiceFactory;
 import org.apache.log4j.Logger;
 import javax.servlet.http.HttpServletRequest;
 import java.util.List;
-import static by.online.pharmacy.service.impl.PropertyLoader.getConstant;
-import static by.online.pharmacy.entity.constant.PropertyEnum.WebProperty;
+import static by.online.pharmacy.controller.constant.ControllerConstant.WebProperty;
 
 public class ShowAllCustomersCommand implements Command {
     private final ServiceFactory factory = ServiceFactory.getInstance();
@@ -22,14 +21,14 @@ public class ShowAllCustomersCommand implements Command {
 
         try {
             List<Customer> customers = service.getAllCustomers();
-            request.setAttribute(getConstant(WebProperty.CUSTOMER_LIST_ATTR_NAME.name()), customers);
-            commandReturn.setPage(getConstant(WebProperty.CUSTOMERS_LIST_PAGE.name()));
+            request.setAttribute(WebProperty.CUSTOMER_LIST_ATTR_NAME, customers);
+            commandReturn.setPage(WebProperty.CUSTOMERS_LIST_PAGE);
             commandReturn.setRequest(request);
 
         } catch (ServiceException e) {
             logger.debug("Exception in Controller ", e
             );
-            commandReturn.setPage(getConstant(WebProperty.ERROR_PAGE.name()));
+            commandReturn.setPage(WebProperty.ERROR_PAGE);
             commandReturn.setRequest(request);
         }
 

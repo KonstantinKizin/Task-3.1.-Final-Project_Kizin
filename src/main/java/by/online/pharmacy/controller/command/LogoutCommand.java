@@ -4,8 +4,7 @@ import by.online.pharmacy.controller.exception.ControllerException;
 
 import javax.servlet.http.HttpServletRequest;
 
-import static by.online.pharmacy.service.impl.PropertyLoader.getConstant;
-import static by.online.pharmacy.entity.constant.PropertyEnum.WebProperty;
+import static by.online.pharmacy.controller.constant.ControllerConstant.WebProperty;
 
 public class LogoutCommand implements Command {
 
@@ -15,7 +14,7 @@ public class LogoutCommand implements Command {
     public CommandReturnObject execute(HttpServletRequest request) throws ControllerException {
 
         request.getSession().invalidate();
-        commandReturn.setPage(getConstant(WebProperty.MAIN_PAGE.name()));
+        commandReturn.setPage(WebProperty.MAIN_PAGE);
         commandReturn.setRequest(request);
         return commandReturn;
     }

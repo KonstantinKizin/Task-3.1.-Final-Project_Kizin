@@ -9,6 +9,8 @@ import by.online.pharmacy.service.exception.ServiceException;
 import org.apache.log4j.Logger;
 
 import javax.servlet.ServletRequest;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.util.List;
 
 public class CustomerServiceImpl implements CustomerService {
@@ -18,6 +20,9 @@ public class CustomerServiceImpl implements CustomerService {
     private final static Logger logger = Logger.getLogger(CustomerServiceImpl.class);
     private final String EMAIL_REQUEST_PARAMETER = "email";
     private final String PW_REQUEST_PARAMETER = "password";
+    private final  char[] DIGITS = { '0', '1', '2', '3', '4', '5', '6', '7', '8', '9',
+            'a', 'b', 'c', 'd', 'e', 'f' };
+    private final String ALGHORITHM = "SHA-1";
 
     @Override
     public boolean saveCustomer(Customer customer) throws ServiceException {
@@ -61,6 +66,24 @@ public class CustomerServiceImpl implements CustomerService {
             }
         }
         return true;
+    }
+
+    @Override
+    public String generateHashPassword(String pw) throws ServiceException {
+        StringBuilder hash = new StringBuilder();
+        try {
+            MessageDigest sha = MessageDigest.getInstance(ALGHORITHM);
+            byte[] hashedBytes = sha.digest(pw.getBytes());
+            for (int idx = 0; idx < hashedBytes.length; ++idx) {
+                byte b = hashedBytes[idx];
+                hash.append(DIGITS[(b & 0xf0) >> 4]);
+                hash.append(DIGITS[b & 0x0f]);
+            }
+        } catch (NoSuchAlgorithmException e) {
+            throw new ServiceException("Exception from creating hash password");
+        }
+
+        return hash.toString();
     }
 
 

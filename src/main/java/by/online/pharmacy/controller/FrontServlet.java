@@ -16,10 +16,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.Map;
-import java.util.Set;
-
-import static by.online.pharmacy.service.impl.PropertyLoader.getConstant;
-import static by.online.pharmacy.entity.constant.PropertyEnum.WebProperty;
+import static by.online.pharmacy.controller.constant.ControllerConstant.WebProperty;
 
 public class FrontServlet extends HttpServlet {
 
@@ -35,18 +32,18 @@ public class FrontServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
         try {
-            request.setCharacterEncoding(getConstant(WebProperty.CHARACTER_ENCODING.name()));
+            request.setCharacterEncoding(WebProperty.CHARACTER_ENCODING);
             CommandReturnObject commandReturn = producer.execute(request);
             HttpServletRequest httpReturnedRequest = commandReturn.getRequest();
             String page = commandReturn.getPage();
-            if(!page.equalsIgnoreCase(getConstant(WebProperty.MAIN_PAGE.name()))){
+            if(!page.equalsIgnoreCase(WebProperty.MAIN_PAGE)){
                 RequestDispatcher rd = request.getRequestDispatcher(page);
                 rd.forward(httpReturnedRequest,response);
             }else {
                 response.sendRedirect(page);
             }
         } catch (ControllerException e) {
-            response.sendRedirect(getConstant(WebProperty.ERROR_PAGE.name()));
+            response.sendRedirect(WebProperty.ERROR_PAGE);
             logger.debug("Exception from FrontServlet",e);
         }
     }

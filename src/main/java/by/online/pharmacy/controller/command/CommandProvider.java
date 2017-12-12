@@ -5,8 +5,7 @@ import by.online.pharmacy.controller.exception.ControllerException;
 import javax.servlet.http.HttpServletRequest;
 import java.util.HashMap;
 import java.util.Map;
-import static by.online.pharmacy.service.impl.PropertyLoader.getConstant;
-import static by.online.pharmacy.entity.constant.PropertyEnum.WebProperty;
+import static by.online.pharmacy.controller.constant.ControllerConstant.WebProperty;
 
 public class CommandProvider implements Command {
 
@@ -15,7 +14,7 @@ public class CommandProvider implements Command {
     @Override
     public CommandReturnObject execute(HttpServletRequest request) throws ControllerException {
 
-        String commandName = request.getParameter(getConstant(WebProperty.HIDDEN_PARAMETER.name()));
+        String commandName = request.getParameter(WebProperty.HIDDEN_PARAMETER);
         Command command = commandMap.get(commandName);
         return command.execute(request);
     }

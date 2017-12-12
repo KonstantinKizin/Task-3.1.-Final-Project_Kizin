@@ -11,4 +11,5 @@ public interface CustomerService {
     Customer findCustomerByEmailAndPassword(String email , String password) throws ServiceException;
     List<Customer> getAllCustomers() throws ServiceException;
     boolean LoginValidate(ServletRequest request);
+    String generateHashPassword(String pw) throws ServiceException;
 }
