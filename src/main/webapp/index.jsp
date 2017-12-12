@@ -25,8 +25,13 @@
         <input type="password" name="password"><br>
 
         <br>
+        <c:set var="par" value="${singin}" scope="request"></c:set>
+        <c:if test="${par.length() > 0}">
+            <p><fmt:message key="LOG_IN_MSG_ERROR"/></p>
 
-        ${findOrValidationError}
+        </c:if>
+
+
 
         <br>
         <fmt:message key="SING_IN_BUTTON" var="buttonValue" />

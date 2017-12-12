@@ -6,6 +6,8 @@ import by.online.pharmacy.dao.factory.DAOFactory;
 import by.online.pharmacy.entity.model.Customer;
 import by.online.pharmacy.service.CustomerService;
 import by.online.pharmacy.service.exception.ServiceException;
+import by.online.pharmacy.service.validator.Validator;
+import by.online.pharmacy.service.validator.impl.ValidatorImpl;
 import org.apache.log4j.Logger;
 
 import javax.servlet.ServletRequest;
@@ -18,6 +20,7 @@ public class CustomerServiceImpl implements CustomerService {
     private final DAOFactory factory = DAOFactory.getInstance();
     private final CustomerDAO customerDAO = factory.getCustomerDao();
     private final static Logger logger = Logger.getLogger(CustomerServiceImpl.class);
+    private final Validator validator = new ValidatorImpl();
     private final String EMAIL_REQUEST_PARAMETER = "email";
     private final String PW_REQUEST_PARAMETER = "password";
     private final  char[] DIGITS = { '0', '1', '2', '3', '4', '5', '6', '7', '8', '9',
@@ -36,7 +39,11 @@ public class CustomerServiceImpl implements CustomerService {
     @Override
     public Customer findCustomerByEmailAndPassword(String email, String password) throws ServiceException {
         try {
-            return customerDAO.findCustomerByEmailAndPw(email,password);
+            Customer customer = null;
+            if(validator.loginValidate(email,password)){
+                customer =  customerDAO.findCustomerByEmailAndPw(email,password);
+            }
+            return customer;
         } catch (DAOException e) {
             throw new ServiceException("exception from findCustomerByEmailAndPassword method",e);
         }

@@ -55,13 +55,12 @@ public class CustomerDAOImpl implements CustomerDAO {
             statement.setString(GENDER_COLUMN_INDEX,customer.getGender());
             statement.executeUpdate();
             usedConnect = connection;
-            result = true;
+            return true;
         } catch (SQLException e) {
             logger.error("Exception from DAO, save Customer method ",e);
             throw new DAOException("Save Customer method",e);
         }finally {
             connectionPool.rollBack(usedConnect);
-            return result;
         }
     }
 
@@ -108,8 +107,6 @@ public class CustomerDAOImpl implements CustomerDAO {
     public Customer findCustomerByEmailAndPw(String emil, String pw) throws DAOException {
         Connection usedConnect = null;
         Customer customer = null;
-        System.out.printf(pw);
-
         try(Connection connection = connectionPool.getConnection();
             PreparedStatement statement = connection.prepareStatement(FIND_BY_EMAIL_AND_PW_SQL_STATEMENT)
         ){
