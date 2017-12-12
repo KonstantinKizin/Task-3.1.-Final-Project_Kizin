@@ -1,7 +1,8 @@
 package by.online.pharmacy.entity.constant;
 
-public class PropertyEnum {
+public class PropertyEnum {// зачем все это скидывать в entity
 
+    // если я разбираюсь в dao, например, зачем мне все остальное?
     public static enum WebProperty{
         CUSTOMER_PAGE,
         ADMIN_PAGE,
