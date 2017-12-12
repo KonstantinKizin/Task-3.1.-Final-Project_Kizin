@@ -20,11 +20,17 @@ public class CustomerServiceImpl implements CustomerService {
     private final String PW_REQUEST_PARAMETER = "password";
 
     @Override
-    public boolean saveCustomer(Customer customer) throws ServiceException {
+    public boolean saveCustomer(Customer customer) throws ServiceException {// куда дел валидацию в сервисах
+        // мне уже про нее надоело и говорить и писать
         try {
             return customerDAO.save(customer);
         } catch (DAOException e) {
-            logger.debug("Exception from Service , saveCustomer method",e);
+            logger.debug("Exception from Service , saveCustomer method",e);// лог уровня debug в catch-ах не бывает
+            // плюс зачем ты одно и тоже сообщение по нескольку раз логгируешь
+            // у тебя же уже на слое дао логгирование есть
+            // сообщение в лог записывается один раз
+            // либо при возникновении исключения
+            // либо при его полном гашении
             throw new ServiceException(e);
         }
     }
