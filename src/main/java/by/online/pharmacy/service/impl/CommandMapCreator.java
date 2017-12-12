@@ -11,7 +11,8 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 
-public class CommandMapCreator {
+public class CommandMapCreator {// шикарное название класса
+    // человеку, первый раз читающему твой код, так все понятно будет, зачет тебе все это
 
     private final DAOFactory factory = DAOFactory.getInstance();
     private final CommandXMLDAO xmlDao = factory.getCommandXMLDao();

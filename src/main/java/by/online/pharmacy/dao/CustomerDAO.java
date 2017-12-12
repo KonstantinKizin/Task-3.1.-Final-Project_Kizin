@@ -5,6 +5,6 @@ import by.online.pharmacy.entity.model.Customer;
 
 public interface CustomerDAO extends DAO<Customer> {
 
-    Customer findCustomerByEmailAndPw(String emil , String pw) throws DAOException;
+    Customer findCustomerByEmailAndPw(String emil , String pw) throws DAOException;// экономишь нажатия клавиш на именах параметров?
 
 }

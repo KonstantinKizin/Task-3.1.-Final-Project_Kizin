@@ -29,7 +29,7 @@ public class SaveCustomerCommand implements Command {
 
         try {
 
-            String name = request.getParameter(getConstant(RegistrationProperty.NAME_PARAMETER.name()));
+            String name = request.getParameter(getConstant(RegistrationProperty.NAME_PARAMETER.name()));// статический импор для вызова GetConstant - глаза режет читать
             String sureName = request.getParameter(getConstant(RegistrationProperty.SURE_NAME_PARAMETER.name()));
             String login = request.getParameter(getConstant(RegistrationProperty.LOGIN_PARAMETER.name()));
             String password = request.getParameter(getConstant(RegistrationProperty.PW_PARAMETER.name()));
@@ -45,7 +45,9 @@ public class SaveCustomerCommand implements Command {
             service.saveCustomer(customer);
             request.setAttribute(getConstant(WebProperty.USER_ATTRIBUTE_NAME.name()),customer);
             commandReturn.setPage(getConstant(WebProperty.CUSTOMER_PAGE.name()));
-            commandReturn.setRequest(request);
+            commandReturn.setRequest(request);// ты возвращаешь в этом объекте ссылку на request, который сам же и передал в метод
+            // ЗАЧЕМ?????????????? Мы уже основы языка забыл совсем?
+            // и какой смысл эти данные вообще в объекте возвращать?
 
         } catch (ServiceException  e) {
             lOGGER.debug("Exception from SaveCustomer",e);
