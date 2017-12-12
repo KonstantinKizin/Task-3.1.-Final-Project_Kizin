@@ -6,7 +6,7 @@ import org.w3c.dom.NodeList;
 
 import java.util.Map;
 
-public interface CommandXMLDAO {
+public interface CommandXMLDAO {// запутывающее название
     Document getDocument() throws DAOException;
     Map<String , String> getCommandMap(NodeList nodeList);
 }
