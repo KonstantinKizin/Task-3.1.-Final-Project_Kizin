@@ -6,7 +6,8 @@ import java.util.Set;
 
 public  class PropertyLoader {
 
-    private final static String DB_PROPERTY_NAME = "JDBCconfig";
+    private final static String DB_PROPERTY_NAME = "JDBCconfig";// вот только такие провепти в такими именами в сервисах и грузить
+    // включай мышление!!!!
     private final static String WEB_PROPERTY_NAME = "WebConfig";
 
     private static final PropertyLoader instance = new PropertyLoader();
