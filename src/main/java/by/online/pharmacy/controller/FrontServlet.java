@@ -29,7 +29,6 @@ public class FrontServlet extends HttpServlet {
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
-
         try {
             request.setCharacterEncoding(WebProperty.CHARACTER_ENCODING);
             response.setCharacterEncoding(WebProperty.CHARACTER_ENCODING);
