@@ -15,9 +15,13 @@ import static by.online.pharmacy.dao.constant.DaoConstant.JDBCProperty;
 public final class ConnectionPoolImpl implements ConnectionPool {
 
     private final int CONNECTION_POOL_SIZE = JDBCProperty.CONNECTION_POOL_SIZE;
+
     private final Vector<Connection> availableConnections= new Vector<>(CONNECTION_POOL_SIZE);
+
     private final Vector<Connection> usedConnections = new Vector<>(CONNECTION_POOL_SIZE);
+
     private final static Logger logger = Logger.getLogger(ConnectionPoolImpl.class);
+
     private static final ConnectionPool instance = new ConnectionPoolImpl();
 
 

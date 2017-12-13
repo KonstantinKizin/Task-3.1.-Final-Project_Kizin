@@ -40,10 +40,10 @@ public class CustomerServiceImpl implements CustomerService {
     public Customer findCustomerByEmailAndPassword(String email, String password) throws ServiceException {
         try {
             Customer customer = null;
-            if(validator.loginValidate(email,password)){
-                customer =  customerDAO.findCustomerByEmailAndPw(email,password);
+            if(!validator.loginValidate(email,password)){
+                throw new ServiceException("Invalid login date");
             }
-            return customer;
+            return customerDAO.findCustomerByEmailAndPw(email,password);
         } catch (DAOException e) {
             throw new ServiceException("exception from findCustomerByEmailAndPassword method",e);
         }

@@ -1,10 +1,10 @@
 package by.online.pharmacy.controller;
 
 import by.online.pharmacy.controller.command.Command;
+import by.online.pharmacy.controller.command.CommandMapCreator;
 import by.online.pharmacy.controller.command.CommandProvider;
 import by.online.pharmacy.controller.exception.ControllerException;
 import by.online.pharmacy.controller.exception.InitializeServletException;
-import by.online.pharmacy.service.CommandService;
 import by.online.pharmacy.service.exception.ServiceException;
 import by.online.pharmacy.service.factory.ServiceFactory;
 import org.apache.log4j.Logger;
@@ -19,7 +19,7 @@ import static by.online.pharmacy.controller.constant.ControllerConstant.WebPrope
 public class FrontServlet extends HttpServlet {
 
     private final ServiceFactory factory = ServiceFactory.getInstance();
-    private final CommandService commandService = factory.getCommandService();
+    private final CommandMapCreator commandMapCreator = new CommandMapCreator();
     private final Command producer = new CommandProvider();
     private final static Logger logger = Logger.getLogger(FrontServlet.class);
 
@@ -47,7 +47,7 @@ public class FrontServlet extends HttpServlet {
     public void init() throws ServletException {
         super.init();
         try {
-            Map<String , Command> commandMap = commandService.getCommandMap();
+            Map<String , Command> commandMap = commandMapCreator.getCommandMap();
             ((CommandProvider) producer).getCommandMap().putAll(commandMap);
         } catch (ServiceException e) {
             logger.error("Exception in init method",e);

@@ -1,31 +1,57 @@
-package by.online.pharmacy.service.impl;
-import by.online.pharmacy.controller.command.Command;
-import by.online.pharmacy.dao.XmlDAO;
+package by.online.pharmacy.controller.command;
+
+
 import by.online.pharmacy.dao.exception.DAOException;
-import by.online.pharmacy.dao.factory.DAOFactory;
-import by.online.pharmacy.service.CommandService;
 import by.online.pharmacy.service.exception.ServiceException;
 import org.apache.log4j.Logger;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
+import org.xml.sax.SAXException;
 
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.parsers.ParserConfigurationException;
+import java.io.File;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+import java.util.HashMap;
+import java.util.Set;
 
-import java.util.*;
+public class CommandMapCreator {
 
-public class CommandServiceImpl implements CommandService {
-    private final DAOFactory factory = DAOFactory.getInstance();
-    private final XmlDAO xmlDao = factory.getCommandXMLDao();
-    private final static Logger logger = Logger.getLogger(CommandServiceImpl.class);
+    private final String XML_SETTING_FILE_NAME = "Command.cfg.xml";
+    private final static Logger logger = Logger.getLogger(CommandMapCreator.class);
     private final List<String > COMMAND_NAMES_LIST = new ArrayList<>();
     private final List<String > CLASS_NAMES_LIST = new ArrayList<>();
     private final String COMMAND_NAME_TAG = "command-name";
     private final String COMMAND_CLASS_NAME_TAG = "command-class";
 
 
+    private Document getDocument() throws DAOException {
+        try{
+            File file = new File(this.getAbsoluteFilePath(XML_SETTING_FILE_NAME));
+            DocumentBuilderFactory builderFactory = DocumentBuilderFactory.newInstance();
+            DocumentBuilder builder = builderFactory.newDocumentBuilder();
+            Document document = builder.parse(file);
+            return document;
+        }catch (ParserConfigurationException | IOException | SAXException e ){
+            throw new DAOException("Exception in build Xml command config parse",e);
+        }
 
-    @Override
+
+    }
+
+
+    private String getAbsoluteFilePath(String fileName){
+        ClassLoader classLoader = getClass().getClassLoader();
+        String path = new String(classLoader.getResource(fileName).getPath());
+        return path;
+    }
+
     public Map<String, Command> getCommandMap() throws ServiceException {
         return buildCommandMap();
     }
@@ -42,10 +68,10 @@ public class CommandServiceImpl implements CommandService {
         }
     }
 
-    public Map<String , Command> buildCommandMap() throws ServiceException {
+    private Map<String , Command> buildCommandMap() throws ServiceException {
         Map<String , Command> commandMap = new HashMap<>();
         try {
-            Document xmlDocument = xmlDao.getDocument();
+            Document xmlDocument = this.getDocument();
             Map<String , String> map = this.getCommandMap(xmlDocument.getChildNodes());
             Set<String> keySet = map.keySet();
             for (String key : keySet) {
@@ -64,7 +90,7 @@ public class CommandServiceImpl implements CommandService {
 
     }
 
-    public Map<String , String> getCommandMap(NodeList nodeList){
+    private Map<String , String> getCommandMap(NodeList nodeList){
 
         Map<String,String> commandMap = new HashMap<>();
 

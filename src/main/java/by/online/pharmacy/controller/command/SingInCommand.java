@@ -13,7 +13,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import java.io.IOException;
+import java.util.HashMap;
 import java.util.Locale;
+import java.util.Map;
 
 import static by.online.pharmacy.controller.constant.ControllerConstant.WebProperty;
 import static by.online.pharmacy.controller.constant.ControllerConstant.RegistrationProperty;
@@ -22,38 +24,44 @@ import static by.online.pharmacy.controller.constant.ControllerConstant.Registra
 public class SinginCommand implements Command {
 
     private final ServiceFactory factory = ServiceFactory.getInstance();
+
     private final CustomerService customerService = factory.getCustomerService();
+
     private final Validator customerValidator = factory.getValidator();
+
     private final static Logger logger = Logger.getLogger(SinginCommand.class);
-    private final CommandReturnObject commandReturn = new CommandReturnObject();
+
     private final String SING_IN_ERROR_PARAMETER = "sing_in_error";
+
     private final String SING_IN_ERROR_VALUE = "error_value";
+
+    private Map<String,String> rolePageMap = new HashMap<>();
+
 
     @Override
     public void execute(HttpServletRequest request, HttpServletResponse response) throws ControllerException {
+
         String email = null;
         String password = null;
         Customer customer = null;
         Locale locale = request.getLocale();
         try {
-
             email = request.getParameter(RegistrationProperty.EMAIL_PARAMETER);
             password = customerService.generateHashPassword(
                     request.getParameter(RegistrationProperty.PW_PARAMETER)
             );
             if(customerService.findCustomerByEmailAndPassword(email,password) != null){
-
                 customer = customerService.findCustomerByEmailAndPassword(email,password);
                 request.getSession().setAttribute(WebProperty.USER_ATTRIBUTE_NAME,customer);
+                request.getRequestDispatcher(
+                        getRoleActionMap().get(customer.getRole())
+                ).forward(request,response);
 
-                if(customer.getRole().equalsIgnoreCase(WebProperty.ADMIN_ROLE)){
-                    request.getRequestDispatcher(WebProperty.ADMIN_PAGE).forward(request,response);
-                }else if(customer.getRole().equalsIgnoreCase(WebProperty.CUSTOMER_ROLE)){
-                    request.getRequestDispatcher(WebProperty.CUSTOMER_PAGE).forward(request,response);
-                }
+
             }else {
                 request.getSession().setAttribute(SING_IN_ERROR_PARAMETER,
                         SING_IN_ERROR_VALUE);
+
                 response.sendRedirect(WebProperty.MAIN_PAGE);
             }
 
@@ -61,6 +69,13 @@ public class SinginCommand implements Command {
             logger.error("Exception from singIn Command",e);
             throw new ControllerException(e);
         }
+
+    }
+
+    public Map<String,String> getRoleActionMap(){
+        rolePageMap.put(WebProperty.ADMIN_ROLE,WebProperty.ADMIN_PAGE);
+        rolePageMap.put(WebProperty.CUSTOMER_ROLE,WebProperty.CUSTOMER_PAGE);
+        return rolePageMap;
 
     }
 
