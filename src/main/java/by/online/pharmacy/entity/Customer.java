@@ -1,4 +1,4 @@
-package by.online.pharmacy.entity.model;
+package by.online.pharmacy.entity;
 
 import java.io.Serializable;
 

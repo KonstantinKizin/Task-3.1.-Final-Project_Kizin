@@ -20,6 +20,7 @@ public class ControllerConstant {
         public final static String SING_IN_ERROR_MESSAGE = "Wrong Email or password";
         public final static String PAGE = "page";
         public final static String REDIRECT_URL = "/frontController?hidden=redirect";
+        public final static String SAVE_PRODUCT_PAGE = "/WEB-INF/jsp/admin/saveproduct.jsp";
     }
 
     public static class RegistrationProperty{

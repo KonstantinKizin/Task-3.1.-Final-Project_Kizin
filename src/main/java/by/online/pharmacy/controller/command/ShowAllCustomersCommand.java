@@ -1,7 +1,7 @@
 package by.online.pharmacy.controller.command;
 
 import by.online.pharmacy.controller.exception.ControllerException;
-import by.online.pharmacy.entity.model.Customer;
+import by.online.pharmacy.entity.Customer;
 import by.online.pharmacy.service.CustomerService;
 import by.online.pharmacy.service.exception.ServiceException;
 import by.online.pharmacy.service.factory.ServiceFactory;

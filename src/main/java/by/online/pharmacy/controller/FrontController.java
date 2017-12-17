@@ -33,6 +33,7 @@ public class FrontController extends HttpServlet {
             request.setCharacterEncoding(WebProperty.CHARACTER_ENCODING);
             response.setCharacterEncoding(WebProperty.CHARACTER_ENCODING);
             String commandName = request.getParameter(WebProperty.HIDDEN_PARAMETER);
+            System.out.println(commandName);
             Command command = ((CommandProvider)producer).getCommandMap().get(commandName);
             command.execute(request,response);
         } catch (ControllerException e) {

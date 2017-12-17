@@ -1,6 +1,6 @@
 package by.online.pharmacy.service.validator.impl;
 
-import by.online.pharmacy.entity.model.Customer;
+import by.online.pharmacy.entity.Customer;
 import by.online.pharmacy.service.validator.CustomerValidator;
 
 public class CustomerValidatorImpl implements CustomerValidator {

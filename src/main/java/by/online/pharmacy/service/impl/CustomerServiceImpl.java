@@ -3,7 +3,7 @@ package by.online.pharmacy.service.impl;
 import by.online.pharmacy.dao.CustomerDAO;
 import by.online.pharmacy.dao.exception.DAOException;
 import by.online.pharmacy.dao.factory.DAOFactory;
-import by.online.pharmacy.entity.model.Customer;
+import by.online.pharmacy.entity.Customer;
 import by.online.pharmacy.service.CustomerService;
 import by.online.pharmacy.service.exception.ServiceException;
 import by.online.pharmacy.service.exception.ValidatorException;

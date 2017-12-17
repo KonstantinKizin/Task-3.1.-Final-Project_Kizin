@@ -33,6 +33,11 @@
         <command-class>by.online.pharmacy.controller.command.RedirectCommand</command-class>
     </command>
 
+    <command>
+        <command-name>save_product</command-name>
+        <command-class>by.online.pharmacy.controller.command.SaveProductCommand</command-class>
+    </command>
+
 
 
 </commands>

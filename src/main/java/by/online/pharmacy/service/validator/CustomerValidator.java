@@ -1,6 +1,6 @@
 package by.online.pharmacy.service.validator;
 
-import by.online.pharmacy.entity.model.Customer;
+import by.online.pharmacy.entity.Customer;
 
 public interface CustomerValidator {
 
