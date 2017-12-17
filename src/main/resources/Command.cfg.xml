@@ -28,6 +28,11 @@
         <command-class>by.online.pharmacy.controller.command.SwitchLanguageCommand</command-class>
     </command>
 
+    <command>
+        <command-name>redirect</command-name>
+        <command-class>by.online.pharmacy.controller.command.RedirectCommand</command-class>
+    </command>
+
 
 
 </commands>

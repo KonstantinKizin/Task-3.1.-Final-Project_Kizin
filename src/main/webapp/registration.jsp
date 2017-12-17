@@ -110,5 +110,8 @@
     </form> <!-- /form -->
 </div> <!-- ./container -->
 
+
+<a href="/index.jsp">Go to main </a>
+
 </body>
 </html>

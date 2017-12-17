@@ -16,12 +16,12 @@ import java.io.IOException;
 import java.util.Map;
 import static by.online.pharmacy.controller.constant.ControllerConstant.WebProperty;
 
-public class FrontServlet extends HttpServlet {
+public class FrontController extends HttpServlet {
 
     private final ServiceFactory factory = ServiceFactory.getInstance();
     private final CommandMapCreator commandMapCreator = new CommandMapCreator();
     private final Command producer = new CommandProvider();
-    private final static Logger logger = Logger.getLogger(FrontServlet.class);
+    private final static Logger logger = Logger.getLogger(FrontController.class);
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         this.doGet(request,response);
@@ -36,9 +36,9 @@ public class FrontServlet extends HttpServlet {
             Command command = ((CommandProvider)producer).getCommandMap().get(commandName);
             command.execute(request,response);
         } catch (ControllerException e) {
-            logger.error("Exception from FrontServlet",e);
-            request.setAttribute(WebProperty.SING_IN_ERROR_ATTR_NAME,WebProperty.SING_IN_ERROR_MESSAGE);
-            request.getRequestDispatcher(WebProperty.ERROR_PAGE).forward(request,response);
+            logger.error("Exception from FrontController",e);
+            request.getSession().setAttribute(WebProperty.SING_IN_ERROR_ATTR_NAME,WebProperty.SING_IN_ERROR_MESSAGE);
+            response.sendRedirect(WebProperty.MAIN_PAGE);
         }
     }
 

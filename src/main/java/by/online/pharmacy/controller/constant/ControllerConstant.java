@@ -8,6 +8,7 @@ public class ControllerConstant {
         public final static String ADMIN_PAGE = "/WEB-INF/jsp/admin.jsp";
         public final static String ERROR_PAGE = "/WEB-INF/jsp/error.jsp";
         public final static String CUSTOMERS_LIST_PAGE= "/WEB-INF/jsp/admin/customers.jsp";
+        public final static String  REGISTRATION_PAGE = "/registration.jsp";
         public final static String MAIN_PAGE = "/index.jsp";
         public final static String HIDDEN_PARAMETER = "hidden";
         public final static String USER_ATTRIBUTE_NAME = "user";
@@ -17,6 +18,8 @@ public class ControllerConstant {
         public final static String CHARACTER_ENCODING = "utf-8";
         public final static String SING_IN_ERROR_ATTR_NAME = "findOrValidationError";
         public final static String SING_IN_ERROR_MESSAGE = "Wrong Email or password";
+        public final static String PAGE = "page";
+        public final static String REDIRECT_URL = "/frontController?hidden=redirect";
     }
 
     public static class RegistrationProperty{

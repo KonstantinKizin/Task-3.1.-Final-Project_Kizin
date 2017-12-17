@@ -7,13 +7,13 @@ import java.util.List;
 
 public interface DAO<T> {
 
-    boolean save(T t) throws DAOException;
+    void save(T t) throws DAOException;
 
-    T get(Object key) throws DAOException;
+    T get(String key) throws DAOException;
 
-    boolean update(T t) throws DAOException;
+    void update(T t) throws DAOException;
 
-    boolean delete(Object key) throws DAOException;
+    void delete(T t) throws DAOException;
 
     List<T> getAll() throws DAOException;
 

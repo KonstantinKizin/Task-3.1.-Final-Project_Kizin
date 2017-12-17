@@ -16,7 +16,7 @@
 
 
 <div class="index-singIn">
-    <form method="get" action="/frontController">
+    <form method="post" action="/frontController">
         <input type="hidden" name="hidden" value="sing-in">
         <label for="email"><fmt:message key="EMAIL_LABEL" />:</label>
         <input type="email" name="email" id="email"><br>

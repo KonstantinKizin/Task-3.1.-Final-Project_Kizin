@@ -8,17 +8,20 @@ import org.apache.log4j.Logger;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
+import java.util.ResourceBundle;
 import java.util.Vector;
-import static by.online.pharmacy.dao.constant.DaoConstant.JDBCProperty;
+import static by.online.pharmacy.dao.constant.DaoConstant.JdbcConstant;
 
 
 public final class ConnectionPoolImpl implements ConnectionPool {
 
-    private final int CONNECTION_POOL_SIZE = JDBCProperty.CONNECTION_POOL_SIZE;
+    private final String PROPERTY_NAME = "JDBCconfig";
 
-    private final Vector<Connection> availableConnections= new Vector<>(CONNECTION_POOL_SIZE);
+    private final ResourceBundle resourceBundle = ResourceBundle.getBundle(PROPERTY_NAME);
 
-    private final Vector<Connection> usedConnections = new Vector<>(CONNECTION_POOL_SIZE);
+    private final Vector<Connection> availableConnections= new Vector<>();
+
+    private final Vector<Connection> usedConnections = new Vector<>();
 
     private final static Logger logger = Logger.getLogger(ConnectionPoolImpl.class);
 
@@ -26,13 +29,18 @@ public final class ConnectionPoolImpl implements ConnectionPool {
 
 
 
+
+
     private ConnectionPoolImpl()  {
         try {
-            Class.forName(JDBCProperty.DB_DRIVER_NAME);
-            makeConnectionsQueue(CONNECTION_POOL_SIZE);
+            Class.forName(resourceBundle.getString(JdbcConstant.DB_DRIVER_NAME.name()));
+            int connectionPoolSize = Integer.parseInt(
+                    resourceBundle.getString(JdbcConstant.CONNECTION_POOL_SIZE.name())
+            );
+            makeConnectionsQueue(connectionPoolSize);
         } catch (ClassNotFoundException | ConnectionPoolException e) {
-            logger.error("Error in initialize Connection Pool",new DAOException(e));
-            throw new ConnectionPoolInitializationException("Error in initialize Connection Pool",e);
+            logger.error("Error in initialize WrappedConnection Pool",new DAOException(e));
+            throw new ConnectionPoolInitializationException("Error in initialize WrappedConnection Pool",e);
         }
 
     }
@@ -60,7 +68,7 @@ public final class ConnectionPoolImpl implements ConnectionPool {
 
 
     @Override
-    public boolean rollBack(Connection connection) {
+    public boolean returnConnection(Connection connection) {
         usedConnections.remove(connection);
         return availableConnections.add(connection);
     }
@@ -82,16 +90,16 @@ public final class ConnectionPoolImpl implements ConnectionPool {
     }
 
 
-    private Connection  createConnection() throws ConnectionPoolException {
+    private Connection createConnection() throws ConnectionPoolException {
         try {
             Connection connection = DriverManager.getConnection(
-                    JDBCProperty.DB_URL,
-                    JDBCProperty.DB_LOGIN,
-                    JDBCProperty.DB_PASSWORD
+                    resourceBundle.getString(JdbcConstant.DB_URL.name()),
+                    resourceBundle.getString(JdbcConstant.DB_LOGIN.name()),
+                    resourceBundle.getString(JdbcConstant.DB_PASSWORD.name())
             );
             return connection;
         } catch (SQLException  e) {
-            logger.error("create Connection exception ",e);
+            logger.error("create WrappedConnection exception ",e);
             throw new ConnectionPoolException(e);
         }
     }
