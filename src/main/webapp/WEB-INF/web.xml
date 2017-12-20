@@ -14,7 +14,7 @@
   </welcome-file-list>
   <error-page>
     <exception-type>java.lang.RuntimeException</exception-type>
-    <location>/jsp/error.jsp</location>
+    <location>/WEB-INF/jsp/error.jsp</location>
   </error-page>
 
   <display-name>Archetype Created Web Application</display-name>
@@ -27,6 +27,61 @@
     <servlet-name>FrontController</servlet-name>
     <url-pattern>/frontController</url-pattern>
   </servlet-mapping>
+
+  <servlet>
+    <servlet-name>Saveproduct</servlet-name>
+    <jsp-file>/WEB-INF/jsp/admin/saveproduct.jsp</jsp-file>
+  </servlet>
+
+  <servlet-mapping>
+    <servlet-name>Saveproduct</servlet-name>
+    <url-pattern>/admin/saveproduct</url-pattern>
+  </servlet-mapping>
+
+  <servlet>
+    <servlet-name>Customers</servlet-name>
+    <jsp-file>/WEB-INF/jsp/admin/customers.jsp</jsp-file>
+  </servlet>
+
+  <servlet-mapping>
+    <servlet-name>Customers</servlet-name>
+    <url-pattern>/admin/customers</url-pattern>
+  </servlet-mapping>
+
+  <servlet>
+    <servlet-name>Admin</servlet-name>
+    <jsp-file>/WEB-INF/jsp/admin.jsp</jsp-file>
+  </servlet>
+
+  <servlet-mapping>
+    <servlet-name>Admin</servlet-name>
+    <url-pattern>/admin_autho</url-pattern>
+  </servlet-mapping>
+
+  <servlet>
+    <servlet-name>Error</servlet-name>
+    <jsp-file>/WEB-INF/jsp/error.jsp</jsp-file>
+  </servlet>
+
+  <servlet-mapping>
+    <servlet-name>Error</servlet-name>
+    <url-pattern>/error</url-pattern>
+  </servlet-mapping>
+
+  <servlet>
+    <servlet-name>Customer</servlet-name>
+    <jsp-file>/WEB-INF/jsp/customer.jsp</jsp-file>
+  </servlet>
+
+  <servlet-mapping>
+    <servlet-name>Customer</servlet-name>
+    <url-pattern>/customer_autho</url-pattern>
+  </servlet-mapping>
+
+
+
+
+
 
 
 

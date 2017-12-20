@@ -1,12 +1,14 @@
 package by.online.pharmacy.controller.constant;
 
+import java.io.File;
+
 public class ControllerConstant {
 
     public static class  WebProperty{
 
-        public final static String  CUSTOMER_PAGE = "/WEB-INF/jsp/customer.jsp";
-        public final static String ADMIN_PAGE = "/WEB-INF/jsp/admin.jsp";
-        public final static String ERROR_PAGE = "/WEB-INF/jsp/error.jsp";
+        public final static String  CUSTOMER_PAGE = "/customer_autho";
+        public final static String ADMIN_PAGE = "/admin_autho";
+        public final static String ERROR_PAGE = "/error";
         public final static String CUSTOMERS_LIST_PAGE= "/WEB-INF/jsp/admin/customers.jsp";
         public final static String  REGISTRATION_PAGE = "/registration.jsp";
         public final static String MAIN_PAGE = "/index.jsp";
@@ -20,7 +22,12 @@ public class ControllerConstant {
         public final static String SING_IN_ERROR_MESSAGE = "Wrong Email or password";
         public final static String PAGE = "page";
         public final static String REDIRECT_URL = "/frontController?hidden=redirect";
-        public final static String SAVE_PRODUCT_PAGE = "/WEB-INF/jsp/admin/saveproduct.jsp";
+        public final static String SAVE_PRODUCT_URL="/admin/saveproduct";
+        public final static String CUSTOMERS_URL="/admin/customers";
+
+
+
+
     }
 
     public static class RegistrationProperty{
@@ -33,6 +40,25 @@ public class ControllerConstant {
         public final static String PHONE_PARAMETER = "phone";
         public final static String BIRTH_DATE_PARAMETER = "birthDate";
         public final static String GENDER_PARAMETER = "gender";
+    }
+
+    public static class ProductProperty{
+        public final static String ENG_DESCRIPTION_PARAMETER = "eng_description";
+        public final static String RUS_DESCRIPTION_PARAMETER = "rus_description";
+        public final static String ENG_NAME_PARAMETER = "eng_name";
+        public final static String RUS_NAME_PARAMETER = "rus_name";
+        public final static String ENG_CATEGORY_PARAMETER = "eng_category";
+        public final static String RUS_CATEGORY_PARAMETER = "rus_category";
+        public final static String ENG_MANUFACTURE_PARAMETER = "eng_manufacture";
+        public final static String RUS_MANUFACTURE_PARAMETER = "rus_manufacture";
+        public final static String PRESCRIPTION_PARAMETER = "prescription";
+        public final static String COUNT_PARAMETER = "count";
+        public final static String PRICE_PARAMETER = "price";
+        public final static String DOSAGE_PARAMETER = "dosage";
+        public final static String IMAGE_URL_PARAMETER = "image_path";
+
+
+
     }
 
 

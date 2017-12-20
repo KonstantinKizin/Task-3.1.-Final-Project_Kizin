@@ -32,12 +32,6 @@ public class SaveCustomerCommand implements Command {
 
         try {
 
-            Enumeration pp = request.getParameterNames();
-            while (pp.hasMoreElements()){
-                System.out.println(pp.nextElement());
-            }
-
-
             String name = request.getParameter(RegistrationProperty.NAME_PARAMETER);
             String sureName = request.getParameter(RegistrationProperty.SURE_NAME_PARAMETER);
             String login = request.getParameter(RegistrationProperty.LOGIN_PARAMETER);
@@ -52,23 +46,14 @@ public class SaveCustomerCommand implements Command {
             Customer customer = new Customer(name,sureName,date,login,hashedPassword,
                     email,phoneNumber, role,birthDay,gender);
             service.saveCustomer(customer);
-
-            request.getSession().setAttribute(WebProperty.USER_ATTRIBUTE_NAME,customer);
-            request.getSession().setAttribute(WebProperty.PAGE,WebProperty.CUSTOMER_PAGE);
-            response.sendRedirect(WebProperty.REDIRECT_URL);
+            response.sendRedirect(WebProperty.REGISTRATION_PAGE);
 
         } catch (ServiceException  | IOException e) {
-            System.out.println(e);
             logger.error("Exception from SaveCustomer",e);
-            request.getSession().setAttribute(WebProperty.PAGE,WebProperty.REGISTRATION_PAGE);
-            response.sendRedirect(WebProperty.REDIRECT_URL);
+            response.sendRedirect(WebProperty.ERROR_PAGE);
         }catch (ValidatorException e){
-            try {
-                response.sendRedirect(WebProperty.REGISTRATION_PAGE);
-            } catch (IOException e1) {
-
-                e1.printStackTrace();
-            }
+            response.sendRedirect(WebProperty.REGISTRATION_PAGE);
         }
     }
 }
+

@@ -7,6 +7,8 @@ import by.online.pharmacy.entity.ProductItem;
 import by.online.pharmacy.service.ProductService;
 import by.online.pharmacy.service.exception.ServiceException;
 import by.online.pharmacy.service.factory.ServiceFactory;
+import by.online.pharmacy.service.validator.ProductValidator;
+import by.online.pharmacy.service.validator.impl.ProductValidatorImpl;
 import org.apache.log4j.Logger;
 
 import javax.servlet.http.HttpServletRequest;
@@ -14,57 +16,59 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.File;
 import java.io.IOException;
 
+import static by.online.pharmacy.controller.constant.ControllerConstant.ProductProperty;
+
 public class SaveProductCommand implements Command {
 
     private final ServiceFactory factory = ServiceFactory.getInstance();
     private final ProductService productService = factory.getProductService();
+    private final ProductValidator productValidator = new ProductValidatorImpl();
     private final static Logger logger = Logger.getLogger(SaveCustomerCommand.class);
 
     @Override
     public void execute(HttpServletRequest request, HttpServletResponse response) throws ControllerException {
 
-        String engDescription = request.getParameter("eng_description");
-        String rusDescription = request.getParameter("rus_description");
-        String engName = request.getParameter("eng_name");
-        String rusName = request.getParameter("rus_name");
-        String rusCategory = request.getParameter("rus_category");
-        String engCategory = request.getParameter("eng_category");
-        String engManufacture = request.getParameter("eng_manufacture");
-        String rusManufacture = request.getParameter("rus_manufacture");
-        String prescription = request.getParameter("prescription");
-        int count = Integer.parseInt(request.getParameter("count"));
-        float price = Float.parseFloat(request.getParameter("price"));
-        float dosage = Float.parseFloat(request.getParameter("dosage"));
-        File image = new File(request.getParameter("image_path"));
+        String engDescription = request.getParameter(ProductProperty.ENG_DESCRIPTION_PARAMETER);
+        String rusDescription = request.getParameter(ProductProperty.RUS_DESCRIPTION_PARAMETER);
+        String engName = request.getParameter(ProductProperty.ENG_NAME_PARAMETER);
+        String rusName = request.getParameter(ProductProperty.RUS_NAME_PARAMETER);
+        String rusCategory = request.getParameter(ProductProperty.RUS_CATEGORY_PARAMETER);
+        String engCategory = request.getParameter(ProductProperty.ENG_CATEGORY_PARAMETER);
+        String engManufacture = request.getParameter(ProductProperty.ENG_MANUFACTURE_PARAMETER);
+        String rusManufacture = request.getParameter(ProductProperty.RUS_MANUFACTURE_PARAMETER);
+        String prescription = request.getParameter(ProductProperty.PRESCRIPTION_PARAMETER);
+        String count = request.getParameter(ProductProperty.COUNT_PARAMETER);
+        String price = request.getParameter(ProductProperty.PRICE_PARAMETER);
+        String dosage = request.getParameter(ProductProperty.DOSAGE_PARAMETER);
+        String image =request.getParameter(ProductProperty.IMAGE_URL_PARAMETER);
 
-        ProductItem productItem = new ProductItem();
-        productItem.setEngCategory(engCategory);
-        productItem.setRusCategory(rusCategory);
-        productItem.setEngDescription(engDescription);
-        productItem.setRusDescription(rusDescription);
-        productItem.setEngManufacture(engManufacture);
-        productItem.setRusManufacture(rusManufacture);
-        productItem.setEngName(engName);
-        productItem.setRusName(rusName);
 
-        Product product = new Product();
-        product.setProductItem(productItem);
-        product.setCount(count);
-        product.setDosage(dosage);
-        product.setImage(image);
-        product.setPrescription(Boolean.parseBoolean(prescription));
-        product.setPrice(price);
-
+        ProductItem productItem = null;
+        Product product = null;
 
         try {
-            productService.saveProduct(product);
-            request.getSession().setAttribute(ControllerConstant.WebProperty.PAGE,
-                    ControllerConstant.WebProperty.SAVE_PRODUCT_PAGE);
-            response.sendRedirect(ControllerConstant.WebProperty.REDIRECT_URL);
-        } catch (ServiceException e) {
-            throw new ControllerException(e);
-        } catch (IOException e) {
-            e.printStackTrace();
+                productItem = new ProductItem();
+                productItem.setEngCategory(engCategory);
+                productItem.setRusCategory(rusCategory);
+                productItem.setEngDescription(engDescription);
+                productItem.setRusDescription(rusDescription);
+                productItem.setEngManufacture(engManufacture);
+                productItem.setRusManufacture(rusManufacture);
+                productItem.setEngName(engName);
+                productItem.setRusName(rusName);
+
+                product = new Product();
+                product.setProductItem(productItem);
+                product.setCount(Integer.parseInt(count));
+                product.setDosage(Float.parseFloat(dosage));
+                product.setImage(new File(image));
+                product.setPrescription(Boolean.parseBoolean(prescription));
+                product.setPrice(Float.parseFloat(price));
+                productService.saveProduct(product);
+                response.sendRedirect(ControllerConstant.WebProperty.SAVE_PRODUCT_URL);
+
+        } catch (ServiceException | IOException e) {
+            throw new ControllerException("Exception in save pruduct command",e);
         }
 
     }

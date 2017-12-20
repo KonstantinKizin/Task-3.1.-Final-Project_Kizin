@@ -13,8 +13,9 @@
 </head>
 <body>
 
-    <%--change to JSTL this screplet!!--%>
-    <% request.getSession().setAttribute("page","/WEB-INF/jsp/admin/saveproduct.jsp");%>
+<c:set var="current_page" value="/admin_autho" scope="session" />
+
+
 
     <Header>
         <a href="/frontController?hidden=switch_language&language=en">en</a>
@@ -24,8 +25,8 @@
 
 <H1><fmt:message key="WELCOME_TO_ADMIN_PAGE"/> ${user.getName()}</H1>
 
-<a href="/frontController?hidden=showCustomers"><fmt:message key="SHOW_ALL_CUSTOMERS_LABEL"/></a>
-<a href="/frontController?hidden=redirect"><fmt:message key="SAVE_PRODUCT_PAGE_REDIRECT"/></a>
+<a href="/frontController?hidden=go_to_customers"><fmt:message key="SHOW_ALL_CUSTOMERS_LABEL"/></a>
+<a href="/frontController?hidden=go_to_save_product"><fmt:message key="SAVE_PRODUCT_PAGE_REDIRECT"/></a>
 <br>
 <a href="/frontController?hidden=logout"><fmt:message key="SING_OUT_LABEL"/></a>
 

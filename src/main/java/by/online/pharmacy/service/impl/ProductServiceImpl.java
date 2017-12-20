@@ -20,9 +20,11 @@ public class ProductServiceImpl implements ProductService {
     public void saveProduct(Product product) throws ServiceException {
 
         try {
+
             productDAO.save(product);
+
         } catch (DAOException e) {
-            throw new ServiceException(e);
+            throw new ServiceException("Exception in service save product method",e);
         }
 
     }

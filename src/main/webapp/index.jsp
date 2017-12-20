@@ -8,7 +8,7 @@
 <html lang="${language}">
 <body>
 
-<%--change to JSTL this screplet!!--%>
+
 <Header>
     <a href="/index.jsp?language=en">en</a>
     <a href="/index.jsp?language=ru">rus</a>
@@ -26,7 +26,7 @@
 
         <br>
 
-        <c:set var="par" value="${sing_in_error}" scope="request"></c:set>
+        <c:set var="par" value="${sing_in_error}" scope="session"></c:set>
         <c:if test="${par.length() > 0}">
             <p><fmt:message key="LOG_IN_MSG_ERROR"/></p>
         </c:if>

@@ -1,6 +1,5 @@
 package by.online.pharmacy.dao.impl;
 
-import by.online.pharmacy.dao.ConnectionPool;
 import by.online.pharmacy.dao.CustomerDAO;
 import by.online.pharmacy.dao.exception.DAOException;
 import by.online.pharmacy.entity.Customer;

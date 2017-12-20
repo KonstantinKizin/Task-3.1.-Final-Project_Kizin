@@ -10,9 +10,7 @@
     <title>Customer</title>
 </head>
 <body>
-
-<%--change to JSTL this screplet!!--%>
-<% request.getSession().setAttribute("page","/WEB-INF/jsp/customer.jsp");%>
+<c:set var="current_page" value="/customer_autho" scope="session" />
 
 <Header>
     <a href="/frontController?hidden=switch_language&language=en">en</a>

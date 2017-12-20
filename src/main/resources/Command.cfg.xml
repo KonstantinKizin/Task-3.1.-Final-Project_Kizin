@@ -38,6 +38,16 @@
         <command-class>by.online.pharmacy.controller.command.SaveProductCommand</command-class>
     </command>
 
+    <command>
+        <command-name>go_to_save_product</command-name>
+        <command-class>by.online.pharmacy.controller.command.GoToSaveProductCommand</command-class>
+    </command>
+
+    <command>
+        <command-name>go_to_customers</command-name>
+        <command-class>by.online.pharmacy.controller.command.GoToCustomersCommand</command-class>
+    </command>
+
 
 
 </commands>

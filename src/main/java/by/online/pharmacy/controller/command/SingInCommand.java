@@ -43,10 +43,15 @@ public class SinginCommand implements Command {
     @Override
     public void execute(HttpServletRequest request, HttpServletResponse response) throws ControllerException {
 
+
         String email = null;
         String password = null;
         Customer customer = null;
-        Locale locale = request.getLocale();
+
+        if(request.getSession().getAttribute(SING_IN_ERROR_PARAMETER) != null){
+            request.getSession().removeAttribute(SING_IN_ERROR_PARAMETER);
+        }
+
         try {
             email = request.getParameter(RegistrationProperty.EMAIL_PARAMETER);
             password = customerService.generateHashPassword(
@@ -54,23 +59,29 @@ public class SinginCommand implements Command {
             );
             customer = customerService.findCustomerByEmailAndPassword(email,password);
             if(customer != null){
-
                 request.getSession().setAttribute(WebProperty.USER_ATTRIBUTE_NAME,customer);
-                request.getSession().setAttribute(WebProperty.PAGE,pages.get(customer.getRole()));
-                response.sendRedirect(WebProperty.REDIRECT_URL);
+                String page = pages.get(customer.getRole());
+                response.sendRedirect(page);
 
             }else {
                 request.getSession().setAttribute(SING_IN_ERROR_PARAMETER,
                         SING_IN_ERROR_VALUE);
-                request.getSession().setAttribute(WebProperty.PAGE,WebProperty.MAIN_PAGE);
-                response.sendRedirect(WebProperty.REDIRECT_URL);
+
+                response.sendRedirect(WebProperty.MAIN_PAGE);
             }
+
 
         } catch (ServiceException | IOException e ) {
             logger.error("Exception from singIn Command",e);
             throw new ControllerException(e);
         }catch (ValidatorException e){
-            //response.sendRedirect(WebProperty.MAIN_PAGE);
+            request.getSession().setAttribute(SING_IN_ERROR_PARAMETER,
+                    SING_IN_ERROR_VALUE);
+            try {
+                response.sendRedirect(WebProperty.MAIN_PAGE);
+            } catch (IOException ex) {
+                throw new ControllerException("Exception in singinCommand while send redirect to main page",e);
+            }
         }
 
     }

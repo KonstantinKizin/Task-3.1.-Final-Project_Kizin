@@ -27,6 +27,7 @@
             <option name="prescription" value="true">yes</option>
             <option name="prescription" value="false">no</option>
         </select>
+        <br>
 
         Count : <input type="text" name="count"><br>
 
@@ -35,10 +36,6 @@
         Dosage : <input type="text" name="dosage"><br>
 
         Image : <input type="text" name="image_path"><br>
-
-
-
-
 
 
         <input type="submit" value="Отправить ">

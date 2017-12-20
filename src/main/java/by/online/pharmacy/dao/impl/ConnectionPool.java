@@ -1,4 +1,4 @@
-package by.online.pharmacy.dao;
+package by.online.pharmacy.dao.impl;
 
 import by.online.pharmacy.dao.exception.ConnectionPoolException;
 import java.sql.Connection;
