@@ -8,9 +8,10 @@ import by.online.pharmacy.dao.impl.ProductDAOImpl;
 public class DAOFactory {
 
     private static final DAOFactory instance = new DAOFactory();
-    private final CustomerDAO customerDao = new CustomerDAOImpl();
-    private final ProductDAO productDAO = new ProductDAOImpl();
 
+    private final CustomerDAO customerDao = new CustomerDAOImpl();
+
+    private final ProductDAO productDAO = new ProductDAOImpl();
 
     public CustomerDAO getCustomerDao(){
         return customerDao;
@@ -19,7 +20,6 @@ public class DAOFactory {
     public ProductDAO getProductDAO(){return productDAO; }
 
     private DAOFactory() {}
-
 
     public static DAOFactory getInstance() {
         return instance;

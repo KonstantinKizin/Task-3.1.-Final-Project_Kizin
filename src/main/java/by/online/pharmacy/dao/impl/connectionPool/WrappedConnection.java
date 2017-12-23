@@ -1,5 +1,10 @@
-package by.online.pharmacy.dao.impl;
+package by.online.pharmacy.dao.impl.connectionPool;
+
+import by.online.pharmacy.dao.exception.CloseConnectionException;
+import by.online.pharmacy.dao.exception.ConnectionPoolException;
+
 import java.io.Closeable;
+import java.io.IOException;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -13,8 +18,14 @@ public class WrappedConnection implements Closeable {
     }
 
     @Override
-    public void close(){
-        ConnectionPoolImpl.getInstance().returnConnection(connection);
+    public void close() throws CloseConnectionException{
+        try{
+            ConnectionPoolImpl.getInstance().returnConnection(connection);
+        }catch (ConnectionPoolException e){
+            throw new CloseConnectionException(e);
+
+        }
+
     }
 
     public PreparedStatement getPreparedStatement(String sqlQuery) throws SQLException {

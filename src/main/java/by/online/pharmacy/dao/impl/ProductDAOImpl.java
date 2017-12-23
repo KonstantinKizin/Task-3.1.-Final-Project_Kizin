@@ -2,6 +2,9 @@ package by.online.pharmacy.dao.impl;
 
 import by.online.pharmacy.dao.ProductDAO;
 import by.online.pharmacy.dao.exception.DAOException;
+import by.online.pharmacy.dao.impl.connectionPool.ConnectionPool;
+import by.online.pharmacy.dao.impl.connectionPool.ConnectionPoolImpl;
+import by.online.pharmacy.dao.impl.connectionPool.WrappedConnection;
 import by.online.pharmacy.entity.Product;
 import org.apache.log4j.Logger;
 

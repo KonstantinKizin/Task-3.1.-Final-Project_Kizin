@@ -2,8 +2,12 @@ package by.online.pharmacy.dao.impl;
 
 import by.online.pharmacy.dao.CustomerDAO;
 import by.online.pharmacy.dao.exception.DAOException;
+import by.online.pharmacy.dao.impl.connectionPool.ConnectionPool;
+import by.online.pharmacy.dao.impl.connectionPool.ConnectionPoolImpl;
+import by.online.pharmacy.dao.impl.connectionPool.WrappedConnection;
 import by.online.pharmacy.entity.Customer;
 import org.apache.log4j.Logger;
+
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -52,7 +56,7 @@ public class CustomerDAOImpl implements CustomerDAO {
     @Override
     public void save(Customer customer) throws DAOException {
 
-        try(WrappedConnection connection = new WrappedConnection(connectionPool.getConnection()) ;
+        try(WrappedConnection connection = new WrappedConnection(connectionPool.getConnection());
             PreparedStatement statement = connection.getPreparedStatement(SQL_SAVE_PREPARED_STATEMENT)
         ){
             statement.setString(NAME_COLUMN_INDEX,customer.getName());
