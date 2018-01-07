@@ -20,9 +20,7 @@ public class ProductServiceImpl implements ProductService {
     public void saveProduct(Product product) throws ServiceException {
 
         try {
-
             productDAO.save(product);
-
         } catch (DAOException e) {
             throw new ServiceException("Exception in service save product method",e);
         }
@@ -30,9 +28,15 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public Product findProduct(int id) {
-        return null;
+    public Product findProduct(int id) throws ServiceException {
+
+        try {
+            return productDAO.get(id);
+        } catch (DAOException e) {
+            throw new ServiceException("Find product by id method",e);
+        }
     }
+
 
     @Override
     public List<Product> findProductsByName(String productName) {
@@ -65,17 +69,38 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
+    public List<Product> getAllProducts(String language) throws ServiceException {
+        try {
+            return productDAO.getAll(language);
+        } catch (DAOException e) {
+            throw new ServiceException("Get All products by language method",e);
+        }
+    }
+
+    @Override
+    public List<Product> getAllProduct() throws ServiceException {
+        try {
+            return productDAO.getAll();
+        } catch (DAOException e) {
+            throw new ServiceException("getAllProduct method ",e);
+        }
+    }
+
+    @Override
     public void updateProduct(Product product) {
 
     }
 
     @Override
-    public void deleteProduct(int id) {
+    public void deleteProduct(int id) throws ServiceException {
+
+        try {
+            productDAO.delete(id);
+        } catch (DAOException e) {
+            throw new ServiceException("Delete product in service ",e);
+        }
 
     }
 
-    @Override
-    public void deleteProduct(Product product) {
 
-    }
 }

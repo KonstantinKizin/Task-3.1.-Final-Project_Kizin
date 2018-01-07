@@ -8,8 +8,8 @@
 <fmt:setBundle basename="Text" />
 <html lang="${language}">
 <head>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
     <title>Registration</title>
-    <link rel="stylesheet" type="text/css" href="WEB-INF/css/bootstrap/bootstrap.min.css">
 
 </head>
 <body>

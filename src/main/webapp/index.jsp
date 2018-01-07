@@ -6,6 +6,12 @@
 <fmt:setBundle basename="Text" />
 
 <html lang="${language}">
+
+<head>
+
+    <link rel="stylesheet" type="text/css" href="css/main.css">
+
+</head>
 <body>
 
 
@@ -13,6 +19,9 @@
     <a href="/index.jsp?language=en">en</a>
     <a href="/index.jsp?language=ru">rus</a>
 </Header>
+
+
+<a href="/catalog.jsp">Каталог</a>
 
 
 <div class="index-singIn">

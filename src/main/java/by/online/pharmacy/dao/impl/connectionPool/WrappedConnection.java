@@ -36,6 +36,21 @@ public class WrappedConnection implements Closeable {
         return connection.createStatement();
     }
 
+    public void setAutoCommit(boolean flag) throws SQLException {
+        connection.setAutoCommit(flag);
+    }
+
+
+    public void commit() throws SQLException {
+        connection.commit();
+    }
+
+    public void rollback() throws SQLException {
+        connection.rollback();
+    }
+
+
+
 
 
 

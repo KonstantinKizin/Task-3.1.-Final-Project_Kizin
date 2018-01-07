@@ -1,38 +1,27 @@
 package by.online.pharmacy.entity;
 
-import java.io.File;
+import java.util.HashMap;
+import java.util.Map;
 
 public class Product {
-
-    private ProductItem productItem;
+    private Map<String,ProductItem> productItemMap = new HashMap<>();
     private int count;
     private float price;
-    private Category category;
     private float dosage;
-    private File image;
+    private byte[] image;
     private boolean prescription;
     private int id;
 
+    public Product(){}
 
-    public Product(ProductItem productItem, int count, float price, Category category, float dosage, File image, boolean prescription) {
-        this.productItem = productItem;
+    public Product(int count, float price, float dosage, byte[] image, boolean prescription) {
         this.count = count;
         this.price = price;
-        this.category = category;
         this.dosage = dosage;
-        this.image = image;
         this.prescription = prescription;
+        this.image = image;
     }
 
-    public Product(){};
-
-    public ProductItem getProductItem() {
-        return productItem;
-    }
-
-    public void setProductItem(ProductItem productItem) {
-        this.productItem = productItem;
-    }
 
     public int getCount() {
         return count;
@@ -50,12 +39,12 @@ public class Product {
         this.price = price;
     }
 
-    public Category getCategory() {
-        return category;
+    public byte[] getImage() {
+        return image;
     }
 
-    public void setCategory(Category category) {
-        this.category = category;
+    public void setImage(byte[] image) {
+        this.image = image;
     }
 
     public float getDosage() {
@@ -66,13 +55,7 @@ public class Product {
         this.dosage = dosage;
     }
 
-    public File getImage() {
-        return image;
-    }
 
-    public void setImage(File image) {
-        this.image = image;
-    }
 
     public boolean isPrescription() {
         return prescription;
@@ -90,6 +73,11 @@ public class Product {
         this.id = id;
     }
 
+    public Map<String, ProductItem> getProductItemMap(){
+        return productItemMap;
+    }
+
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -97,37 +85,28 @@ public class Product {
 
         Product product = (Product) o;
 
-        if (count != product.count) return false;
         if (Float.compare(product.price, price) != 0) return false;
         if (Float.compare(product.dosage, dosage) != 0) return false;
         if (prescription != product.prescription) return false;
-        if (id != product.id) return false;
-        if (productItem != null ? !productItem.equals(product.productItem) : product.productItem != null) return false;
-        return category != null ? category.equals(product.category) : product.category == null;
+        return id == product.id;
     }
 
     @Override
     public int hashCode() {
-        int result = productItem != null ? productItem.hashCode() : 0;
-        result = 31 * result + count;
-        result = 31 * result + (price != +0.0f ? Float.floatToIntBits(price) : 0);
-        result = 31 * result + (category != null ? category.hashCode() : 0);
+        int result = (price != +0.0f ? Float.floatToIntBits(price) : 0);
         result = 31 * result + (dosage != +0.0f ? Float.floatToIntBits(dosage) : 0);
         result = 31 * result + (prescription ? 1 : 0);
         result = 31 * result + id;
         return result;
     }
 
+
     @Override
     public String toString() {
         return "Product{" +
-                "productItem=name" + productItem.getEngName() +
-                ",manufacture= "+productItem.getEngManufacture()+
-                ", count=" + count +
+                "count=" + count +
                 ", price=" + price +
-                ", category=" + category +
                 ", dosage=" + dosage +
-                ", image=" + image.getAbsolutePath() +
                 ", prescription=" + prescription +
                 ", id=" + id +
                 '}';

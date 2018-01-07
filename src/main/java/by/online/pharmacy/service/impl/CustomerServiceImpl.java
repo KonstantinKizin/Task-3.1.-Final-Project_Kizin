@@ -10,8 +10,6 @@ import by.online.pharmacy.service.exception.ValidatorException;
 import by.online.pharmacy.service.validator.CustomerValidator;
 import by.online.pharmacy.service.validator.impl.CustomerValidatorImpl;
 import org.apache.log4j.Logger;
-import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
 import java.util.List;
 
 public class CustomerServiceImpl implements CustomerService {
@@ -20,17 +18,21 @@ public class CustomerServiceImpl implements CustomerService {
     private final CustomerDAO customerDAO = factory.getCustomerDao();
     private final static Logger logger = Logger.getLogger(CustomerServiceImpl.class);
     private final CustomerValidator validator = new CustomerValidatorImpl();
-    private final  char[] DIGITS = { '0', '1', '2', '3', '4', '5', '6', '7', '8', '9',
-            'a', 'b', 'c', 'd', 'e', 'f' };
-    private final String ALGHORITHM = "SHA-1";
+
+    private final HashGenerator hashGenerator = new HashGenerator();
+
 
     @Override
-    public void saveCustomer(Customer customer) throws ServiceException {
+    public List<String> saveCustomer(Customer customer) throws ServiceException {
+
+       List<String> errors = validator.registrationValidate(customer);
+
         try {
-            if(!validator.registrationValidate(customer)){
-                throw new ValidatorException("registration exception");
+
+            if(errors.isEmpty()){
+                customerDAO.save(customer);
             }
-            customerDAO.save(customer);
+            return errors;
         } catch (DAOException e) {
             throw new ServiceException("exception from saveCustomer method",e);
         }
@@ -58,23 +60,11 @@ public class CustomerServiceImpl implements CustomerService {
         }
     }
 
-
     @Override
     public String generateHashPassword(String pw) throws ServiceException {
-        StringBuilder hash = new StringBuilder();
-        try {
-            MessageDigest sha = MessageDigest.getInstance(ALGHORITHM);
-            byte[] hashedBytes = sha.digest(pw.getBytes());
-            for (int idx = 0; idx < hashedBytes.length; ++idx) {
-                byte b = hashedBytes[idx];
-                hash.append(DIGITS[(b & 0xf0) >> 4]);
-                hash.append(DIGITS[b & 0x0f]);
-            }
-        } catch (NoSuchAlgorithmException e) {
-            throw new ServiceException("Exception from creating generateHashPassword method",e);
-        }
-        return hash.toString();
+        return this.hashGenerator.generateHashPassword(pw);
     }
+
 
 
 }

@@ -16,18 +16,20 @@ public final class ConnectionPoolImpl implements ConnectionPool {
 
     private final static Logger logger = Logger.getLogger(ConnectionPoolImpl.class);
 
-
     private final static String PROPERTY_NAME = "JDBCconfig";
 
     private final static ResourceBundle RESOURCE_BUNDLE = ResourceBundle.getBundle(PROPERTY_NAME);
+
 
     private final static int CONNECTION_POOL_SIZE = Integer.parseInt(
             RESOURCE_BUNDLE.getString(JDBCProperty.CONNECTION_POOL_SIZE.name())
     );
 
+    private static final ConnectionPool instance = new ConnectionPoolImpl();
+
+
     private final BlockingQueue<Connection> availableConnections;
 
-    private static final ConnectionPool instance = new ConnectionPoolImpl();
 
 
 

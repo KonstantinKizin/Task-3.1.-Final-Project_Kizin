@@ -15,7 +15,7 @@
 
     <command>
         <command-name>showCustomers</command-name>
-        <command-class>by.online.pharmacy.controller.command.ShowAllCustomersCommand</command-class>
+        <command-class>by.online.pharmacy.controller.command.GetAllCustomersCommand</command-class>
     </command>
 
     <command>
@@ -39,13 +39,30 @@
     </command>
 
     <command>
-        <command-name>go_to_save_product</command-name>
-        <command-class>by.online.pharmacy.controller.command.GoToSaveProductCommand</command-class>
+        <command-name>go_to_customers</command-name>
+        <command-class>by.online.pharmacy.controller.command.GoToCustomersCommand</command-class>
+    </command>
+
+    <!--<command>-->
+        <!--<command-name>show_products</command-name>-->
+        <!--<command-class>by.online.pharmacy.controller.command.GetAllProductsCommand</command-class>-->
+    <!--</command>-->
+
+    <command>
+        <command-name>get_product</command-name>
+        <command-class>by.online.pharmacy.controller.command.GetProductCommand</command-class>
     </command>
 
     <command>
-        <command-name>go_to_customers</command-name>
-        <command-class>by.online.pharmacy.controller.command.GoToCustomersCommand</command-class>
+        <command-name>go_to_product_setting</command-name>
+        <command-class>by.online.pharmacy.controller.command.GoToProductSettingCommand</command-class>
+    </command>
+
+    <command>
+        <command-name>delete_product</command-name>
+        <command-class>by.online.pharmacy.controller.command.DeleteProductCommand</command-class>
+
+
     </command>
 
 

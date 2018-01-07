@@ -3,79 +3,90 @@ package by.online.pharmacy.entity;
 public class ProductItem {
 
 
-    private String engDescription;
-    private String rusDescription;
-    private String engName;
-    private String rusName;
-    private String rusManufacture;
+private String description;
+private String manufacture;
+private String name;
+private String CategoryName;
 
-    public String getEngCategory() {
-        return engCategory;
+
+
+public ProductItem(){}
+
+public ProductItem(String description, String manufacture, String name, String categoryName) {
+        this.description = description;
+        this.manufacture = manufacture;
+        this.name = name;
+        CategoryName = categoryName;
     }
 
-    public void setEngCategory(String engCategory) {
-        this.engCategory = engCategory;
+
+    public String getDescription() {
+        return description;
     }
 
-    public String getRusCategory() {
-        return rusCategory;
+    public void setDescription(String description) {
+        this.description = description;
     }
 
-    public void setRusCategory(String rusCategory) {
-        this.rusCategory = rusCategory;
+    public String getManufacture() {
+        return manufacture;
     }
 
-    private String engManufacture;
-    private String engCategory;
-    private String rusCategory;
-
-
-
-    public String getRusManufacture() {
-        return rusManufacture;
+    public void setManufacture(String manufacture) {
+        this.manufacture = manufacture;
     }
 
-    public void setRusManufacture(String rusManufacture) {
-        this.rusManufacture = rusManufacture;
+    public String getName() {
+        return name;
     }
 
-    public String getEngManufacture() {
-        return engManufacture;
+    public void setName(String name) {
+        this.name = name;
     }
 
-    public void setEngManufacture(String engManufacture) {
-        this.engManufacture = engManufacture;
+    public String getCategoryName() {
+        return CategoryName;
     }
 
-    public String getEngDescription() {
-        return engDescription;
+    public void setCategoryName(String categoryName) {
+        CategoryName = categoryName;
     }
 
-    public void setEngDescription(String engDescription) {
-        this.engDescription = engDescription;
+
+    public String getShortDescription(){
+
+    return this.description.substring(0,100)+" ...";
     }
 
-    public String getRusDescription() {
-        return rusDescription;
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        ProductItem that = (ProductItem) o;
+
+        if (description != null ? !description.equals(that.description) : that.description != null) return false;
+        if (manufacture != null ? !manufacture.equals(that.manufacture) : that.manufacture != null) return false;
+        if (name != null ? !name.equals(that.name) : that.name != null) return false;
+        return CategoryName != null ? CategoryName.equals(that.CategoryName) : that.CategoryName == null;
     }
 
-    public void setRusDescription(String rusDescription) {
-        this.rusDescription = rusDescription;
+    @Override
+    public int hashCode() {
+        int result = description != null ? description.hashCode() : 0;
+        result = 31 * result + (manufacture != null ? manufacture.hashCode() : 0);
+        result = 31 * result + (name != null ? name.hashCode() : 0);
+        result = 31 * result + (CategoryName != null ? CategoryName.hashCode() : 0);
+        return result;
     }
 
-    public String getEngName() {
-        return engName;
-    }
-
-    public void setEngName(String engName) {
-        this.engName = engName;
-    }
-
-    public String getRusName() {
-        return rusName;
-    }
-
-    public void setRusName(String rusName) {
-        this.rusName = rusName;
+    @Override
+    public String toString() {
+        return "ProductItem{" +
+                "description='" + description + '\'' +
+                ", manufacture='" + manufacture + '\'' +
+                ", name='" + name + '\'' +
+                ", CategoryName='" + CategoryName + '\'' +
+                '}';
     }
 }

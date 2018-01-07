@@ -13,11 +13,11 @@ import java.io.IOException;
 import java.util.List;
 import static by.online.pharmacy.controller.constant.ControllerConstant.WebProperty;
 
-public class ShowAllCustomersCommand implements Command {
+public class GetAllCustomersCommand implements Command {
 
     private final ServiceFactory factory = ServiceFactory.getInstance();
     private final CustomerService service = factory.getCustomerService();
-    private final static Logger logger = Logger.getLogger(ShowAllCustomersCommand.class);
+    private final static Logger logger = Logger.getLogger(GetAllCustomersCommand.class);
 
 
     @Override

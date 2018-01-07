@@ -16,16 +16,12 @@ public class ControllerConstant {
         public final static String USER_ATTRIBUTE_NAME = "user";
         public final static String ADMIN_ROLE = "admin";
         public final static String CUSTOMER_ROLE = "customer";
+        public final static String LANGUAGE_PARAMETER = "language";
         public final static String CUSTOMER_LIST_ATTR_NAME = "customerList";
         public final static String CHARACTER_ENCODING = "utf-8";
-        public final static String SING_IN_ERROR_ATTR_NAME = "findOrValidationError";
-        public final static String SING_IN_ERROR_MESSAGE = "Wrong Email or password";
         public final static String PAGE = "page";
-        public final static String REDIRECT_URL = "/frontController?hidden=redirect";
         public final static String SAVE_PRODUCT_URL="/admin/saveproduct";
         public final static String CUSTOMERS_URL="/admin/customers";
-
-
 
 
     }

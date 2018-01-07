@@ -197,7 +197,7 @@ public class CustomerDAOImpl implements CustomerDAO {
         }
     }
 
-    @Override
+
     public void delete(Customer customer) throws DAOException {
 
         try(WrappedConnection connection = new WrappedConnection(connectionPool.getConnection());

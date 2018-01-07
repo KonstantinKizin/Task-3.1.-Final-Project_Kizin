@@ -21,12 +21,35 @@
   <servlet>
     <servlet-name>FrontController</servlet-name>
     <servlet-class>by.online.pharmacy.controller.FrontController</servlet-class>
+    <load-on-startup>1</load-on-startup>
   </servlet>
 
   <servlet-mapping>
     <servlet-name>FrontController</servlet-name>
     <url-pattern>/frontController</url-pattern>
   </servlet-mapping>
+
+  <servlet>
+    <servlet-name>ImageController</servlet-name>
+    <servlet-class>by.online.pharmacy.controller.ImageServlet</servlet-class>
+  </servlet>
+
+  <servlet-mapping>
+    <servlet-name>ImageController</servlet-name>
+    <url-pattern>/ImageServlet</url-pattern>
+  </servlet-mapping>
+
+
+  <servlet>
+    <servlet-name>SaveProductController</servlet-name>
+    <servlet-class>by.online.pharmacy.controller.SaveProductServlet</servlet-class>
+  </servlet>
+
+  <servlet-mapping>
+    <servlet-name>SaveProductController</servlet-name>
+    <url-pattern>/saveProduct</url-pattern>
+  </servlet-mapping>
+
 
   <servlet>
     <servlet-name>Saveproduct</servlet-name>
@@ -37,6 +60,52 @@
     <servlet-name>Saveproduct</servlet-name>
     <url-pattern>/admin/saveproduct</url-pattern>
   </servlet-mapping>
+
+
+  <servlet>
+    <servlet-name>UpdateProductPage</servlet-name>
+    <jsp-file>/WEB-INF/jsp/admin/updateProduct.jsp</jsp-file>
+  </servlet>
+
+  <servlet-mapping>
+    <servlet-name>UpdateProductPage</servlet-name>
+    <url-pattern>/admin/update_product</url-pattern>
+  </servlet-mapping>
+
+
+
+  <servlet>
+    <servlet-name>UpdateProductServlet</servlet-name>
+    <servlet-class>by.online.pharmacy.controller.UpdateProductServlet</servlet-class>
+  </servlet>
+
+  <servlet-mapping>
+    <servlet-name>UpdateProductServlet</servlet-name>
+    <url-pattern>/updateProduct</url-pattern>
+  </servlet-mapping>
+
+
+  <servlet>
+    <servlet-name>AddNewproductItems</servlet-name>
+    <jsp-file>/WEB-INF/jsp/admin/addProductItems.jsp</jsp-file>
+  </servlet>
+
+  <servlet-mapping>
+    <servlet-name>AddNewproductItems</servlet-name>
+    <url-pattern>/admin/addItems</url-pattern>
+  </servlet-mapping>
+
+
+  <servlet>
+    <servlet-name>ProductSetting</servlet-name>
+    <jsp-file>/WEB-INF/jsp/admin/productSetting.jsp</jsp-file>
+  </servlet>
+
+  <servlet-mapping>
+    <servlet-name>ProductSetting</servlet-name>
+    <url-pattern>/admin/product_setting</url-pattern>
+  </servlet-mapping>
+
 
   <servlet>
     <servlet-name>Customers</servlet-name>
@@ -77,12 +146,6 @@
     <servlet-name>Customer</servlet-name>
     <url-pattern>/customer_autho</url-pattern>
   </servlet-mapping>
-
-
-
-
-
-
 
 
   <filter>

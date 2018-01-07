@@ -9,25 +9,29 @@ public interface ProductService {
 
     void saveProduct(Product product) throws ServiceException;
 
-    Product findProduct(int id);
+    Product findProduct(int id)throws ServiceException;
 
-    List<Product> findProductsByName(String productName);
+    List<Product> findProductsByName(String productName)throws ServiceException;
 
-    List<Product> findProductsByCategory(String categoryName);
+    List<Product> findProductsByCategory(String categoryName)throws ServiceException;
 
-    List<Product> findProductsByManufacture(String manufactureName);
+    List<Product> findProductsByManufacture(String manufactureName)throws ServiceException;
 
-    List<Product> findProductsCheaperThan(long price);
+    List<Product> findProductsCheaperThan(long price)throws ServiceException;
 
-    List<Product> findProductInCategoryCheaperThan(long price, String categoryName);
+    List<Product> findProductInCategoryCheaperThan(long price, String categoryName)throws ServiceException;
 
-    List<Product> findProductInCategory(long lowerPrice , long topPrice);
+    List<Product> findProductInCategory(long lowerPrice , long topPrice)throws ServiceException;
 
-    void updateProduct(Product product);
+    List<Product> getAllProducts(String language) throws ServiceException;
 
-    void deleteProduct(int id);
+    List<Product> getAllProduct() throws ServiceException;
 
-    void deleteProduct(Product product);
+    void updateProduct(Product product)throws ServiceException;
+
+    void deleteProduct(int id)throws ServiceException;
+
+
 
 
 
