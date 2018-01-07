@@ -4,6 +4,9 @@ import by.online.pharmacy.entity.Product;
 import by.online.pharmacy.service.ProductService;
 import by.online.pharmacy.service.exception.ServiceException;
 import by.online.pharmacy.service.factory.ServiceFactory;
+import org.apache.log4j.Logger;
+
+import static by.online.pharmacy.controller.constant.ControllerConstant.WebProperty;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -14,12 +17,20 @@ import java.util.List;
 
 public class ImageServlet extends HttpServlet {
 
-    private final static String  PRODUCT_ID_PARAMETER = "product_id";
-    private final static String PRODUCT_LIST_ATTRIBUTE = "productList";
-    private final static String RESPONSE_CONTENT_TYPE = "image/jpg";
+    private final static Logger logger = Logger.getLogger(ImageServlet.class);
+
     private final ServiceFactory factory = ServiceFactory.getInstance();
 
     private final ProductService productService = factory.getProductService();
+
+    private final static String  PRODUCT_ID_PARAMETER = "product_id";
+
+    private final static String PRODUCT_LIST_ATTRIBUTE = "productList";
+
+    private final static String RESPONSE_CONTENT_TYPE = "image/jpg";
+
+
+
 
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -39,8 +50,8 @@ public class ImageServlet extends HttpServlet {
                 Product product =  productService.findProduct(id);
                 image = product.getImage();
             } catch (ServiceException e) {
-
-                System.out.println(e);
+                logger.error("Image Servlet exception",e);
+                response.sendRedirect(WebProperty.ERROR_PAGE);
             }
 
         }else {

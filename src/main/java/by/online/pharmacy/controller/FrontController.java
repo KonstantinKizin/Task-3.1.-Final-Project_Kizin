@@ -26,7 +26,9 @@ public class FrontController extends HttpServlet {
     private final CommandMapCreator commandMapCreator = new CommandMapCreator();
     private final Command producer = new CommandProvider();
     private final static Logger logger = Logger.getLogger(FrontController.class);
-    private final static ProductLoader productLoader = ProductLoader.getInstance();
+    private final ProductLoader productLoader = ProductLoader.getInstance();
+
+    private final static String PRODUCT_LIST_ATTR_NAME = "productList";
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         this.doGet(request,response);
@@ -55,8 +57,8 @@ public class FrontController extends HttpServlet {
         try {
             Map<String , Command> commandMap = commandMapCreator.getCommandMap();
             ((CommandProvider) producer).getCommandMap().putAll(commandMap);
-            this.getServletContext().setAttribute("productList",productLoader.getProductList());
-        } catch (ServiceException e) {
+            this.getServletContext().setAttribute(PRODUCT_LIST_ATTR_NAME,productLoader.getProductList());
+        } catch (ServiceException e){
             logger.error("Exception in init method",e);
             throw new InitializeServletException();
         }
