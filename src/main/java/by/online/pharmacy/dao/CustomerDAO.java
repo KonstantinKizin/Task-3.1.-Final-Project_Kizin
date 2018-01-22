@@ -12,4 +12,6 @@ public interface CustomerDAO extends DAO<Customer> {
     Customer get(String email) throws DAOException;
 
     List<Customer> getAll() throws DAOException;
+
+    void update(Customer customer) throws DAOException;
 }

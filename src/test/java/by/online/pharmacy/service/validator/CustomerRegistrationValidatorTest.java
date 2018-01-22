@@ -14,7 +14,7 @@ public class CustomerRegistrationValidatorTest {
 
     private final Customer customer = new Customer();
 
-    private final CustomerValidator validator = new CustomerValidatorImpl();
+    private final by.online.pharmacy.service.validator.CustomerValidator validator = new CustomerValidatorImpl();
 
     @Before
     public void setUp(){
@@ -31,43 +31,83 @@ public class CustomerRegistrationValidatorTest {
         customer.setRole("Customer");
     }
 
+
     @Test
-    public void when_dateOfBirthd_happened_after_currentDate_then_size_should_increase_at_one(){
+    public void when_dateOfBirth_happened_after_currentDate_then_list_should_increase_at_one(){
 
         customer.setDateOfBirth("2120-09-11");
-        List<String> errors = validator.registrationValidate(customer);
-        assertThat(errors.size(),is(1));
+        List errors = validator.validate(customer);
+        assertThat(errors.size(),is(2));
     }
 
     @Test
-    public void when_dateOfBirth_happened_before_currentDate_then_size_should_not_change(){
-        List<String> errors = validator.registrationValidate(customer);
+    public void when_dateOfBirth_happened_before_currentDate_then_list_should_not_change(){
+        List errors = validator.validate(customer);
         assertThat(errors.size(),is(0));
     }
 
 
     @Test
-    public void when_phone_number_has_letter_then_size_should_increase_at_one(){
+    public void when_phone_number_has_a_letter_then_list_should_increase_at_one(){
 
-        customer.setPhoneNumber("37529456kj32");
-        List<String> errors = validator.registrationValidate(customer);
-        assertThat(errors.size(),is(1));
+        customer.setPhoneNumber("+375296471934s");
+        List errors = validator.validate(customer);
+        assertThat(errors.size(),is(2));
     }
+
+    @Test
+    public void when_put_email_without_point_behind_domain_then_should_return_increased_at_one_list(){
+        customer.setEmail("KostyKizin@gmailcom");
+        List errors = validator.validate(customer);
+        assertThat(errors.size(), is(2));
+    }
+
+    @Test
+    public void when_put_email_without_domain_separator_symbol_then_should_return_increased_at_one_llist(){
+        customer.setEmail("KostyKizingmailcom");
+        List errors = validator.validate(customer);
+        assertThat(errors.size(), is(2));
+    }
+
+    @Test
+    public void when_put_email_without_domain_then_should_return_increased_at_one_llist(){
+        customer.setEmail("KostyKizin@.com");
+        List errors = validator.validate(customer);
+        assertThat(errors.size(), is(2));
+    }
+
+    @Test
+    public void when_put_correct_email_then_should_return_unchanged_list(){
+        customer.setEmail("KostyKizin@gmail.com");
+        List errors = validator.validate(customer);
+        assertThat(errors.size(), is(0));
+
+    }
+
+    @Test
+    public void when_put_login_as_null_or_empty_then_should_return_increased_at_one_list(){
+        customer.setLogin("");
+        List errors = validator.validate(customer);
+        assertThat(errors.size(), is(2));
+        customer.setLogin(null);
+        errors = validator.validate(customer);
+        assertThat(errors.size(), is(2));
+
+    }
+
 
 
     @Test
-    public void return_correct_errors_list_test(){
-
-        customer.setDateOfBirth("2025-09-08");
-        customer.setEmail("KostyKizin@s");
-        customer.setPhoneNumber("+375296471934");
-        List<String> errors = validator.registrationValidate(customer);
-        assertThat(errors.size(), is(3));
-        assertThat(errors.contains("CUSTOMER_EMAIL_ERROR"),is(true));
-        assertThat(errors.contains("CUSTOMER_PHONE_ERROR"),is(true));
-        assertThat(errors.contains("CUSTOMER_BIRTH_DATE_ERROR"),is(true));
-        assertThat(errors.contains("CUSTOMER_NAME_ERROR"),is(false));
+    public void when_put_password_as_null_or_empty_then_should_return_increased_at_one_list(){
+        customer.setPassword("");
+        List errors = validator.validate(customer);
+        assertThat(errors.size(), is(2));
+        customer.setPassword(null);
+        errors = validator.validate(customer);
+        assertThat(errors.size(), is(2));
     }
+
+
 
 
 

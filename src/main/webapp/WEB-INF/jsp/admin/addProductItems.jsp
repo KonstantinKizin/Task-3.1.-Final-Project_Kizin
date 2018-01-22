@@ -6,7 +6,7 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
 </head>
 <body>
-<form class="form-horizontal" method="post" action="/frontController">
+<form class="form-horizontal" method="post" action="/frontController?${param.id}">
 
     <input type="hidden" name="hidden" value="add_new_product_items">
 

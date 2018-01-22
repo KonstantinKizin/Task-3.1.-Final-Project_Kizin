@@ -1,42 +1,38 @@
 package by.online.pharmacy.service.validator.impl;
 
-import by.online.pharmacy.entity.Product;
+import by.online.pharmacy.controller.constant.ControllerConstant;
+import by.online.pharmacy.entity.ValidationError;
 import by.online.pharmacy.service.validator.ProductValidator;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.ArrayList;
+import java.util.List;
 
-public class ProductValidatorImpl implements ProductValidator {
-    @Override
-    public boolean validate(Product product) {
+public class ProductValidatorImpl extends AbstractValidator implements ProductValidator<HttpServletRequest> {
 
-        return false;
-
-
-    }
 
     @Override
-    public boolean parametersValidate(HttpServletRequest request) {
-        return false;
-    }
+    public List<ValidationError> validate(HttpServletRequest request) {
 
-    private boolean checkStringForEmptyAndNull(String parameter){
+        List<ValidationError> errors = new ArrayList<>();
 
-        return !parameter.isEmpty() && parameter != null;
-    }
-
-    private boolean checkFloatForValidPrice(float price){
-
-        try{
-            if(price < 0){
-                return false;
-            } else {return true;}
-
-
-        }catch (NumberFormatException e){
-            return false;
+        if(!checkForNumber(request.getParameter(ControllerConstant.ProductProperty.PRICE_PARAMETER))){
+            errors.add(new ValidationError("Price must be a number", ControllerConstant.ProductProperty.PRICE_PARAMETER));
         }
 
-
-
+        if(!checkForNumber(request.getParameter(ControllerConstant.ProductProperty.COUNT_PARAMETER))){
+            errors.add(new ValidationError("Count must be a number", ControllerConstant.ProductProperty.COUNT_PARAMETER));
+        }
+        return errors;
     }
+
+
+    private boolean checkForNumber(String number){
+        if(this.isEmptyOrNull(number)){
+            return false;
+        }else {
+            return this.isDigitsOnly(number);
+        }
+    }
+
 }

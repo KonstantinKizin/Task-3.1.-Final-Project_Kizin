@@ -1,57 +1,47 @@
 <%@ page pageEncoding="UTF-8" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
-<c:set var="language" value="${not empty param.language ? param.language : not empty language ? language : pageContext.request.locale}" scope="session" />
+<c:set var="language" value="${not empty param.language ? param.language : not empty language ? language : pageContext.request.locale.language}" scope="session" />
 <fmt:setLocale value="${language}" />
 <fmt:setBundle basename="Text" />
 
 <html lang="${language}">
 
 <head>
-
-    <link rel="stylesheet" type="text/css" href="css/main.css">
-
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.3/css/bootstrap.min.css" integrity="sha384-Zug+QiDoJOrZ5t4lssLdxGhVrurbmBWopoEl+M6BdEfwnCJZtKxi1KgxUyJq13dy" crossorigin="anonymous">
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.3/js/bootstrap.min.js"></script>
 </head>
 <body>
 
 
 <Header>
-    <a href="/index.jsp?language=en">en</a>
-    <a href="/index.jsp?language=ru">rus</a>
+    <jsp:include page="WEB-INF/jsp/additional/header.jsp"></jsp:include>
 </Header>
 
+<div class="container">
+    <div class="row">
 
-<a href="/catalog.jsp">Каталог</a>
+        <c:forEach items = "${productList}" var = "product">
 
-
-<div class="index-singIn">
-    <form method="post" action="/frontController">
-        <input type="hidden" name="hidden" value="sing-in">
-        <label for="email"><fmt:message key="EMAIL_LABEL" />:</label>
-        <input type="email" name="email" id="email"><br>
-        <br>
-        <label for="email"><fmt:message key="PASSWORD_LABEL" />:</label>
-        <input type="password" name="password"><br>
-
-        <br>
-
-        <c:set var="par" value="${sing_in_error}" scope="session"></c:set>
-        <c:if test="${par.length() > 0}">
-            <p><fmt:message key="LOG_IN_MSG_ERROR"/></p>
-        </c:if>
-
-
-
-        <br>
-        <fmt:message key="SING_IN_BUTTON" var="buttonValue" />
-        <input type="submit" value="${buttonValue}">
-    </form>
+            <div class="col-lg-4 col-md-6 mb-4">
+                <div class="card" style="width: 20rem; margin: auto">
+                    <h4 class="card-title"> ${product.productItemMap.get(language).name}</h4>
+                    <img class="card-img-top" style="width: 150px; height: 150px" src="ImageServlet?product_id=${product.id}" alt="Card image cap">
+                    <div class="card-body">
+                        <p class="card-text" >${product.productItemMap.get(language).shortDescription}</p>
+                        <a href="/frontController?hidden=get_product&product_id=${product.id}" class="btn btn-primary">Подробнее</a><br>
+                        <a href="/frontController?hidden=get_product&product_id=${product.id}" class="btn btn-primary">Добавить в корзину</a>
+                    </div>
+                </div>
+            </div>
+        </c:forEach>
+    </div>
 
 </div>
 
-<div class="index-registration">
-    <a href="registration.jsp"><fmt:message key="REGISTRATION_LABEL"/></a>
-</div>
+
+
+
 
 </body>
 </html>

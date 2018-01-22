@@ -4,6 +4,7 @@ import by.online.pharmacy.entity.Product;
 import by.online.pharmacy.service.ProductService;
 import by.online.pharmacy.service.exception.ServiceException;
 import by.online.pharmacy.service.factory.ServiceFactory;
+import by.online.pharmacy.service.storage.ProductStorage;
 import org.apache.log4j.Logger;
 
 import static by.online.pharmacy.controller.constant.ControllerConstant.WebProperty;
@@ -15,13 +16,15 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.List;
 
-public class ImageServlet extends HttpServlet {
+public class ImageLoadServlet extends HttpServlet {
 
-    private final static Logger logger = Logger.getLogger(ImageServlet.class);
+    private final static Logger logger = Logger.getLogger(ImageLoadServlet.class);
 
     private final ServiceFactory factory = ServiceFactory.getInstance();
 
     private final ProductService productService = factory.getProductService();
+
+    private final ProductStorage productStorage = ProductStorage.getInstance();
 
     private final static String  PRODUCT_ID_PARAMETER = "product_id";
 
@@ -44,14 +47,14 @@ public class ImageServlet extends HttpServlet {
 
         List<Product> productList = (List<Product>)request.getServletContext().getAttribute(PRODUCT_LIST_ATTRIBUTE);
 
-        if(productList == null || productList.isEmpty()){
 
+        if(productList.isEmpty()){
             try {
                 Product product =  productService.findProduct(id);
                 image = product.getImage();
             } catch (ServiceException e) {
                 logger.error("Image Servlet exception",e);
-                response.sendRedirect(WebProperty.ERROR_PAGE);
+                response.sendRedirect(WebProperty.PAGE_ERROR);
             }
 
         }else {
@@ -62,15 +65,12 @@ public class ImageServlet extends HttpServlet {
                     break;
                 }
             }
-
         }
-
-
-
 
         response.setContentType(RESPONSE_CONTENT_TYPE);
         response.getOutputStream().write(image,0,image.length);
         response.getOutputStream().flush();
+        response.getOutputStream().close();
 
     }
 }

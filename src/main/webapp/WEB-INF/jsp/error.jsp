@@ -6,7 +6,9 @@
 </head>
 <body>
 
-<H1>${errorMessage}</H1>
+<H1>OOPS, Something has gone wrong</H1>
+
+${param.reason}
 
 </body>
 </html>

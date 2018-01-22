@@ -1,8 +1,7 @@
 package by.online.pharmacy.service.validator;
-import by.online.pharmacy.service.validator.impl.CustomerValidatorImpl;
-import org.junit.After;
 import static org.junit.Assert.assertThat;
-import org.junit.Before;
+
+import by.online.pharmacy.service.validator.impl.CustomerValidatorImpl;
 import org.junit.Test;
 import static org.hamcrest.core.Is.is;
 
@@ -10,8 +9,7 @@ public class CustomerSingInValidatorTest {
 
     private final CustomerValidator validator = new CustomerValidatorImpl();
 
-
-
+    
     @Test
     public void loginValidateTest_WhenPutEmptyEmailOrPassword_then_ShouldReturnFalse(){
         boolean result = validator.loginValidate("","password");

@@ -1,21 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <commands>
 
+
     <command>
         <command-name>sing-in</command-name>
         <command-class>by.online.pharmacy.controller.command.SinginCommand</command-class>
     </command>
 
-
     <command>
         <command-name>registration</command-name>
         <command-class>by.online.pharmacy.controller.command.SaveCustomerCommand</command-class>
-    </command>
-
-
-    <command>
-        <command-name>showCustomers</command-name>
-        <command-class>by.online.pharmacy.controller.command.GetAllCustomersCommand</command-class>
     </command>
 
     <command>
@@ -34,19 +28,9 @@
     </command>
 
     <command>
-        <command-name>save_product</command-name>
-        <command-class>by.online.pharmacy.controller.command.SaveProductCommand</command-class>
-    </command>
-
-    <command>
         <command-name>go_to_customers</command-name>
         <command-class>by.online.pharmacy.controller.command.GoToCustomersCommand</command-class>
     </command>
-
-    <!--<command>-->
-        <!--<command-name>show_products</command-name>-->
-        <!--<command-class>by.online.pharmacy.controller.command.GetAllProductsCommand</command-class>-->
-    <!--</command>-->
 
     <command>
         <command-name>get_product</command-name>
@@ -54,15 +38,13 @@
     </command>
 
     <command>
-        <command-name>go_to_product_setting</command-name>
-        <command-class>by.online.pharmacy.controller.command.GoToProductSettingCommand</command-class>
+        <command-name>delete_product</command-name>
+        <command-class>by.online.pharmacy.controller.command.DeleteProductCommand</command-class>
     </command>
 
     <command>
-        <command-name>delete_product</command-name>
-        <command-class>by.online.pharmacy.controller.command.DeleteProductCommand</command-class>
-
-
+        <command-name>go_to_account</command-name>
+        <command-class>by.online.pharmacy.controller.command.GoToAccountCommand</command-class>
     </command>
 
 

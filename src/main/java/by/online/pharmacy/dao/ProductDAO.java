@@ -15,6 +15,8 @@ public interface ProductDAO extends DAO<Product> {
 
     List<Product> getAll() throws DAOException;
 
+    void update(Product product , String language) throws DAOException;
+
 
 
 }

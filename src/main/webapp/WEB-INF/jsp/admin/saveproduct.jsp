@@ -12,20 +12,23 @@
 </head>
 
 <body>
-<c:set var="current_page" value="/admin/saveproduct" scope="session" />
 
 
-<Header>
-    <a href="/frontController?hidden=switch_language&language=en">en</a>
-    <a href="/frontController?hidden=switch_language&language=ru">rus</a>
-</Header>
+
+
 
 <form class="form-horizontal" enctype="multipart/form-data"  method="post" action="/saveProduct" >
-
 
         <!-- Form Name -->
         <legend>Save Product</legend>
 
+    <c:forEach items = "${ProductErrorsList}" var = "error">
+
+        <div class="alert alert-danger" role="alert">
+            <strong>Mistake!</strong> ${error.message}
+        </div>
+
+    </c:forEach>
 
         <!-- Multiple Radios -->
         <div class="form-group">
@@ -146,10 +149,9 @@
                 <input type="submit" class="btn btn-primary" value="Save">
             </div>
         </div>
-
-
-
 </form>
+
+
 
 
 

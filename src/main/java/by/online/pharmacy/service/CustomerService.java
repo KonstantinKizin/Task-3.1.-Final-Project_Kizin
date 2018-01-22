@@ -1,13 +1,14 @@
 package by.online.pharmacy.service;
 
 import by.online.pharmacy.entity.Customer;
+import by.online.pharmacy.entity.ValidationError;
 import by.online.pharmacy.service.exception.ServiceException;
 
 import java.util.List;
 
 public interface CustomerService {
 
-    List<String> saveCustomer(Customer customer) throws ServiceException;
+    List<ValidationError> saveCustomer(Customer customer) throws ServiceException;
 
     Customer findCustomerByEmailAndPassword(String email , String password) throws ServiceException;
 

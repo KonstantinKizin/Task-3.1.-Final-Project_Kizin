@@ -12,9 +12,15 @@
   <welcome-file-list>
     <welcome-file>index.jsp</welcome-file>
   </welcome-file-list>
+
+  <!--<error-page>-->
+    <!--<exception-type>java.lang.RuntimeException</exception-type>-->
+    <!--<location>/WEB-INF/jsp/error.jsp</location>-->
+  <!--</error-page>-->
+
   <error-page>
-    <exception-type>java.lang.RuntimeException</exception-type>
-    <location>/WEB-INF/jsp/error.jsp</location>
+    <error-code>404</error-code>
+    <location>/WEB-INF/jsp/PageNotFound.jsp</location>
   </error-page>
 
   <display-name>Archetype Created Web Application</display-name>
@@ -31,7 +37,7 @@
 
   <servlet>
     <servlet-name>ImageController</servlet-name>
-    <servlet-class>by.online.pharmacy.controller.ImageServlet</servlet-class>
+    <servlet-class>by.online.pharmacy.controller.ImageLoadServlet</servlet-class>
   </servlet>
 
   <servlet-mapping>
@@ -58,20 +64,73 @@
 
   <servlet-mapping>
     <servlet-name>Saveproduct</servlet-name>
-    <url-pattern>/admin/saveproduct</url-pattern>
+    <url-pattern>/admin/save/product</url-pattern>
   </servlet-mapping>
 
 
   <servlet>
-    <servlet-name>UpdateProductPage</servlet-name>
-    <jsp-file>/WEB-INF/jsp/admin/updateProduct.jsp</jsp-file>
-  </servlet>
+  <servlet-name>UpdateProductPage</servlet-name>
+  <jsp-file>/WEB-INF/jsp/admin/updateProduct.jsp</jsp-file>
+</servlet>
 
   <servlet-mapping>
     <servlet-name>UpdateProductPage</servlet-name>
-    <url-pattern>/admin/update_product</url-pattern>
+    <url-pattern>/admin/update/product</url-pattern>
   </servlet-mapping>
 
+  <servlet>
+    <servlet-name>HomePage</servlet-name>
+    <jsp-file>/index.jsp</jsp-file>
+  </servlet>
+
+  <servlet-mapping>
+    <servlet-name>HomePage</servlet-name>
+    <url-pattern>/home</url-pattern>
+  </servlet-mapping>
+
+
+  <servlet>
+    <servlet-name>RegistrationPage</servlet-name>
+    <jsp-file>/registration.jsp</jsp-file>
+  </servlet>
+
+  <servlet-mapping>
+    <servlet-name>RegistrationPage</servlet-name>
+    <url-pattern>/registration</url-pattern>
+  </servlet-mapping>
+
+
+
+  <servlet>
+    <servlet-name>LoginPage</servlet-name>
+    <jsp-file>/login.jsp</jsp-file>
+  </servlet>
+
+  <servlet-mapping>
+    <servlet-name>LoginPage</servlet-name>
+    <url-pattern>/login</url-pattern>
+  </servlet-mapping>
+
+  <servlet>
+    <servlet-name>CatalogProductsPage</servlet-name>
+    <jsp-file>/WEB-INF/jsp/catalog.jsp</jsp-file>
+  </servlet>
+
+  <servlet-mapping>
+    <servlet-name>CatalogProductsPage</servlet-name>
+    <url-pattern>/products</url-pattern>
+  </servlet-mapping>
+
+
+  <servlet>
+    <servlet-name>ProductPage</servlet-name>
+    <jsp-file>/WEB-INF/jsp/product.jsp</jsp-file>
+  </servlet>
+
+  <servlet-mapping>
+    <servlet-name>ProductPage</servlet-name>
+    <url-pattern>/product</url-pattern>
+  </servlet-mapping>
 
 
   <servlet>
@@ -81,7 +140,7 @@
 
   <servlet-mapping>
     <servlet-name>UpdateProductServlet</servlet-name>
-    <url-pattern>/updateProduct</url-pattern>
+    <url-pattern>/admin/updateProduct</url-pattern>
   </servlet-mapping>
 
 
@@ -92,9 +151,8 @@
 
   <servlet-mapping>
     <servlet-name>AddNewproductItems</servlet-name>
-    <url-pattern>/admin/addItems</url-pattern>
+    <url-pattern>/admin/add/product/items</url-pattern>
   </servlet-mapping>
-
 
   <servlet>
     <servlet-name>ProductSetting</servlet-name>
@@ -103,9 +161,8 @@
 
   <servlet-mapping>
     <servlet-name>ProductSetting</servlet-name>
-    <url-pattern>/admin/product_setting</url-pattern>
+    <url-pattern>/admin/product/setting</url-pattern>
   </servlet-mapping>
-
 
   <servlet>
     <servlet-name>Customers</servlet-name>
@@ -119,12 +176,12 @@
 
   <servlet>
     <servlet-name>Admin</servlet-name>
-    <jsp-file>/WEB-INF/jsp/admin.jsp</jsp-file>
+    <jsp-file>/WEB-INF/jsp/admin/admin.jsp</jsp-file>
   </servlet>
 
   <servlet-mapping>
     <servlet-name>Admin</servlet-name>
-    <url-pattern>/admin_autho</url-pattern>
+    <url-pattern>/admin/account</url-pattern>
   </servlet-mapping>
 
   <servlet>
@@ -144,13 +201,14 @@
 
   <servlet-mapping>
     <servlet-name>Customer</servlet-name>
-    <url-pattern>/customer_autho</url-pattern>
+    <url-pattern>/account </url-pattern>
   </servlet-mapping>
 
 
   <filter>
     <filter-name>encodingFilter</filter-name>
     <filter-class>by.online.pharmacy.filter.EncodingFilter</filter-class>
+
 
 
     <init-param>
@@ -165,8 +223,57 @@
   </filter-mapping>
 
 
+  <filter>
+    <filter-name>ProductFilter</filter-name>
+    <filter-class>by.online.pharmacy.filter.ProductPageFilter</filter-class>
 
 
+    <init-param>
+      <param-name>encoding</param-name>
+      <param-value>UTF-8</param-value>
+    </init-param>
+  </filter>
+
+  <filter-mapping>
+    <filter-name>ProductFilter</filter-name>
+    <url-pattern>/product</url-pattern>
+  </filter-mapping>
+
+
+
+  <filter>
+    <filter-name>AdminFilter</filter-name>
+    <filter-class>by.online.pharmacy.filter.AdminUrlFilter</filter-class>
+
+
+    <init-param>
+      <param-name>encoding</param-name>
+      <param-value>UTF-8</param-value>
+    </init-param>
+  </filter>
+
+  <filter-mapping>
+    <filter-name>AdminFilter</filter-name>
+    <url-pattern>/admin/*</url-pattern>
+  </filter-mapping>
+
+
+  <filter>
+    <filter-name>AdminProductGetFilter</filter-name>
+    <filter-class>by.online.pharmacy.filter.AdminProductGetFilter</filter-class>
+
+
+
+    <init-param>
+      <param-name>encoding</param-name>
+      <param-value>UTF-8</param-value>
+    </init-param>
+  </filter>
+
+  <filter-mapping>
+    <filter-name>AdminProductGetFilter</filter-name>
+    <url-pattern>/admin/product/*</url-pattern>
+  </filter-mapping>
 
 
 

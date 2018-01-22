@@ -15,7 +15,7 @@ public class LogoutCommand implements Command {
     public void execute(HttpServletRequest request, HttpServletResponse response) throws ControllerException {
         request.getSession().invalidate();
         try {
-            response.sendRedirect(WebProperty.MAIN_PAGE);
+            response.sendRedirect(WebProperty.PAGE_MAIN);
         } catch (IOException e) {
             throw new ControllerException("exception from Logout Command ",e);
         }

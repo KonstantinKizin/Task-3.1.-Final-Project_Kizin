@@ -2,6 +2,7 @@ package by.online.pharmacy.controller.command;
 
 import by.online.pharmacy.controller.exception.ControllerException;
 import by.online.pharmacy.entity.Customer;
+import by.online.pharmacy.entity.ValidationError;
 import by.online.pharmacy.service.CustomerService;
 import by.online.pharmacy.service.exception.ServiceException;
 import by.online.pharmacy.service.factory.ServiceFactory;
@@ -42,23 +43,26 @@ public class SaveCustomerCommand implements Command {
             String role = WebProperty.CUSTOMER_ROLE;
             String email = request.getParameter(RegistrationProperty.EMAIL_PARAMETER);
             String phoneNumber = request.getParameter(RegistrationProperty.PHONE_PARAMETER);
+
             String birthDay = request.getParameter(RegistrationProperty.BIRTH_DATE_PARAMETER);
+
             String gender = request.getParameter(RegistrationProperty.GENDER_PARAMETER);
             Customer customer = new Customer(name,sureName,date,login,hashedPassword,
                     email,phoneNumber, role,birthDay,gender);
 
-           List<String> registrationErrors =  service.saveCustomer(customer);
+           List<ValidationError> registrationErrors =  service.saveCustomer(customer);
 
            if(registrationErrors.isEmpty()){
-               response.sendRedirect(WebProperty.MAIN_PAGE);
+               response.sendRedirect(WebProperty.PAGE_MAIN);
            }else {
                request.getSession().setAttribute(REGISTRATION_ERRORS_PARAMETER,registrationErrors);
-               response.sendRedirect(WebProperty.REGISTRATION_PAGE);
+               response.sendRedirect(WebProperty.PAGE_REGISTRATION);
            }
 
-        } catch (ServiceException  | IOException e) {
+        } catch (ServiceException  | IOException | RuntimeException e) {
+
             logger.error("Exception from SaveCustomer",e);
-            response.sendRedirect(WebProperty.ERROR_PAGE);
+            response.sendRedirect(WebProperty.PAGE_ERROR);
         }
     }
 }

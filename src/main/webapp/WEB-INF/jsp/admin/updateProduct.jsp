@@ -8,7 +8,9 @@
 </head>
 <body>
 
-<form class="form-horizontal" enctype="multipart/form-data"  method="post" action="/updateProduct" >
+<form class="form-horizontal" enctype="multipart/form-data"  method="post" action="/updateProduct?id=${param.id}" >
+
+    <input type="hidden" name="product_id" value="${product_id}">
 
     <!-- Multiple Radios -->
     <div class="form-group">
@@ -20,6 +22,7 @@
                     Rus
                 </label>
             </div>
+
             <div class="radio">
                 <label for="radios-1">
                     <input type="radio" name="product_language" id="radios-1" value="en">
@@ -51,6 +54,7 @@
     </div>
 
 
+
     <!-- Text input-->
     <div class="form-group">
         <label class="col-md-4 control-label" for="textinput">Price</label>
@@ -60,24 +64,6 @@
     </div>
 
 
-    <!-- Multiple Radios -->
-    <div class="form-group">
-        <label class="col-md-4 control-label" for="radios">Prescription</label>
-        <div class="col-md-4">
-            <div class="radio">
-                <label for="radios-2">
-                    <input type="radio" name="product_prescription" id="radios-2" value="true" checked="checked">
-                    Yes
-                </label>
-            </div>
-            <div class="radio">
-                <label for="radios-3">
-                    <input type="radio" name="product_prescription" id="radios-3" value="false">
-                    No
-                </label>
-            </div>
-        </div>
-    </div>
 
 
     <!-- Text input-->
@@ -88,6 +74,7 @@
 
         </div>
     </div>
+
 
     <!-- Textarea -->
     <div class="form-group">
@@ -107,8 +94,8 @@
 
 
 
-</form>
 
+</form>
 
 </body>
 </html>

@@ -17,9 +17,9 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.util.HashMap;
-import java.util.Iterator;
-import java.util.List;
 import java.util.Map;
+import java.util.List;
+import java.util.Iterator;
 
 public class UpdateProductServlet extends HttpServlet {
 
@@ -29,8 +29,14 @@ public class UpdateProductServlet extends HttpServlet {
 
     private Map<String,String> parametersMap = new HashMap<String,String>();
 
-    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    private final static String PARAMETER_PRICE = "product_price";
+    private final static String PARAMETER_NAME = "product_name";
+    private final static String PARAMETER_DESCRIPTION = "product_description";
+    private final static String PARAMETER_LANGUAGE = "product_language";
+    private final static String PARAMETER_ID = "product_id";
+    private final static String PARAMETER_CURRENT_PRODUCT = "current_product";
 
+    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         doGet(request,response);
     }
 
@@ -55,44 +61,40 @@ public class UpdateProductServlet extends HttpServlet {
 
             imageBytes =  buildParametersMap(iterator);
 
-             Product product = productService.findProduct(Integer.parseInt(parametersMap.get("product_id")));
+            int id = Integer.parseInt(parametersMap.get(PARAMETER_ID));
 
-             String price = parametersMap.get("product_price");
-             String name = parametersMap.get("product_name");
-             String description = parametersMap.get("product_description");
-             String prescription = parametersMap.get("prescription");
-             String currentLanguage = parametersMap.get("current_language");
+            Product product = productService.findProduct(id);
 
-             if(!price.isEmpty()){
-                 product.setPrice(Float.parseFloat(price));
-             }
+            String price = parametersMap.get(PARAMETER_PRICE);
+            String name = parametersMap.get(PARAMETER_NAME);
+            String description = parametersMap.get(PARAMETER_DESCRIPTION);
+            String currentLanguage = parametersMap.get(PARAMETER_LANGUAGE);
 
-             if(!name.isEmpty()){
-                 product.getProductItemMap().get(currentLanguage).setName(name);
-             }
+                if(!price.isEmpty()){
+                    product.setPrice(Float.parseFloat(price));
+                }
 
-             if(!description.isEmpty()){
-                 product.getProductItemMap().get(currentLanguage).setDescription(description);
-             }
+                if(!name.isEmpty()){
+                    product.getProductItemMap().get(currentLanguage).setName(name);
+                }
 
-             if(!prescription.isEmpty()){
-                 product.setPrescription(Boolean.parseBoolean(prescription));
-             }
+                if(!description.isEmpty()){
+                    product.getProductItemMap().get(currentLanguage).setDescription(description);
+                }
 
-             if(imageBytes != null){
-                 product.setImage(imageBytes);
-             }
+                if(imageBytes != null && imageBytes.length != 0){
+                    product.setImage(imageBytes);
+                }
 
-             productService.updateProduct(product);
+                productService.updateProduct(product,currentLanguage);
 
-             request.getSession().setAttribute("certain_product",product);
 
-             response.sendRedirect("/product.jsp");
+             request.getSession().setAttribute(PARAMETER_CURRENT_PRODUCT,product);
 
-        } catch (FileUploadException | ServiceException e) {
+             response.sendRedirect(ControllerConstant.WebProperty.PAGE_PRODUCT);
 
-            e.printStackTrace();
-
+        } catch (FileUploadException | ServiceException | RuntimeException e) {
+            response.sendRedirect(ControllerConstant.WebProperty.PAGE_ERROR);
       }
 
     }
@@ -100,10 +102,10 @@ public class UpdateProductServlet extends HttpServlet {
 
 
     private void putParameter(FileItem fi) throws UnsupportedEncodingException {
-
         String parameterName = fi.getFieldName();
-        String parameterValue = fi.getString("UTF-8");
+        String parameterValue = fi.getString(ControllerConstant.WebProperty.CHARACTER_ENCODING);
         parametersMap.put(parameterName,parameterValue);
+        
     }
 
 
@@ -122,8 +124,5 @@ public class UpdateProductServlet extends HttpServlet {
         }
         return imageBytes;
     }
-
-
-
 
 }

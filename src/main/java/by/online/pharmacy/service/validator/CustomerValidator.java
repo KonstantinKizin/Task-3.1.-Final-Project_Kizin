@@ -1,15 +1,9 @@
 package by.online.pharmacy.service.validator;
 
-import by.online.pharmacy.entity.Customer;
-
-
-import java.util.List;
-
-public interface CustomerValidator {
+public interface CustomerValidator<Customer> extends Validator<Customer> {
 
     boolean loginValidate(String email , String password);
 
-    List<String> registrationValidate(Customer customer);
 
 
 }

@@ -10,7 +10,7 @@ import static by.online.pharmacy.controller.constant.ControllerConstant.WebPrope
 
 public class RedirectCommand implements Command {
 
-    private final static Logger logger = Logger.getLogger(SaveCustomerCommand.class);
+    private final static Logger logger = Logger.getLogger(RedirectCommand.class);
 
     @Override
     public void execute(HttpServletRequest request, HttpServletResponse response) throws ControllerException {

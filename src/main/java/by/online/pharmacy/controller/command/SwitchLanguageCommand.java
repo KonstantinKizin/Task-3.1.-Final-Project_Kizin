@@ -11,7 +11,7 @@ import org.apache.log4j.Logger;
 
      private final static Logger logger = Logger.getLogger(SwitchLanguageCommand.class);
 
-    private final static String REQUEST_PAGE_PARAMETER = "current_page";
+    private final static String REQUEST_PAGE_PARAMETER = "page";
 
     private final static String LANGUAGE_PARAMETER = "language";
 
@@ -19,7 +19,7 @@ import org.apache.log4j.Logger;
     public void execute(HttpServletRequest request, HttpServletResponse response) throws ControllerException {
 
         try {
-            String page = (String) request.getSession().getAttribute(REQUEST_PAGE_PARAMETER);
+            String page = (String) request.getParameter(REQUEST_PAGE_PARAMETER);
             String language = (String) request.getParameter(LANGUAGE_PARAMETER);
             request.getSession().setAttribute(LANGUAGE_PARAMETER, language);
             response.sendRedirect(page);

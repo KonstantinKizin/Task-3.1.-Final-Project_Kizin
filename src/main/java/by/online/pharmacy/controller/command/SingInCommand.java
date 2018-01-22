@@ -13,7 +13,6 @@ import javax.servlet.http.HttpServletResponse;
 
 import java.io.IOException;
 import java.util.HashMap;
-import java.util.Locale;
 import java.util.Map;
 
 import static by.online.pharmacy.controller.constant.ControllerConstant.WebProperty;
@@ -36,19 +35,21 @@ public class SinginCommand implements Command {
 
 
     public SinginCommand(){
-        pages.put(WebProperty.ADMIN_ROLE,WebProperty.ADMIN_PAGE);
-        pages.put(WebProperty.CUSTOMER_ROLE,WebProperty.CUSTOMER_PAGE);
+        pages.put(WebProperty.ADMIN_ROLE,WebProperty.PAGE_ADMIN);
+        pages.put(WebProperty.CUSTOMER_ROLE,WebProperty.PAGE_CUSTOMER);
     }
 
     @Override
     public void execute(HttpServletRequest request, HttpServletResponse response) throws ControllerException {
 
-
+        System.out.println("inside command");
+        logger.info("inside command sin in");
         String email = null;
         String password = null;
         Customer customer = null;
 
         if(request.getSession().getAttribute(SING_IN_ERROR_PARAMETER) != null){
+            logger.info("session block");
             request.getSession().removeAttribute(SING_IN_ERROR_PARAMETER);
         }
 
@@ -57,19 +58,18 @@ public class SinginCommand implements Command {
             password = customerService.generateHashPassword(
                     request.getParameter(RegistrationProperty.PW_PARAMETER)
             );
+            logger.info("email is "+email);
             customer = customerService.findCustomerByEmailAndPassword(email,password);
+            logger.info("customer is "+customer);
             if(customer != null){
                 request.getSession().setAttribute(WebProperty.USER_ATTRIBUTE_NAME,customer);
                 String page = pages.get(customer.getRole());
                 response.sendRedirect(page);
-
             }else {
                 request.getSession().setAttribute(SING_IN_ERROR_PARAMETER,
                         SING_IN_ERROR_VALUE);
-
-                response.sendRedirect(WebProperty.MAIN_PAGE);
+                response.sendRedirect(WebProperty.PAGE_LOGIN);
             }
-
 
         } catch (ServiceException | IOException e ) {
             logger.error("Exception from singIn Command",e);
@@ -78,8 +78,9 @@ public class SinginCommand implements Command {
             request.getSession().setAttribute(SING_IN_ERROR_PARAMETER,
                     SING_IN_ERROR_VALUE);
             try {
-                response.sendRedirect(WebProperty.MAIN_PAGE);
+                response.sendRedirect(WebProperty.PAGE_MAIN);
             } catch (IOException ex) {
+                logger.debug("Exception ",e);
                 throw new ControllerException("Exception in singinCommand while send redirect to main page",e);
             }
         }

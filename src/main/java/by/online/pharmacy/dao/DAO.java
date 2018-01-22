@@ -9,11 +9,6 @@ public interface DAO<T> {
 
     void save(T t) throws DAOException;
 
-    void update(T t) throws DAOException;
-
-
-
-
 
 
 }

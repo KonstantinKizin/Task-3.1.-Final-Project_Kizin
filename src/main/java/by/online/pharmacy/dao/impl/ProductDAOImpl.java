@@ -1,6 +1,7 @@
 package by.online.pharmacy.dao.impl;
 
 import by.online.pharmacy.dao.ProductDAO;
+import by.online.pharmacy.dao.exception.ConnectionPoolException;
 import by.online.pharmacy.dao.exception.DAOException;
 import by.online.pharmacy.dao.impl.connectionPool.ConnectionPool;
 import by.online.pharmacy.dao.impl.connectionPool.ConnectionPoolImpl;
@@ -29,7 +30,6 @@ public class ProductDAOImpl implements ProductDAO {
 
     private final Map<String,Integer> languageMap = new HashMap<>();
 
-
     private final static String TABLE_PRODUCT = "product";
 
     private final static String TABLE_TRANSLATION_PRODUCT = "translation_product";
@@ -42,6 +42,14 @@ public class ProductDAOImpl implements ProductDAO {
 
     private final static String SQL_INSERT_PRODUCT = "INSERT INTO "+TABLE_PRODUCT+" (prescription," +
             "count, price,dosage,image,category_id) VALUES(?,?,?,?,?,?)";
+
+    private final static String SQL_UPDATE_PRODUCT = "UPDATE "+TABLE_PRODUCT+" SET  " +
+            "count = ? , price = ? , image = ?  \n" +
+            "WHERE product_id = ?";
+
+    private final static String SQL_UPDATE_PRODUCT_ITEMS = "UPDATE "+TABLE_TRANSLATION_PRODUCT+" SET\n" +
+            "name = ? , description = ? \n" +
+            "WHERE product_id = ? and language_id = ?";
 
     private final static String SQL_SELECT_CATEGORY_ID_BY_NAME = "SELECT category_id FROM "+TABLE_TRANSLATION_CATEGORY+" " +
             "WHERE category_name = ?";
@@ -57,11 +65,11 @@ public class ProductDAOImpl implements ProductDAO {
             "translation_product.manufacture,\n" +
             "translation_product.description,\n" +
             "translation_category.category_name,\n" +
-            "language.name as 'lang_name'\n" +
-            "from translation_product\n" +
-            "inner join product on product.product_id = translation_product.product_id\n" +
-            "inner join language on translation_product.language_id = language.lang_id\n" +
-            "inner join translation_category on product.category_id = translation_category.category_id and language.lang_id = translation_category.lang_id";
+            "language.name AS 'lang_name'\n" +
+            "FROM translation_product\n" +
+            "INNER JOIN  product ON product.product_id = translation_product.product_id\n" +
+            "INNER JOIN  language ON translation_product.language_id = language.lang_id\n" +
+            "INNER JOIN  translation_category ON product.category_id = translation_category.category_id AND language.lang_id = translation_category.lang_id";
 
     private final static String SQL_INSERT_PRODUCT_ITEMS = "INSERT INTO  "+TABLE_TRANSLATION_PRODUCT+" VALUES(?,?,?,?,?)" ;
 
@@ -95,23 +103,35 @@ public class ProductDAOImpl implements ProductDAO {
 
 
 
-   private final String ID_COLUMN_NAME = "product_id";
-   private final String PRICE_COLUMN_NAME = "price";
-   private final String COUNT_COLUMN_NAME = "count";
-   private final String DOSAGE_COLUMN_NAME = "dosage";
-   private final String IMAGE_COLUMN_NAME = "image";
-   private final String PRESCRIPTION_COLUMN_NAME = "prescription";
-   private final String NAME_COLUMN_NAME = "name";
-   private final String MANUFACTURE_COLUMN_NAME = "manufacture";
-   private final String DESCRIPTION_COLUMN_NAME = "description";
-   private final String CATEGORY_COLUMN_NAME = "category_name";
-   private final String LANGUAGE_NAME_COLUMN  = "lang_name";
+   private final static String ID_COLUMN_NAME = "product_id";
+   private final static String PRICE_COLUMN_NAME = "price";
+   private final static String COUNT_COLUMN_NAME = "count";
+   private final static String DOSAGE_COLUMN_NAME = "dosage";
+   private final static String IMAGE_COLUMN_NAME = "image";
+   private final static String PRESCRIPTION_COLUMN_NAME = "prescription";
+   private final static String NAME_COLUMN_NAME = "name";
+   private final static String MANUFACTURE_COLUMN_NAME = "manufacture";
+   private final static String DESCRIPTION_COLUMN_NAME = "description";
+   private final static String CATEGORY_COLUMN_NAME = "category_name";
+   private final static String LANGUAGE_NAME_COLUMN  = "lang_name";
+
+   private final static String RUSSIAN_LANGUAGE = "ru";
+   private final static String ENGLISH_LANGUAGE = "en";
+   private final static int RUSSIAN_LANGUAGE_ID = 1;
+   private final static int ENGLISH_LANGUAGE_ID = 2;
+
+
+
+
+
+
+
 
 
    public ProductDAOImpl(){
 
-       languageMap.put("en",1);
-       languageMap.put("ru",2);
+       languageMap.put(RUSSIAN_LANGUAGE,RUSSIAN_LANGUAGE_ID);
+       languageMap.put(ENGLISH_LANGUAGE,ENGLISH_LANGUAGE_ID);
    }
 
 
@@ -204,6 +224,7 @@ public class ProductDAOImpl implements ProductDAO {
                     productItem.setManufacture(rs.getString(MANUFACTURE_COLUMN_NAME));
                     productItem.setName(rs.getString(NAME_COLUMN_NAME));
                     productList.add(product);
+
                 }
             }
             return productList;
@@ -228,7 +249,7 @@ public class ProductDAOImpl implements ProductDAO {
 
 
 
-    //solve the problem next time.
+    //no need to use this method.
     @Override
     public void delete(int id) throws DAOException{
         try {
@@ -239,8 +260,16 @@ public class ProductDAOImpl implements ProductDAO {
         }
     }
 
+
     @Override
-    public void update(Product product) throws DAOException {
+    public void update(Product product, String language) throws DAOException {
+
+        try {
+            updateProductAsTransaction(product,language);
+        } catch (SQLException e) {
+            logger.error("Exception in update product method", e);
+            throw new DAOException("Update product method",e);
+        }
 
 
     }
@@ -342,6 +371,46 @@ public class ProductDAOImpl implements ProductDAO {
     }
 
 
+    private void updateProductAsTransaction(Product product, String language) throws SQLException {
+
+        WrappedConnection connectionRefCopy = null;
+
+       try(WrappedConnection connection = new WrappedConnection(connectionPool.getConnection());
+           PreparedStatement productStatement = connection.getPreparedStatement(SQL_UPDATE_PRODUCT);
+           PreparedStatement tProductStatement = connection.getPreparedStatement(SQL_UPDATE_PRODUCT_ITEMS)) {
+
+           connection.setAutoCommit(false);
+           connectionRefCopy = connection;
+
+           productStatement.setInt(1,product.getCount());
+           productStatement.setFloat(2,product.getPrice());
+           Blob image = new javax.sql.rowset.serial.SerialBlob(product.getImage());
+           productStatement.setBlob(3,image);
+           productStatement.setInt(4,product.getId());
+           productStatement.executeUpdate();
+
+           tProductStatement.setString(1,product.getProductItemMap().get(language).getName());
+           tProductStatement.setString(2,product.getProductItemMap().get(language).getDescription());
+           tProductStatement.setInt(3,product.getId());
+           tProductStatement.setInt(4,languageMap.get(language));
+           tProductStatement.executeUpdate();
+
+       } catch (SQLException | ConnectionPoolException e) {
+           connectionRefCopy.rollback();
+           throw new SQLException(e);
+       }finally {
+           try {
+               connectionRefCopy.setAutoCommit(true);
+           } catch (SQLException e) {
+               throw new SQLException("Exception in update product method, in set autocommit true",e);
+           }
+
+       }
+
+
+    }
+
+
 
 
     private List<Product> getAllProductsAsTransaction() throws DAOException, SQLException {
@@ -390,19 +459,6 @@ public class ProductDAOImpl implements ProductDAO {
         }
     }
 
-
-
-
-    private Product getProductById(int id , Collection<Product> products){
-       Product product = null;
-       for(Product tmp: products){
-           if(tmp.getId() == id){
-               product = tmp;
-               break;
-           }
-       }
-       return product;
-    }
 
 
 

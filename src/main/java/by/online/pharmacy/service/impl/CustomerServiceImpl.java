@@ -4,6 +4,7 @@ import by.online.pharmacy.dao.CustomerDAO;
 import by.online.pharmacy.dao.exception.DAOException;
 import by.online.pharmacy.dao.factory.DAOFactory;
 import by.online.pharmacy.entity.Customer;
+import by.online.pharmacy.entity.ValidationError;
 import by.online.pharmacy.service.CustomerService;
 import by.online.pharmacy.service.exception.ServiceException;
 import by.online.pharmacy.service.exception.ValidatorException;
@@ -17,21 +18,24 @@ public class CustomerServiceImpl implements CustomerService {
     private final DAOFactory factory = DAOFactory.getInstance();
     private final CustomerDAO customerDAO = factory.getCustomerDao();
     private final static Logger logger = Logger.getLogger(CustomerServiceImpl.class);
-    private final CustomerValidator validator = new CustomerValidatorImpl();
 
+    private final CustomerValidator validator = new CustomerValidatorImpl();
     private final HashGenerator hashGenerator = new HashGenerator();
 
 
     @Override
-    public List<String> saveCustomer(Customer customer) throws ServiceException {
+    public List<ValidationError> saveCustomer(Customer customer) throws ServiceException {
 
-       List<String> errors = validator.registrationValidate(customer);
 
         try {
 
-            if(errors.isEmpty()){
+            List<ValidationError> errors = validator.validate(customer);
+
+//            if(errors.isEmpty()){
                 customerDAO.save(customer);
-            }
+//            }else {
+//                throw new ValidatorException("Save customer");
+//            }
             return errors;
         } catch (DAOException e) {
             throw new ServiceException("exception from saveCustomer method",e);
