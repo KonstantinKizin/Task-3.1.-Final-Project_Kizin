@@ -31,42 +31,42 @@ public class ProductSaveValidator {
     }
 
 
-    @Test
-    public void when_put_null_in_price_then_list_should_increase_at_one(){
-        wRequest.setParameter("product_price",null);
-        List errors = validator.validate(wRequest);
-        assertThat(errors.size(),is(1));
-    }
-
-    @Test
-    public void when_put_emty_string_in_price_then_list_should_increase_at_one(){
-        wRequest.setParameter("product_price","");
-        List errors = validator.validate(wRequest);
-        assertThat(errors.size(),is(1));
-
-    }
-
-    @Test
-    public void when_put_null_in_count_then_list_should_increase_at_one(){
-        wRequest.setParameter("product_count",null);
-        List errors = validator.validate(wRequest);
-        assertThat(errors.size(),is(1));
-    }
-
-    @Test
-    public void when_price_and_count_are_numbers_then_list_should_not_change(){
-        assertThat(validator.validate(wRequest).size(), is(0));
-    }
-
-    @Test
-    public void when_put_emty_string_in_count(){
-
-        System.out.println(wRequest.getParameter("product_price"));
-
-        wRequest.setParameter("product_count","");
-        List errors = validator.validate(wRequest);
-        assertThat(errors.size(),is(1));
-
-    }
+//    @Test
+//    public void when_put_null_in_price_then_list_should_increase_at_one(){
+//        wRequest.setParameter("product_price",null);
+//        //List errors = validator.validate(wRequest);
+//        assertThat(errors.size(),is(1));
+//    }
+//
+//    @Test
+//    public void when_put_emty_string_in_price_then_list_should_increase_at_one(){
+//        wRequest.setParameter("product_price","");
+//        /List errors = validator.validate(wRequest);
+//        assertThat(errors.size(),is(1));
+//
+//    }
+//
+//    @Test
+//    public void when_put_null_in_count_then_list_should_increase_at_one(){
+//        wRequest.setParameter("product_count",null);
+//        List errors = validator.validate(wRequest);
+//        assertThat(errors.size(),is(1));
+//    }
+//
+//    @Test
+//    public void when_price_and_count_are_numbers_then_list_should_not_change(){
+//        assertThat(validator.validate(wRequest).size(), is(0));
+//    }
+//
+//    @Test
+//    public void when_put_emty_string_in_count(){
+//
+//        System.out.println(wRequest.getParameter("product_price"));
+//
+//        wRequest.setParameter("product_count","");
+//        List errors = validator.validate(wRequest);
+//        assertThat(errors.size(),is(1));
+//
+//    }
 
 }

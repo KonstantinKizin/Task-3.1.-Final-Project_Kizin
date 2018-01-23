@@ -138,10 +138,10 @@ public class ProductDAOImpl implements ProductDAO {
 
 
     @Override
-    public void save(Product product) throws DAOException {
+    public int save(Product product) throws DAOException {
 
         try {
-            saveProductAsTransaction(product);
+            return saveProductAsTransaction(product);
         } catch (SQLException | DAOException e) {
             logger.error("Exception in save product method", e);
             throw new DAOException("Save product method", e);
@@ -277,7 +277,7 @@ public class ProductDAOImpl implements ProductDAO {
 
 
 
-    private void saveProductAsTransaction(Product product) throws DAOException, SQLException {
+    private int saveProductAsTransaction(Product product) throws DAOException, SQLException {
         WrappedConnection connectionRefCopy = null;
 
         try(WrappedConnection connection = new WrappedConnection(connectionPool.getConnection());
@@ -325,6 +325,7 @@ public class ProductDAOImpl implements ProductDAO {
             tProductStatement.setString(4,productItemMap.get(lang).getManufacture());
             tProductStatement.executeUpdate();
             connection.commit();
+            return productId;
         }catch (SQLException e) {
             connectionRefCopy.rollback();
             throw e;

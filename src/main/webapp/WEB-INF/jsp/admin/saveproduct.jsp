@@ -24,7 +24,7 @@
 
     <c:forEach items = "${ProductErrorsList}" var = "error">
 
-        <div class="alert alert-danger" role="alert">
+        <div class="alert alert-danger" role="alert" style="width: 700px">
             <strong>Mistake!</strong> ${error.message}
         </div>
 

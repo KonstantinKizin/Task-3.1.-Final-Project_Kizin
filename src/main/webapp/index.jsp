@@ -13,7 +13,6 @@
 </head>
 <body>
 
-
 <Header>
     <jsp:include page="WEB-INF/jsp/additional/header.jsp"></jsp:include>
 </Header>

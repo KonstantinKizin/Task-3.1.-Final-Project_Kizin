@@ -29,7 +29,7 @@ public abstract class AbstractValidator{
         return !isLettersOnly(parameter);
     }
 
-    protected boolean isDigitsOnly(String parameter){
+    protected boolean isPositiveDigitsOnly(String parameter){
         char[] letters = parameter.toCharArray();
 
         for(char buf : letters){

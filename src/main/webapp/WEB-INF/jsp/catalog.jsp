@@ -13,12 +13,49 @@
 <header>
 <jsp:include page="/WEB-INF/jsp/additional/header.jsp"></jsp:include>
 </header>
+<c:choose>
 
+    <c:when test="${user.role eq 'admin'}">
 
+<div class="container">
+    <div class="row">
+        <c:forEach items = "${productList}" var = "product">
+            <div class="col-lg-4 col-md-6 mb-4">
+                <div class="card" style="width: 20rem; margin: auto">
+                    <h4 class="card-title"> ${product.productItemMap.get(language).name}</h4>
+                    <img class="card-img-top" style="width: 150px; height: 150px" src="ImageServlet?product_id=${product.id}" alt="Card image cap">
+                    <div class="card-body">
+                        <p class="card-text" >${product.productItemMap.get(language).shortDescription}</p>
+                        <a href="/admin/product/setting?id=${product.id}" class="btn btn-primary">Настроить</a><br>
+                    </div>
+                </div>
+            </div>
+        </c:forEach>
+    </div>
+    </c:when>
 
-<p>${TEST}</p>
+    <c:otherwise>
+    <div class="container">
+        <div class="row">
 
+            <c:forEach items = "${productList}" var = "product">
 
+                <div class="col-lg-4 col-md-6 mb-4">
+                    <div class="card" style="width: 20rem; margin: auto">
+                        <h4 class="card-title"> ${product.productItemMap.get(language).name}</h4>
+                        <img class="card-img-top" style="width: 150px; height: 150px" src="ImageServlet?product_id=${product.id}" alt="Card image cap">
+                        <div class="card-body">
+                            <p class="card-text" >${product.productItemMap.get(language).shortDescription}</p>
+                            <a href="/frontController?hidden=get_product&product_id=${product.id}" class="btn btn-primary">Подробнее</a><br>
+                            <a href="/frontController?hidden=get_product&product_id=${product.id}" class="btn btn-primary">Добавить в корзину</a>
+                        </div>
+                    </div>
+                </div>
+            </c:forEach>
+        </div>
+
+    </c:otherwise>
+</c:choose>
 
 </body>
 </html>

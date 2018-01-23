@@ -47,6 +47,9 @@
         <command-class>by.online.pharmacy.controller.command.GoToAccountCommand</command-class>
     </command>
 
-
+    <command>
+        <command-name>find_product</command-name>
+        <command-class>by.online.pharmacy.controller.command.FindProductCommand</command-class>
+    </command>
 
 </commands>

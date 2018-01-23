@@ -5,7 +5,10 @@ import by.online.pharmacy.entity.Product;
 
 import java.util.List;
 
-public interface ProductDAO extends DAO<Product> {
+public interface ProductDAO {
+
+
+    int save(Product product) throws DAOException;
 
     void delete(int id) throws DAOException;
 

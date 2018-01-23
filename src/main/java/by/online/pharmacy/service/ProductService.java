@@ -8,7 +8,7 @@ import java.util.List;
 
 public interface ProductService {
 
-    void saveProduct(Product product) throws ServiceException;
+    int saveProduct(Product product) throws ServiceException;
 
     Product findProduct(int id)throws ServiceException;
 

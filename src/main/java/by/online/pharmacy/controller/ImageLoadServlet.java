@@ -44,9 +44,7 @@ public class ImageLoadServlet extends HttpServlet {
 
         int id = Integer.parseInt(request.getParameter(PRODUCT_ID_PARAMETER));
         byte[] image = null;
-
         List<Product> productList = (List<Product>)request.getServletContext().getAttribute(PRODUCT_LIST_ATTRIBUTE);
-
 
         if(productList.isEmpty()){
             try {

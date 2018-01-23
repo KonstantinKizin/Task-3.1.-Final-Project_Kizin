@@ -15,9 +15,7 @@ import java.util.regex.Pattern;
 
 public class AdminProductGetFilter implements Filter {
 
-    private static final  Pattern URL_PATTERN = Pattern.compile("admin/product/(\\w{1,})[?]id=(\\d{1,})");
-
-
+    private static final  Pattern URL_PATTERN = Pattern.compile("admin/product/(\\w{1,})[?]id=(\\d{1,})|(admin/product/)(\\w{1,})[?]language=(\\w{1,})");
     @Override
     public void init(FilterConfig filterConfig) throws ServletException {
 
@@ -37,6 +35,8 @@ public class AdminProductGetFilter implements Filter {
 
 
         if(matcher.find()==false){
+
+            System.out.println("Redirect from Admin pages");
             ((HttpServletRequest) servletRequest).getRequestDispatcher(ControllerConstant.WebProperty.PAGE_NOT_FOUND)
                     .forward(servletRequest, servletResponse);
         }

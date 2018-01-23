@@ -7,12 +7,10 @@ import by.online.pharmacy.entity.Product;
 import by.online.pharmacy.service.ProductService;
 import by.online.pharmacy.service.exception.ServiceException;
 import by.online.pharmacy.service.exception.StorageException;
-import by.online.pharmacy.service.exception.ValidatorException;
 import by.online.pharmacy.service.storage.ProductStorage;
 import by.online.pharmacy.service.validator.ProductValidator;
 import by.online.pharmacy.service.validator.impl.ProductValidatorImpl;
 
-import javax.xml.bind.ValidationException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -28,12 +26,9 @@ public class ProductServiceImpl implements ProductService {
 
 
     @Override
-    public void saveProduct(Product product) throws ServiceException {
-
+    public int saveProduct(Product product) throws ServiceException {
         try{
-                productDAO.save(product);
-                storage.getProductMap().put(product.getId(),product);
-
+            return productDAO.save(product);
         } catch (DAOException | StorageException e) {
             throw new ServiceException("Exception in service save product method",e);
         }
@@ -43,8 +38,12 @@ public class ProductServiceImpl implements ProductService {
     @Override
     public Product findProduct(int id) throws ServiceException {
         try {
-            return storage.getProductMap().get(id);
-        } catch (StorageException e) {
+            Product product = storage.getProductMap().get(id);
+            if(product == null){
+                product = productDAO.get(id);
+            }
+            return product;
+        } catch (StorageException | DAOException e) {
             throw new ServiceException("Find product by id method",e);
         }
     }

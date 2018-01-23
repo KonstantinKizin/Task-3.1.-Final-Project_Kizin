@@ -5,7 +5,9 @@ import by.online.pharmacy.entity.Customer;
 
 import java.util.List;
 
-public interface CustomerDAO extends DAO<Customer> {
+public interface CustomerDAO  {
+
+    void save(Customer customer) throws DAOException;
 
     Customer findCustomerByEmailAndPw(String email , String password) throws DAOException;
 

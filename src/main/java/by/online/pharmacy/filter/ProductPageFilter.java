@@ -32,6 +32,7 @@ public class ProductPageFilter implements Filter {
         String uri = ((HttpServletRequest)servletRequest).getRequestURI();
 
         if(session.getAttribute("current_product") == null){
+            System.out.println("Redirect from product filter");
             ((HttpServletRequest)servletRequest).getRequestDispatcher(ControllerConstant.WebProperty.PAGE_NOT_FOUND)
                  .forward(servletRequest,servletResponse);
         }
