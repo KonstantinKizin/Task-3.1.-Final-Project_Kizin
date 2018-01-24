@@ -2,6 +2,7 @@ package by.online.pharmacy.controller;
 
 import by.online.pharmacy.controller.constant.ControllerConstant;
 import by.online.pharmacy.entity.Product;
+import by.online.pharmacy.entity.ProductItem;
 import by.online.pharmacy.service.ProductService;
 import by.online.pharmacy.service.exception.ServiceException;
 import by.online.pharmacy.service.factory.ServiceFactory;
@@ -27,7 +28,7 @@ public class UpdateProductServlet extends HttpServlet {
 
     private final ProductService productService = factory.getProductService();
 
-    private Map<String,String> parametersMap = new HashMap<String,String>();
+    private Map<String,String> parametersMap = new HashMap<>();
 
     private final static String PARAMETER_PRICE = "product_price";
     private final static String PARAMETER_NAME = "product_name";
@@ -35,6 +36,7 @@ public class UpdateProductServlet extends HttpServlet {
     private final static String PARAMETER_LANGUAGE = "product_language";
     private final static String PARAMETER_ID = "product_id";
     private final static String PARAMETER_CURRENT_PRODUCT = "current_product";
+    private final static String PARAMETER_COUNT = "product_count";
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         doGet(request,response);
@@ -65,20 +67,32 @@ public class UpdateProductServlet extends HttpServlet {
 
             Product product = productService.findProduct(id);
 
+            int productIndex = ((List<Product>)this.getServletContext().getAttribute("productList")).indexOf(product);
+
             String price = parametersMap.get(PARAMETER_PRICE);
             String name = parametersMap.get(PARAMETER_NAME);
             String description = parametersMap.get(PARAMETER_DESCRIPTION);
             String currentLanguage = parametersMap.get(PARAMETER_LANGUAGE);
+            String count = parametersMap.get(PARAMETER_COUNT);
 
-                if(!price.isEmpty()){
+                if(product.getProductItemMap().get(currentLanguage) == null){
+                    ProductItem productItem = buildEmptyProductItems();
+                    product.getProductItemMap().put(currentLanguage,productItem);
+                }
+
+                if(checkForNullAndEmpty(count)){
+                    product.setCount(Integer.parseInt(count));
+                }
+
+                if(checkForNullAndEmpty(price)){
                     product.setPrice(Float.parseFloat(price));
                 }
 
-                if(!name.isEmpty()){
+                if(checkForNullAndEmpty(name)){
                     product.getProductItemMap().get(currentLanguage).setName(name);
                 }
 
-                if(!description.isEmpty()){
+                if(checkForNullAndEmpty(description)){
                     product.getProductItemMap().get(currentLanguage).setDescription(description);
                 }
 
@@ -88,12 +102,14 @@ public class UpdateProductServlet extends HttpServlet {
 
                 productService.updateProduct(product,currentLanguage);
 
+                ((List<Product>)this.getServletContext().getAttribute("productList")).set(productIndex,product);
 
-             request.getSession().setAttribute(PARAMETER_CURRENT_PRODUCT,product);
-
-             response.sendRedirect(ControllerConstant.WebProperty.PAGE_PRODUCT);
-
+                request.getSession().setAttribute(PARAMETER_CURRENT_PRODUCT,product);
+                response.sendRedirect(ControllerConstant.WebProperty.PAGE_PRODUCT);
         } catch (FileUploadException | ServiceException | RuntimeException e) {
+
+            e.printStackTrace();
+
             response.sendRedirect(ControllerConstant.WebProperty.PAGE_ERROR);
       }
 
@@ -107,8 +123,6 @@ public class UpdateProductServlet extends HttpServlet {
         parametersMap.put(parameterName,parameterValue);
         
     }
-
-
 
 
     private byte[] buildParametersMap(Iterator iterator) throws UnsupportedEncodingException {
@@ -125,4 +139,26 @@ public class UpdateProductServlet extends HttpServlet {
         return imageBytes;
     }
 
+
+    private boolean checkForNullAndEmpty(String parameter){
+
+        if(parameter == null || parameter.isEmpty()){
+            return false;
+        }else {
+            return true;
+        }
+    }
+
+    private ProductItem buildEmptyProductItems(){
+        ProductItem items = new ProductItem();
+        items.setDescription("");
+        items.setCategoryName("");
+        items.setName("");
+        items.setDescription("");
+        return items;
+
+    }
+
 }
+
+

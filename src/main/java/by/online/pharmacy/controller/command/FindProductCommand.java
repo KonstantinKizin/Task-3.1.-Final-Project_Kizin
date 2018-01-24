@@ -21,7 +21,6 @@ public class FindProductCommand implements Command {
 
     private final static String CURRENT_PRODUCT_PARAMETER = "found_product";
 
-
     @Override
     public void execute(HttpServletRequest request, HttpServletResponse response) throws ControllerException, IOException {
 

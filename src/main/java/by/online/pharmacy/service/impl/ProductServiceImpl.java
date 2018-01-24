@@ -73,7 +73,7 @@ public class ProductServiceImpl implements ProductService {
 
         try {
             productDAO.update(product,language);
-            storage.getProductMap().replace(product.getId(),product);
+           // storage.getProductMap().replace(product.getId(),product);
             return  true;
         } catch (DAOException e) {
             throw new ServiceException("update product method",e);

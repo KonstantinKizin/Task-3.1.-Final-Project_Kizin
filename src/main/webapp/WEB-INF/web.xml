@@ -140,7 +140,7 @@
 
   <servlet-mapping>
     <servlet-name>UpdateProductServlet</servlet-name>
-    <url-pattern>/admin/updateProduct</url-pattern>
+    <url-pattern>/updateProduct</url-pattern>
   </servlet-mapping>
 
 

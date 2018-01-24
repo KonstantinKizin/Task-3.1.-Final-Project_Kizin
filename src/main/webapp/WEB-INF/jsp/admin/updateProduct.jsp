@@ -8,9 +8,9 @@
 </head>
 <body>
 
-<form class="form-horizontal" enctype="multipart/form-data"  method="post" action="/updateProduct?id=${param.id}" >
+<form class="form-horizontal" enctype="multipart/form-data"  method="post" action="/updateProduct" >
 
-    <input type="hidden" name="product_id" value="${product_id}">
+    <input type="hidden" name="product_id" value="${param.id}">
 
     <!-- Multiple Radios -->
     <div class="form-group">

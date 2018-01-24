@@ -3,7 +3,7 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <c:set var="language" value="${not empty param.language ? param.language : not empty language ? language : pageContext.request.locale}" scope="session" />
 <fmt:setLocale value="${language}"/>
-<c:set var="product" value="${found_product}"/>
+
 <c:set var="product_id" value="${not empty param.id ? param.id : found_product.id}"></c:set>
 <jsp:include page="/frontController?hidden=find_product&product_id=${product_id}"></jsp:include>
 <html>
@@ -16,32 +16,30 @@
     <jsp:include page="/WEB-INF/jsp/additional/AccountHeader.jsp"></jsp:include>
 </Header>
 <c:choose>
-
     <c:when test="${empty found_product}">
        <c:redirect url="/home"></c:redirect>
     </c:when>
 <c:otherwise>
     <div class="card" style="width: 18rem;">
-        <img class="card-img-top" src="/ImageServlet?product_id=${product_id}" alt="Card image cap" height="200px" >
+        <img class="card-img-top" src="/ImageServlet?product_id=${found_product.id}" alt="Card image cap" height="200px" >
         <div class="card-body">
-            <h5 class="card-title">${product.productItemMap.get(language).name}</h5>
-            <p class="card-text">${product.productItemMap.get(language).description}.</p>
+            <h5 class="card-title">${found_product.productItemMap.get(language).name}</h5>
+            <p class="card-text">${found_product.productItemMap.get(language).description}.</p>
         </div>
         <ul class="list-group list-group-flush">
-            <li class="list-group-item"><h3>Price: </h3>${product.price}</li>
-            <li class="list-group-item"><h3>Count: </h3>${product.count}</li>
-            <li class="list-group-item"><h3>Manufacture: </h3>${product.productItemMap.get(language).manufacture}</li>
+            <li class="list-group-item"><h3>Price: </h3>${found_product.price}</li>
+            <li class="list-group-item"><h3>Count: </h3>${found_product.count}</li>
+            <li class="list-group-item"><h3>Manufacture: </h3>${found_product.productItemMap.get(language).manufacture}</li>
         </ul>
         <div class="card-body">
-            <a href="/admin/add/product/items?id=${product.id}" class="card-link">Add items in new Language</a>
-            <a href="/admin/product/update?id=${product.id}" class="card-link">Update</a>
+            <a href="/admin/add/product/items?id=${found_product.id}" class="card-link">Add items in new Language</a>
+            <a href="/admin/update/product?id=${found_product.id}" class="card-link">Update</a>
         </div>
     </div>
 
 </c:otherwise>
 
 </c:choose>
-
 
 </body>
 </html>
