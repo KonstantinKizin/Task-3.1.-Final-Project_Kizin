@@ -17,13 +17,7 @@
         <!-- Form Name -->
         <legend>Save Product</legend>
 
-    <c:forEach items = "${ProductErrorsList}" var = "error">
 
-        <div class="alert alert-danger" role="alert" style="width: 700px">
-            <strong>Mistake!</strong> ${error.message}
-        </div>
-
-    </c:forEach>
 
         <!-- Multiple Radios -->
         <div class="form-group">

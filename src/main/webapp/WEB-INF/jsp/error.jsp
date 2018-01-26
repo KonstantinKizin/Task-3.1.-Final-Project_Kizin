@@ -5,7 +5,6 @@
     <title>Error</title>
 </head>
 <body>
-
 <H1>OOPS, Something has gone wrong</H1>
 
 ${param.reason}

@@ -107,9 +107,6 @@ public class UpdateProductServlet extends HttpServlet {
                 request.getSession().setAttribute(PARAMETER_CURRENT_PRODUCT,product);
                 response.sendRedirect(ControllerConstant.WebProperty.PAGE_PRODUCT);
         } catch (FileUploadException | ServiceException | RuntimeException e) {
-
-            e.printStackTrace();
-
             response.sendRedirect(ControllerConstant.WebProperty.PAGE_ERROR);
       }
 

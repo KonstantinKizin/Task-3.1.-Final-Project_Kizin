@@ -442,7 +442,6 @@ public class ProductDAOImpl implements ProductDAO {
                     }else {
                         product.getProductItemMap().put(language,new ProductItem());
                         this.buildProductItem(language,tProductRS,product);
-
                     }
                 }
             }

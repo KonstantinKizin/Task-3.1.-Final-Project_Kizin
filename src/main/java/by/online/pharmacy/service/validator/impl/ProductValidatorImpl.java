@@ -5,7 +5,6 @@ import by.online.pharmacy.service.validator.ProductValidator;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.atomic.AtomicBoolean;
-import java.util.concurrent.atomic.AtomicInteger;
 import java.util.function.Predicate;
 
 public class ProductValidatorImpl extends AbstractValidator implements ProductValidator {
@@ -22,9 +21,9 @@ public class ProductValidatorImpl extends AbstractValidator implements ProductVa
 
     @Override
     public boolean validate(final Product product) {
-
         return true;
     }
+
     @Override
     public boolean parametersValidate(final Map<String, String> parameters) {
 

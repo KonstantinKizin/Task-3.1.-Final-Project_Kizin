@@ -7,6 +7,7 @@ import by.online.pharmacy.entity.Product;
 import by.online.pharmacy.service.ProductService;
 import by.online.pharmacy.service.exception.ServiceException;
 import by.online.pharmacy.service.exception.StorageException;
+import by.online.pharmacy.service.exception.ValidatorException;
 import by.online.pharmacy.service.storage.ProductStorage;
 import by.online.pharmacy.service.validator.ProductValidator;
 import by.online.pharmacy.service.validator.impl.ProductValidatorImpl;
@@ -28,6 +29,9 @@ public class ProductServiceImpl implements ProductService {
     @Override
     public int saveProduct(Product product) throws ServiceException {
         try{
+            if(!validator.validate(product)){
+                throw new ValidatorException("invalid product for save");
+            }
             return productDAO.save(product);
         } catch (DAOException | StorageException e) {
             throw new ServiceException("Exception in service save product method",e);
@@ -73,7 +77,6 @@ public class ProductServiceImpl implements ProductService {
 
         try {
             productDAO.update(product,language);
-           // storage.getProductMap().replace(product.getId(),product);
             return  true;
         } catch (DAOException e) {
             throw new ServiceException("update product method",e);

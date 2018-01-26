@@ -20,26 +20,30 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
-import java.util.*;
+import java.util.List;
+import java.util.Map;
+import java.util.HashMap;
+import java.util.Iterator;
 
 import static by.online.pharmacy.controller.constant.ControllerConstant.ProductProperty;
 
 public class SaveProductServlet extends HttpServlet {
 
     private final ServiceFactory factory = ServiceFactory.getInstance();
+    private final static Logger logger = Logger.getLogger(SaveProductServlet.class);
     private final ProductService productService = factory.getProductService();
     private final ProductValidator parametersValidate = new ProductValidatorImpl();
     private final Map<String,String> parametersMap = new HashMap<>();
-    private final static Logger logger = Logger.getLogger(SaveProductServlet.class);
+    private final static String ATTRIBUTE_SAVED_PRODUCT = "saved_product";
+    private final static String ATTRIBUTE_PRODUCT_LIST = "productList";
+
 
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         doGet(request,response);
     }
-
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
@@ -51,7 +55,7 @@ public class SaveProductServlet extends HttpServlet {
         Product product = null;
         ProductItem productItem = null;
 
-        String language = request.getParameter("product_language");
+        String language = request.getParameter(ProductProperty.LANGUAGE_PARAMETER);
 
         DiskFileItemFactory factory = new DiskFileItemFactory();
 
@@ -74,19 +78,9 @@ public class SaveProductServlet extends HttpServlet {
             }
 
 
-            List<ValidationError> errors = new ArrayList<>();
+            if(!parametersValidate.parametersValidate(parametersMap)){
 
-            System.out.println(errors);
-
-            if(errors.size() != 0){
-
-                HttpSession session = request.getSession();
-
-                if(session.getAttribute("ProductErrorsList") != null){
-                    session.removeAttribute("ProductErrorsList");
-                }
-                session.setAttribute("ProductErrorsList",errors);
-                response.sendRedirect(ControllerConstant.WebProperty.PAGE_SAVE_PRODUCT);
+                request.getSession().setAttribute("reason","invalid values was put");
             }else {
 
                 product = new Product();
@@ -103,9 +97,9 @@ public class SaveProductServlet extends HttpServlet {
 
                 product.getProductItemMap().put(parametersMap.get(ProductProperty.LANGUAGE_PARAMETER),productItem);
                 int id = productService.saveProduct(product);
-                ((List<Product>)this.getServletContext().getAttribute("productList")).add(product);
-                request.getSession().setAttribute("saved_product",product);
-                response.sendRedirect("/products");
+                ((List<Product>)this.getServletContext().getAttribute(ATTRIBUTE_PRODUCT_LIST)).add(product);
+                request.getSession().setAttribute(ATTRIBUTE_SAVED_PRODUCT,product);
+                response.sendRedirect(ControllerConstant.WebProperty.PAGE_PRODUCT_SETTING);
             }
 
         } catch (FileUploadException  | ServiceException e) {
