@@ -10,9 +10,9 @@ public class ControllerConstant {
         public final static String  CUSTOMER_PAGE = "/customer_autho";
         public final static String ADMIN_PAGE = "/admin_autho";
         public final static String ERROR_PAGE = "/error";
-        public final static String CUSTOMERS_LIST_PAGE= "/WEB-INF/jsp/admin/customers.jsp";
-        public final static String  REGISTRATION_PAGE = "/registration.jsp";
-        public final static String MAIN_PAGE = "/index.jsp";
+        public final static String CUSTOMERS_LIST_PAGE= "/WEB-INF/jsp/admin/Customers.jsp";
+        public final static String  REGISTRATION_PAGE = "/Registration.jsp";
+        public final static String MAIN_PAGE = "/Index.jsp";
         public final static String CUSTOMERS_URL="/admin/customers";
 
     }

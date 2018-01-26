@@ -40,7 +40,7 @@ public class AdminUrlFilter implements Filter {
         }
 
         if(!flag){
-            ((HttpServletRequest) servletRequest).getRequestDispatcher("/WEB-INF/jsp/error.jsp?reason="+ERROR_MESSAGE).forward(servletRequest, servletResponse);
+            ((HttpServletRequest) servletRequest).getRequestDispatcher("/WEB-INF/jsp/Error.jsp?reason="+ERROR_MESSAGE).forward(servletRequest, servletResponse);
         }
 
         filterChain.doFilter(servletRequest,servletResponse);

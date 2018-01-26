@@ -53,7 +53,7 @@
                 </a>
                 <div class="dropdown-menu" aria-labelledby="navbarDropdown">
                     <a class="dropdown-item" href="/login"><fmt:message key="header.sing_in_page" /></a>
-                    <a class="dropdown-item" href="/registration.jsp"><fmt:message key="header.registration_page" /></a>
+                    <a class="dropdown-item" href="/Registration.jsp"><fmt:message key="header.registration_page" /></a>
                 </div>
             </li>
         </ul>

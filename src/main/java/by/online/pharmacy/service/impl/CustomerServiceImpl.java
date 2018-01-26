@@ -29,14 +29,14 @@ public class CustomerServiceImpl implements CustomerService {
 
         try {
 
-            List<ValidationError> errors = validator.validate(customer);
+
 
 //            if(errors.isEmpty()){
                 customerDAO.save(customer);
 //            }else {
 //                throw new ValidatorException("Save customer");
 //            }
-            return errors;
+            return null;
         } catch (DAOException e) {
             throw new ServiceException("exception from saveCustomer method",e);
         }

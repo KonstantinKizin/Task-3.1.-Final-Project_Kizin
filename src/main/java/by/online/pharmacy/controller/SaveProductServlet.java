@@ -31,7 +31,7 @@ public class SaveProductServlet extends HttpServlet {
 
     private final ServiceFactory factory = ServiceFactory.getInstance();
     private final ProductService productService = factory.getProductService();
-    private final ProductValidator requestvalidatore = new ProductValidatorImpl();
+    private final ProductValidator parametersValidate = new ProductValidatorImpl();
     private final Map<String,String> parametersMap = new HashMap<>();
     private final static Logger logger = Logger.getLogger(SaveProductServlet.class);
 
@@ -42,76 +42,76 @@ public class SaveProductServlet extends HttpServlet {
 
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+
+        request.setCharacterEncoding(ControllerConstant.WebProperty.CHARACTER_ENCODING);
+
+        response.setCharacterEncoding(ControllerConstant.WebProperty.CHARACTER_ENCODING);
+
         byte[] imageBytes = null;
         Product product = null;
         ProductItem productItem = null;
 
-            request.setCharacterEncoding(ControllerConstant.WebProperty.CHARACTER_ENCODING);
+        String language = request.getParameter("product_language");
 
-            response.setCharacterEncoding(ControllerConstant.WebProperty.CHARACTER_ENCODING);
+        DiskFileItemFactory factory = new DiskFileItemFactory();
 
-            String language = request.getParameter("product_language");
+        ServletFileUpload upload = new ServletFileUpload(factory);
 
-                DiskFileItemFactory factory = new DiskFileItemFactory();
+        try {
 
-                ServletFileUpload upload = new ServletFileUpload(factory);
+            List fileItems = upload.parseRequest(request);
 
-                try {
+            Iterator iterator = fileItems.iterator();
 
-                    List fileItems = upload.parseRequest(request);
+            while (iterator.hasNext()){
 
-                    Iterator iterator = fileItems.iterator();
-
-                    while (iterator.hasNext()){
-
-                        FileItem fi = (FileItem)iterator.next();
-                        if(fi.isFormField()){
-                            createParametersMap(fi);
-                        }else {
-                            imageBytes = fi.get();
-                        }
-                    }
-
-
-                    List<ValidationError> errors = requestvalidatore.validate(parametersMap);
-
-                    System.out.println(errors);
-
-                    if(errors.size() != 0){
-
-                        HttpSession session = request.getSession();
-
-                        if(session.getAttribute("ProductErrorsList") != null){
-                            session.removeAttribute("ProductErrorsList");
-                        }
-                        session.setAttribute("ProductErrorsList",errors);
-                        response.sendRedirect(ControllerConstant.WebProperty.PAGE_SAVE_PRODUCT);
-                    }else {
-
-                        product = new Product();
-                        product.setPrice(Float.parseFloat(parametersMap.get(ProductProperty.PRICE_PARAMETER)));
-                        product.setCount(Integer.parseInt(parametersMap.get(ProductProperty.COUNT_PARAMETER)));
-                        product.setPrescription(Boolean.parseBoolean(parametersMap.get(ProductProperty.PRESCRIPTION_PARAMETER)));
-                        product.setImage(imageBytes);
-
-                        productItem = new ProductItem();
-                        productItem.setName(parametersMap.get(ProductProperty.NAME_PARAMETER));
-                        productItem.setManufacture(parametersMap.get(ProductProperty.MANUFACTURE_PARAMETER));
-                        productItem.setDescription(parametersMap.get(ProductProperty.DESCRIPTION_PARAMETER));
-                        productItem.setCategoryName(parametersMap.get(ProductProperty.CATEGORY_PARAMETER));
-
-                        product.getProductItemMap().put(parametersMap.get(ProductProperty.LANGUAGE_PARAMETER),productItem);
-                        int id = productService.saveProduct(product);
-                        ((List<Product>)this.getServletContext().getAttribute("productList")).add(product);
-                        request.getSession().setAttribute("saved_product",product);
-                        response.sendRedirect("/products");
-                    }
-
-                } catch (FileUploadException  | ServiceException e) {
-                    logger.error("Exception in save product Servlet ",e);
-                    response.sendRedirect(ControllerConstant.WebProperty.PAGE_ERROR);
+                FileItem fi = (FileItem)iterator.next();
+                if(fi.isFormField()){
+                    createParametersMap(fi);
+                }else {
+                    imageBytes = fi.get();
                 }
+            }
 
+
+            List<ValidationError> errors = new ArrayList<>();
+
+            System.out.println(errors);
+
+            if(errors.size() != 0){
+
+                HttpSession session = request.getSession();
+
+                if(session.getAttribute("ProductErrorsList") != null){
+                    session.removeAttribute("ProductErrorsList");
+                }
+                session.setAttribute("ProductErrorsList",errors);
+                response.sendRedirect(ControllerConstant.WebProperty.PAGE_SAVE_PRODUCT);
+            }else {
+
+                product = new Product();
+                product.setPrice(Float.parseFloat(parametersMap.get(ProductProperty.PRICE_PARAMETER)));
+                product.setCount(Integer.parseInt(parametersMap.get(ProductProperty.COUNT_PARAMETER)));
+                product.setPrescription(Boolean.parseBoolean(parametersMap.get(ProductProperty.PRESCRIPTION_PARAMETER)));
+                product.setImage(imageBytes);
+
+                productItem = new ProductItem();
+                productItem.setName(parametersMap.get(ProductProperty.NAME_PARAMETER));
+                productItem.setManufacture(parametersMap.get(ProductProperty.MANUFACTURE_PARAMETER));
+                productItem.setDescription(parametersMap.get(ProductProperty.DESCRIPTION_PARAMETER));
+                productItem.setCategoryName(parametersMap.get(ProductProperty.CATEGORY_PARAMETER));
+
+                product.getProductItemMap().put(parametersMap.get(ProductProperty.LANGUAGE_PARAMETER),productItem);
+                int id = productService.saveProduct(product);
+                ((List<Product>)this.getServletContext().getAttribute("productList")).add(product);
+                request.getSession().setAttribute("saved_product",product);
+                response.sendRedirect("/products");
+            }
+
+        } catch (FileUploadException  | ServiceException e) {
+            logger.error("Exception in save product Servlet ",e);
+            response.sendRedirect(ControllerConstant.WebProperty.PAGE_ERROR);
+        }
 
     }
 

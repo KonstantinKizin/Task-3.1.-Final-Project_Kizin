@@ -1,6 +1,5 @@
 package by.online.pharmacy.service.validator;
 import static org.junit.Assert.assertThat;
-
 import by.online.pharmacy.service.validator.impl.CustomerValidatorImpl;
 import org.junit.Test;
 import static org.hamcrest.core.Is.is;

@@ -99,7 +99,13 @@ public class ProductServiceImpl implements ProductService {
         return ProductStorage.getInstance();
     }
 
+    @Override
+    public List<Product> getProducts(int start, int count) {
 
+
+
+        return null;
+    }
 
 
     @Override

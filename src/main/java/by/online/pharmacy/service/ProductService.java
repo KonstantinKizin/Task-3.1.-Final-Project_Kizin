@@ -30,7 +30,7 @@ public interface ProductService {
 
     ProductStorage getProductStorage();
 
-
+    List<Product> getProducts(int start, int count);
 
 
 

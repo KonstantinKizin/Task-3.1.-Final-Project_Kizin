@@ -14,7 +14,7 @@
 <body>
 
 <header>
-    <jsp:include page="/WEB-INF/jsp/additional/header.jsp"></jsp:include>
+    <jsp:include page="/WEB-INF/jsp/additional/Header.jsp"></jsp:include>
 </header>
 
 

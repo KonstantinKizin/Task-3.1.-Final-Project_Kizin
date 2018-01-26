@@ -1,49 +1,55 @@
 package by.online.pharmacy.service.validator.impl;
-
-import by.online.pharmacy.controller.constant.ControllerConstant;
-import by.online.pharmacy.entity.ValidationError;
+import by.online.pharmacy.controller.constant.ControllerConstant.ProductProperty;
+import by.online.pharmacy.entity.Product;
 import by.online.pharmacy.service.validator.ProductValidator;
-
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.atomic.AtomicBoolean;
+import java.util.concurrent.atomic.AtomicInteger;
+import java.util.function.Predicate;
 
 public class ProductValidatorImpl extends AbstractValidator implements ProductValidator {
 
+    private final Map<String,Predicate<String>> dispatcher = new HashMap<>();
 
-    public List<ValidationError> validate(Map<String,String> parameterMap) {
+    public ProductValidatorImpl(){
 
-        List<ValidationError> errors = new ArrayList<>();
+        dispatcher.put(ProductProperty.NAME_PARAMETER,checkForString());
+        dispatcher.put(ProductProperty.DESCRIPTION_PARAMETER,checkForString());
+        dispatcher.put(ProductProperty.COUNT_PARAMETER,checkForNumber());
+        dispatcher.put(ProductProperty.PRICE_PARAMETER,checkForNumber());
+    }
 
-        if(!checkForNumber(parameterMap.get(ControllerConstant.ProductProperty.PRICE_PARAMETER))){
-            errors.add(new ValidationError("Price must be a number", ControllerConstant.ProductProperty.PRICE_PARAMETER));
-        }
+    @Override
+    public boolean validate(final Product product) {
 
-        if(!checkForNumber(parameterMap.get(ControllerConstant.ProductProperty.COUNT_PARAMETER))){
-            errors.add(new ValidationError("Count must be a number", ControllerConstant.ProductProperty.COUNT_PARAMETER));
-        }
+        return true;
+    }
+    @Override
+    public boolean parametersValidate(final Map<String, String> parameters) {
 
-        if(this.isEmptyOrNull(parameterMap.get(ControllerConstant.ProductProperty.DESCRIPTION_PARAMETER))){
-            errors.add(new ValidationError("Fill description of product", ControllerConstant.ProductProperty.DESCRIPTION_PARAMETER));
-        }
+        final AtomicBoolean result = new AtomicBoolean(true);
+        dispatcher.forEach((key,value) ->{
+            String parameter = parameters.get(key);
+            if(!dispatcher.get(key).test(parameter)){
+                result.set(false);
+                return;
+            }
+        });
 
-        if(this.isEmptyOrNull(parameterMap.get(ControllerConstant.ProductProperty.NAME_PARAMETER))){
-            errors.add(new ValidationError("Fill name of product", ControllerConstant.ProductProperty.NAME_PARAMETER));
-        }
-
-        return errors;
+        return result.get();
     }
 
 
-    private boolean checkForNumber(String number){
-        if(this.isEmptyOrNull(number)){
-            return false;
-        }else{
-            return this.isPositiveDigitsOnly(number);
-        }
 
+    private Predicate<String> checkForNumber(){
+        return (parameter) -> !this.isEmptyOrNull(parameter)
+                && this.isPositiveDigitsOnly(parameter);
     }
 
-
+    private Predicate<String> checkForString(){
+        return (parameter) -> !this.isEmptyOrNull(parameter)
+                && this.isLettersOnly(parameter);
+    }
 
 }
