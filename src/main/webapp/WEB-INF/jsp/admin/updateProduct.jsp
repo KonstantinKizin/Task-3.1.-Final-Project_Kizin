@@ -32,6 +32,22 @@
         </div>
     </div>
 
+    <!-- Select Basic -->
+    <div class="form-group">
+        <label class="col-md-4 control-label" for="selectbasic">Manufacture</label>
+        <div class="col-md-4">
+            <select id="selectbasic" name="product_manufacture" class="form-control">
+                <option value="rus">Russia</option>
+                <option value="fr">France</option>
+                <option value="usa">USA</option>
+                <option value="sweed">Sweeden</option>
+                <option value="japan">Japan</option>
+                <option value="poland">Poland</option>
+                <option value="cro">Croatia</option>
+            </select>
+        </div>
+    </div>
+
 
 
     <!-- Text input-->
@@ -91,7 +107,6 @@
             <input type="submit" class="btn btn-primary" value="Save">
         </div>
     </div>
-
 
 
 

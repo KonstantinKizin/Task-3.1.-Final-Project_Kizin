@@ -11,9 +11,10 @@ import by.online.pharmacy.service.exception.ValidatorException;
 import by.online.pharmacy.service.storage.ProductStorage;
 import by.online.pharmacy.service.validator.ProductValidator;
 import by.online.pharmacy.service.validator.impl.ProductValidatorImpl;
-
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
+
 
 public class ProductServiceImpl implements ProductService {
 
@@ -26,13 +27,20 @@ public class ProductServiceImpl implements ProductService {
     private final ProductValidator validator = new ProductValidatorImpl();
 
 
+
+    /*
+    * As result of saving the method return just saved product id.
+    * */
+
     @Override
     public int saveProduct(Product product) throws ServiceException {
         try{
             if(!validator.validate(product)){
                 throw new ValidatorException("invalid product for save");
             }
-            return productDAO.save(product);
+            int id = productDAO.save(product);
+            storage.add(product);
+            return id;
         } catch (DAOException | StorageException e) {
             throw new ServiceException("Exception in service save product method",e);
         }
@@ -42,12 +50,17 @@ public class ProductServiceImpl implements ProductService {
     @Override
     public Product findProduct(int id) throws ServiceException {
         try {
-            Product product = storage.getProductMap().get(id);
-            if(product == null){
-                product = productDAO.get(id);
+            Iterator<Product> itr = storage.iterator();
+            Product product = new Product();
+            while (itr.hasNext()){
+                product = itr.next();
+                if(product.getId() == id){
+                    break;
+                }
             }
+
             return product;
-        } catch (StorageException | DAOException e) {
+        } catch (StorageException e) {
             throw new ServiceException("Find product by id method",e);
         }
     }
@@ -88,7 +101,7 @@ public class ProductServiceImpl implements ProductService {
 
         try {
             productDAO.delete(id);
-            storage.getProductMap().remove(id);
+            storage.remove(id);
             return true;
         } catch (DAOException e) {
             throw new ServiceException("Delete product in service ",e);
@@ -113,12 +126,13 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public Product findProductsByName(String productName, String language) {
-
-        Product product = null;
-
-        for(Product tmp : storage.getProductMap().values()){
-            if(product.getProductItemMap().get(language).getName().equalsIgnoreCase(productName)){
-                product = tmp;
+        Product product = new Product();
+        Product buf = null;
+        Iterator<Product> itr = storage.iterator();
+        while (itr.hasNext()){
+            buf = itr.next();
+            if(buf.getProductItemMap().get(language).getName().equalsIgnoreCase(productName)){
+                product = buf;
                 break;
             }
         }
@@ -128,39 +142,32 @@ public class ProductServiceImpl implements ProductService {
     @Override
     public List<Product> findProductsByCategory(String categoryName, String language) throws ServiceException {
 
-        List<Product> products = new ArrayList<>();
-        for(Product tmp : storage.getProductMap().values()){
-            if(tmp.getProductItemMap().get(language).getCategoryName().equalsIgnoreCase(categoryName)){
-                products.add(tmp);
+        Product product = null;
+        List<Product> productList = new ArrayList<>();
+        Iterator<Product> itr = storage.iterator();
+        while (itr.hasNext()){
+            product = itr.next();
+            if(product.getProductItemMap().get(language).getCategoryName().equalsIgnoreCase(categoryName)){
+                productList.add(product);
             }
         }
-
-        return products;
-    }
-
-    @Override
-    public List<Product> findProductsByManufacture(String manufactureName, String language) throws ServiceException {
-        List<Product> products = new ArrayList<>();
-        for(Product tmp : storage.getProductMap().values()){
-            if(tmp.getProductItemMap().get(language).getManufacture().equalsIgnoreCase(manufactureName)){
-                products.add(tmp);
-            }
-        }
-
-        return products;
+        return productList;
     }
 
     @Override
     public List<Product> findProductsCheaperThan(long price) throws ServiceException {
 
-        List<Product> products = new ArrayList<>();
-        for(Product tmp : storage.getProductMap().values()){
-            if(tmp.getPrice() < price){
-                products.add(tmp);
+
+        Product product = null;
+        List<Product> productList = new ArrayList<>();
+        Iterator<Product> itr = storage.iterator();
+        while (itr.hasNext()){
+            product = itr.next();
+            if(product.getPrice() < price){
+                productList.add(product);
             }
         }
-        return products;
-
+        return productList;
     }
 
 

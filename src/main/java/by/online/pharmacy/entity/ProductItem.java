@@ -55,7 +55,8 @@ public ProductItem(String description, String manufacture, String name, String c
 
     public String getShortDescription(){
 
-    return this.description.substring(0,100)+" ...";
+    return this.description.length() > 100
+            ? this.description.substring(0,100)+" ..." : description;
     }
 
     @Override

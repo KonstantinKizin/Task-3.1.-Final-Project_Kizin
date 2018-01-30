@@ -59,7 +59,7 @@
 
   <servlet>
     <servlet-name>Saveproduct</servlet-name>
-    <jsp-file>/WEB-INF/jsp/admin/saveproduct.jsp</jsp-file>
+    <jsp-file>/WEB-INF/jsp/admin/SaveProduct.jsp</jsp-file>
   </servlet>
 
   <servlet-mapping>
@@ -70,7 +70,7 @@
 
   <servlet>
   <servlet-name>UpdateProductPage</servlet-name>
-  <jsp-file>/WEB-INF/jsp/admin/updateProduct.jsp</jsp-file>
+  <jsp-file>/WEB-INF/jsp/admin/UpdateProduct.jsp</jsp-file>
 </servlet>
 
   <servlet-mapping>
@@ -80,7 +80,7 @@
 
   <servlet>
     <servlet-name>HomePage</servlet-name>
-    <jsp-file>/index.jsp</jsp-file>
+    <jsp-file>/Index.jsp</jsp-file>
   </servlet>
 
   <servlet-mapping>
@@ -91,7 +91,7 @@
 
   <servlet>
     <servlet-name>RegistrationPage</servlet-name>
-    <jsp-file>/registration.jsp</jsp-file>
+    <jsp-file>/Registration.jsp</jsp-file>
   </servlet>
 
   <servlet-mapping>
@@ -103,7 +103,7 @@
 
   <servlet>
     <servlet-name>LoginPage</servlet-name>
-    <jsp-file>/login.jsp</jsp-file>
+    <jsp-file>/Login.jsp</jsp-file>
   </servlet>
 
   <servlet-mapping>
@@ -113,7 +113,7 @@
 
   <servlet>
     <servlet-name>CatalogProductsPage</servlet-name>
-    <jsp-file>/WEB-INF/jsp/catalog.jsp</jsp-file>
+    <jsp-file>/WEB-INF/jsp/Catalog.jsp</jsp-file>
   </servlet>
 
   <servlet-mapping>
@@ -124,7 +124,7 @@
 
   <servlet>
     <servlet-name>ProductPage</servlet-name>
-    <jsp-file>/WEB-INF/jsp/product.jsp</jsp-file>
+    <jsp-file>/WEB-INF/jsp/Product.jsp</jsp-file>
   </servlet>
 
   <servlet-mapping>
@@ -146,7 +146,7 @@
 
   <servlet>
     <servlet-name>AddNewproductItems</servlet-name>
-    <jsp-file>/WEB-INF/jsp/admin/addProductItems.jsp</jsp-file>
+    <jsp-file>/WEB-INF/jsp/admin/AddProductItems.jsp</jsp-file>
   </servlet>
 
   <servlet-mapping>
@@ -156,7 +156,7 @@
 
   <servlet>
     <servlet-name>ProductSetting</servlet-name>
-    <jsp-file>/WEB-INF/jsp/admin/productSetting.jsp</jsp-file>
+    <jsp-file>/WEB-INF/jsp/admin/ProductSetting.jsp</jsp-file>
   </servlet>
 
   <servlet-mapping>
@@ -166,7 +166,7 @@
 
   <servlet>
     <servlet-name>Customers</servlet-name>
-    <jsp-file>/WEB-INF/jsp/admin/customers.jsp</jsp-file>
+    <jsp-file>/WEB-INF/jsp/admin/Customers.jsp</jsp-file>
   </servlet>
 
   <servlet-mapping>
@@ -176,7 +176,7 @@
 
   <servlet>
     <servlet-name>Admin</servlet-name>
-    <jsp-file>/WEB-INF/jsp/admin/admin.jsp</jsp-file>
+    <jsp-file>/WEB-INF/jsp/admin/Admin.jsp</jsp-file>
   </servlet>
 
   <servlet-mapping>
@@ -186,7 +186,7 @@
 
   <servlet>
     <servlet-name>Error</servlet-name>
-    <jsp-file>/WEB-INF/jsp/error.jsp</jsp-file>
+    <jsp-file>/WEB-INF/jsp/Error.jsp</jsp-file>
   </servlet>
 
   <servlet-mapping>
@@ -196,7 +196,7 @@
 
   <servlet>
     <servlet-name>Customer</servlet-name>
-    <jsp-file>/WEB-INF/jsp/customer.jsp</jsp-file>
+    <jsp-file>/WEB-INF/jsp/Customer.jsp</jsp-file>
   </servlet>
 
   <servlet-mapping>

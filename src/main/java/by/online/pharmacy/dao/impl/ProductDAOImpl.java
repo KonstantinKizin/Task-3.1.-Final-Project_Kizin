@@ -47,9 +47,9 @@ public class ProductDAOImpl implements ProductDAO {
             "count = ? , price = ? , image = ?  \n" +
             "WHERE product_id = ?";
 
-    private final static String SQL_UPDATE_PRODUCT_ITEMS = "UPDATE "+TABLE_TRANSLATION_PRODUCT+" SET\n" +
-            "name = ? , description = ? \n" +
-            "WHERE product_id = ? and language_id = ?";
+    private final static String SQL_UPDATE_PRODUCT_ITEMS = "insert into translation_product(name,description,manufacture,language_id,product_id)\n" +
+            "values(?,?,?,?,?) \n" +
+            "ON DUPLICATE KEY UPDATE name = ?, description = ?, manufacture = ? ;\n";
 
     private final static String SQL_SELECT_CATEGORY_ID_BY_NAME = "SELECT category_id FROM "+TABLE_TRANSLATION_CATEGORY+" " +
             "WHERE category_name = ?";
@@ -117,14 +117,8 @@ public class ProductDAOImpl implements ProductDAO {
 
    private final static String RUSSIAN_LANGUAGE = "ru";
    private final static String ENGLISH_LANGUAGE = "en";
-   private final static int RUSSIAN_LANGUAGE_ID = 1;
-   private final static int ENGLISH_LANGUAGE_ID = 2;
-
-
-
-
-
-
+   private final static int RUSSIAN_LANGUAGE_ID = 2;
+   private final static int ENGLISH_LANGUAGE_ID = 1;
 
 
 
@@ -390,12 +384,17 @@ public class ProductDAOImpl implements ProductDAO {
            productStatement.setInt(4,product.getId());
            productStatement.executeUpdate();
 
+
            tProductStatement.setString(1,product.getProductItemMap().get(language).getName());
            tProductStatement.setString(2,product.getProductItemMap().get(language).getDescription());
-           tProductStatement.setInt(3,product.getId());
+           tProductStatement.setString(3,product.getProductItemMap().get(language).getManufacture());
            tProductStatement.setInt(4,languageMap.get(language));
+           tProductStatement.setInt(5,product.getId());
+           tProductStatement.setString(6,product.getProductItemMap().get(language).getName());
+           tProductStatement.setString(7,product.getProductItemMap().get(language).getDescription());
+           tProductStatement.setString(8,product.getProductItemMap().get(language).getManufacture());
            tProductStatement.executeUpdate();
-
+           connection.commit();
        } catch (SQLException | ConnectionPoolException e) {
            connectionRefCopy.rollback();
            throw new SQLException(e);
@@ -407,8 +406,6 @@ public class ProductDAOImpl implements ProductDAO {
            }
 
        }
-
-
     }
 
 

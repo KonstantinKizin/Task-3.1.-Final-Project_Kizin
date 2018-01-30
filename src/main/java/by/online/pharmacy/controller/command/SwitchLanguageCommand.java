@@ -19,8 +19,8 @@ import org.apache.log4j.Logger;
     public void execute(HttpServletRequest request, HttpServletResponse response) throws ControllerException {
 
         try {
-            String page = (String) request.getParameter(REQUEST_PAGE_PARAMETER);
-            String language = (String) request.getParameter(LANGUAGE_PARAMETER);
+            String page = request.getParameter(REQUEST_PAGE_PARAMETER);
+            String language = request.getParameter(LANGUAGE_PARAMETER);
             request.getSession().setAttribute(LANGUAGE_PARAMETER, language);
             response.sendRedirect(page);
         } catch (IOException e) {

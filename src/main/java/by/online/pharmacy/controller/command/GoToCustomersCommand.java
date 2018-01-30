@@ -27,7 +27,7 @@ public class GoToCustomersCommand implements Command {
                 request.getSession().setAttribute(ControllerConstant.WebProperty.CUSTOMER_LIST_ATTR_NAME, customers);
                 response.sendRedirect(ControllerConstant.WebProperty.PAGE_CUSTOMER_LIST);
             } catch (ServiceException | IOException e) {
-                logger.error("Exception in GotToCustomers class ", e);
+                logger.error("Exception in GotToCustomers command ", e);
                 throw new ControllerException(e);
             }
         }

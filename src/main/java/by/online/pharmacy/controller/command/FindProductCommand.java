@@ -6,13 +6,12 @@ import by.online.pharmacy.entity.Product;
 import by.online.pharmacy.service.ProductService;
 import by.online.pharmacy.service.exception.ServiceException;
 import by.online.pharmacy.service.factory.ServiceFactory;
-
-import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 public class FindProductCommand implements Command {
+
     private final ServiceFactory factory = ServiceFactory.getInstance();
 
     private final ProductService service = factory.getProductService();
@@ -23,8 +22,6 @@ public class FindProductCommand implements Command {
 
     @Override
     public void execute(HttpServletRequest request, HttpServletResponse response) throws ControllerException, IOException {
-
-
         int id = Integer.parseInt(request.getParameter(PRODUCT_ID_PARAMETER));
         Product product = null;
         try{

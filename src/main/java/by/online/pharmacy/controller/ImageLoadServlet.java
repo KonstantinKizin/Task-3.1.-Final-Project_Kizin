@@ -44,25 +44,15 @@ public class ImageLoadServlet extends HttpServlet {
 
         int id = Integer.parseInt(request.getParameter(PRODUCT_ID_PARAMETER));
         byte[] image = null;
-        List<Product> productList = (List<Product>)request.getServletContext().getAttribute(PRODUCT_LIST_ATTRIBUTE);
 
-        if(productList.isEmpty()){
-            try {
-                Product product =  productService.findProduct(id);
+        try {
+            Product product = productService.findProduct(id);
+            if (product != null) {
                 image = product.getImage();
-            } catch (ServiceException e) {
-                logger.error("Image Servlet exception",e);
-                response.sendRedirect(WebProperty.PAGE_ERROR);
             }
-
-        }else {
-
-            for(Product product : productList){
-                if(product.getId() == id){
-                    image = product.getImage();
-                    break;
-                }
-            }
+        } catch (ServiceException e) {
+            logger.error("Image Servlet exception", e);
+            response.sendRedirect(WebProperty.PAGE_ERROR);
         }
 
         response.setContentType(RESPONSE_CONTENT_TYPE);

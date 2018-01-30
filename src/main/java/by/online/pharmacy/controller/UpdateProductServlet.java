@@ -10,7 +10,6 @@ import org.apache.commons.fileupload.FileItem;
 import org.apache.commons.fileupload.FileUploadException;
 import org.apache.commons.fileupload.disk.DiskFileItemFactory;
 import org.apache.commons.fileupload.servlet.ServletFileUpload;
-
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -37,6 +36,8 @@ public class UpdateProductServlet extends HttpServlet {
     private final static String PARAMETER_ID = "product_id";
     private final static String PARAMETER_CURRENT_PRODUCT = "current_product";
     private final static String PARAMETER_COUNT = "product_count";
+    private final static String PARAMETER_MANUFACTURE = "product_manufacture";
+
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         doGet(request,response);
@@ -67,45 +68,50 @@ public class UpdateProductServlet extends HttpServlet {
 
             Product product = productService.findProduct(id);
 
-            int productIndex = ((List<Product>)this.getServletContext().getAttribute("productList")).indexOf(product);
+            int productIndex = productService.getProductStorage().indexOf(product);
 
             String price = parametersMap.get(PARAMETER_PRICE);
             String name = parametersMap.get(PARAMETER_NAME);
             String description = parametersMap.get(PARAMETER_DESCRIPTION);
             String currentLanguage = parametersMap.get(PARAMETER_LANGUAGE);
             String count = parametersMap.get(PARAMETER_COUNT);
+            String manufacture = parametersMap.get(PARAMETER_MANUFACTURE);
 
-                if(product.getProductItemMap().get(currentLanguage) == null){
-                    ProductItem productItem = buildEmptyProductItems();
-                    product.getProductItemMap().put(currentLanguage,productItem);
-                }
+            if(product.getProductItemMap().get(currentLanguage) == null){
+                ProductItem productItem = buildEmptyProductItems();
+                product.getProductItemMap().put(currentLanguage,productItem);
+            }
 
-                if(checkForNullAndEmpty(count)){
-                    product.setCount(Integer.parseInt(count));
-                }
+            if(checkForNullAndEmpty(count)){
+                product.setCount(Integer.parseInt(count));
+            }
 
-                if(checkForNullAndEmpty(price)){
-                    product.setPrice(Float.parseFloat(price));
-                }
+            if(checkForNullAndEmpty(price)){
+                product.setPrice(Float.parseFloat(price));
+            }
 
-                if(checkForNullAndEmpty(name)){
-                    product.getProductItemMap().get(currentLanguage).setName(name);
-                }
+            if(checkForNullAndEmpty(name)){
+                product.getProductItemMap().get(currentLanguage).setName(name);
+            }
 
-                if(checkForNullAndEmpty(description)){
-                    product.getProductItemMap().get(currentLanguage).setDescription(description);
-                }
+            if(checkForNullAndEmpty(description)){
+                product.getProductItemMap().get(currentLanguage).setDescription(description);
+            }
 
-                if(imageBytes != null && imageBytes.length != 0){
-                    product.setImage(imageBytes);
-                }
+            if(checkForNullAndEmpty(manufacture)){
+                product.getProductItemMap().get(currentLanguage).setManufacture(manufacture);
+            }
 
-                productService.updateProduct(product,currentLanguage);
+            if(imageBytes != null && imageBytes.length != 0){
+                product.setImage(imageBytes);
+            }
 
-                ((List<Product>)this.getServletContext().getAttribute("productList")).set(productIndex,product);
+            productService.updateProduct(product,currentLanguage);
 
-                request.getSession().setAttribute(PARAMETER_CURRENT_PRODUCT,product);
-                response.sendRedirect(ControllerConstant.WebProperty.PAGE_PRODUCT);
+            productService.getProductStorage().set(productIndex,product);
+
+            request.getSession().setAttribute(PARAMETER_CURRENT_PRODUCT,product);
+            response.sendRedirect(ControllerConstant.WebProperty.PAGE_PRODUCT);
         } catch (FileUploadException | ServiceException | RuntimeException e) {
             response.sendRedirect(ControllerConstant.WebProperty.PAGE_ERROR);
       }

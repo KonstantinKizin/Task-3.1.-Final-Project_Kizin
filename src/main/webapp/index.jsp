@@ -20,7 +20,9 @@
 <div class="container">
     <div class="row">
 
-        <c:forEach items = "${productList}" var = "product">
+        <c:set var="products" value="${productList}"></c:set>
+
+        <c:forEach items = "${products}" var = "product">
 
             <div class="col-lg-4 col-md-6 mb-4">
                 <div class="card" style="width: 20rem; margin: auto">

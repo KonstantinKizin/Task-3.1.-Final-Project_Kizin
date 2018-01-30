@@ -16,8 +16,6 @@ public interface ProductService {
 
     List<Product> findProductsByCategory(String categoryName , String language)throws ServiceException;
 
-    List<Product> findProductsByManufacture(String manufactureName , String language )throws ServiceException;
-
     List<Product> findProductsCheaperThan(long price)throws ServiceException;
 
     List<Product> getAllProducts(String language) throws ServiceException;

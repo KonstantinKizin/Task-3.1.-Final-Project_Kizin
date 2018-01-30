@@ -7,7 +7,7 @@ import java.util.List;
 
 public interface CustomerDAO  {
 
-    void save(Customer customer) throws DAOException;
+    boolean save(Customer customer) throws DAOException;
 
     Customer findCustomerByEmailAndPw(String email , String password) throws DAOException;
 

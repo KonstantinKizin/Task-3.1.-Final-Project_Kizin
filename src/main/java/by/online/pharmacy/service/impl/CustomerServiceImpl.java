@@ -24,19 +24,14 @@ public class CustomerServiceImpl implements CustomerService {
 
 
     @Override
-    public List<ValidationError> saveCustomer(Customer customer) throws ServiceException {
-
+    public boolean saveCustomer(Customer customer) throws ServiceException {
 
         try {
 
-
-
-//            if(errors.isEmpty()){
-                customerDAO.save(customer);
-//            }else {
-//                throw new ValidatorException("Save customer");
-//            }
-            return null;
+            if(!validator.validate(customer)){
+                throw new ValidatorException("attempt to save a incorrect customer");
+            }
+            return customerDAO.save(customer);
         } catch (DAOException e) {
             throw new ServiceException("exception from saveCustomer method",e);
         }

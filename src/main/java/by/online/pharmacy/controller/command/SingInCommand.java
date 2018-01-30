@@ -41,15 +41,10 @@ public class SinginCommand implements Command {
 
     @Override
     public void execute(HttpServletRequest request, HttpServletResponse response) throws ControllerException {
-
-        System.out.println("inside command");
-        logger.info("inside command sin in");
         String email = null;
         String password = null;
         Customer customer = null;
-
         if(request.getSession().getAttribute(SING_IN_ERROR_PARAMETER) != null){
-            logger.info("session block");
             request.getSession().removeAttribute(SING_IN_ERROR_PARAMETER);
         }
 
@@ -58,9 +53,8 @@ public class SinginCommand implements Command {
             password = customerService.generateHashPassword(
                     request.getParameter(RegistrationProperty.PW_PARAMETER)
             );
-            logger.info("email is "+email);
+
             customer = customerService.findCustomerByEmailAndPassword(email,password);
-            logger.info("customer is "+customer);
             if(customer != null){
                 request.getSession().setAttribute(WebProperty.USER_ATTRIBUTE_NAME,customer);
                 String page = pages.get(customer.getRole());

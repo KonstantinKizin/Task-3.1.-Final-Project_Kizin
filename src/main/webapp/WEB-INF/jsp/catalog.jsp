@@ -12,12 +12,15 @@
 <body >
 <header>
 <jsp:include page="/WEB-INF/jsp/additional/Header.jsp"></jsp:include>
+    <c:set var="products" value="${productList}"></c:set>
 </header>
 <c:choose>
     <c:when test="${user.role eq 'admin'}">
 <div class="container">
     <div class="row">
-        <c:forEach items = "${productList}" var = "product">
+
+
+        <c:forEach items = "${products}" var = "product">
             <div class="col-lg-4 col-md-6 mb-4">
                 <div class="card" style="width: 20rem; margin: auto">
                     <h4 class="card-title"> ${product.productItemMap.get(language).name}</h4>
@@ -34,7 +37,7 @@
     <c:otherwise>
     <div class="container">
         <div class="row">
-            <c:forEach items = "${productList}" var = "product">
+            <c:forEach items = "${products}" var = "product">
                 <div class="col-lg-4 col-md-6 mb-4">
                     <div class="card" style="width: 20rem; margin: auto">
                         <h4 class="card-title"> ${product.productItemMap.get(language).name}</h4>

@@ -54,7 +54,7 @@ public class CustomerDAOImpl implements CustomerDAO {
 
 
     @Override
-    public void save(Customer customer) throws DAOException {
+    public boolean save(Customer customer) throws DAOException {
 
         try(WrappedConnection connection = new WrappedConnection(connectionPool.getConnection());
             PreparedStatement statement = connection.getPreparedStatement(SQL_SAVE_PREPARED_STATEMENT)
@@ -70,6 +70,7 @@ public class CustomerDAOImpl implements CustomerDAO {
             statement.setString(BIRTH_DAY_COLUMN_INDEX,customer.getDateOfBirth());
             statement.setString(GENDER_COLUMN_INDEX,customer.getGender());
             statement.executeUpdate();
+            return true;
         } catch (SQLException e) {
             logger.error("Exception from DAO, save Customer method ",e);
             throw new DAOException("Save Customer method",e);

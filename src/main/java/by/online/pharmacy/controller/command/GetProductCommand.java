@@ -28,7 +28,6 @@ public class GetProductCommand implements Command {
         Product product = null;
         try{
             product = service.findProduct(id);
-
             if(product != null){
                 request.getSession().setAttribute(CURRENT_PRODUCT_PARAMETER,product);
                 response.sendRedirect(ControllerConstant.WebProperty.PAGE_PRODUCT);

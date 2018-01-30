@@ -4,6 +4,7 @@ import by.online.pharmacy.controller.command.CommandMapCreator;
 import by.online.pharmacy.controller.command.CommandProvider;
 import by.online.pharmacy.controller.exception.ControllerException;
 import by.online.pharmacy.controller.exception.InitializeServletException;
+import by.online.pharmacy.entity.Product;
 import by.online.pharmacy.service.exception.ServiceException;
 import by.online.pharmacy.service.factory.ServiceFactory;
 import by.online.pharmacy.service.storage.ProductStorage;
@@ -13,8 +14,6 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Map;
 import static by.online.pharmacy.controller.constant.ControllerConstant.WebProperty;
 
@@ -54,8 +53,11 @@ public class FrontController extends HttpServlet {
         try {
             Map<String , Command> commandMap = commandMapCreator.getCommandMap();
             ((CommandProvider) producer).getCommandMap().putAll(commandMap);
-            List products = new ArrayList(productLoader.getProductMap().values());
-            this.getServletContext().setAttribute(PRODUCT_LIST_ATTR_NAME,products);
+            this.getServletContext().setAttribute(
+                    PRODUCT_LIST_ATTR_NAME,
+                    productLoader.getProductList()
+            );
+            
         } catch (ServiceException e){
             logger.error("Exception in init method",e);
             throw new InitializeServletException();

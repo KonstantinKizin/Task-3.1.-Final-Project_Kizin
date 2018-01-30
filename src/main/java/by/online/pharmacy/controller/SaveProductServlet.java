@@ -3,7 +3,6 @@ package by.online.pharmacy.controller;
 import by.online.pharmacy.controller.constant.ControllerConstant;
 import by.online.pharmacy.entity.Product;
 import by.online.pharmacy.entity.ProductItem;
-import by.online.pharmacy.entity.ValidationError;
 import by.online.pharmacy.service.ProductService;
 import by.online.pharmacy.service.exception.ServiceException;
 import by.online.pharmacy.service.factory.ServiceFactory;
@@ -38,6 +37,8 @@ public class SaveProductServlet extends HttpServlet {
     private final Map<String,String> parametersMap = new HashMap<>();
     private final static String ATTRIBUTE_SAVED_PRODUCT = "saved_product";
     private final static String ATTRIBUTE_PRODUCT_LIST = "productList";
+    private final static String ATTRIBUTE_REASON = "reason";
+    private final static String ATTRIBUTE_REASON_TEXT = "invalid values was put";
 
 
 
@@ -52,10 +53,6 @@ public class SaveProductServlet extends HttpServlet {
         response.setCharacterEncoding(ControllerConstant.WebProperty.CHARACTER_ENCODING);
 
         byte[] imageBytes = null;
-        Product product = null;
-        ProductItem productItem = null;
-
-        String language = request.getParameter(ProductProperty.LANGUAGE_PARAMETER);
 
         DiskFileItemFactory factory = new DiskFileItemFactory();
 
@@ -77,19 +74,17 @@ public class SaveProductServlet extends HttpServlet {
                 }
             }
 
-
             if(!parametersValidate.parametersValidate(parametersMap)){
-
-                request.getSession().setAttribute("reason","invalid values was put");
+                request.getSession().setAttribute(ATTRIBUTE_REASON,ATTRIBUTE_REASON_TEXT);
+                request.getRequestDispatcher(ControllerConstant.WebProperty.PAGE_ERROR);
             }else {
-
-                product = new Product();
+                Product product = new Product();
                 product.setPrice(Float.parseFloat(parametersMap.get(ProductProperty.PRICE_PARAMETER)));
                 product.setCount(Integer.parseInt(parametersMap.get(ProductProperty.COUNT_PARAMETER)));
                 product.setPrescription(Boolean.parseBoolean(parametersMap.get(ProductProperty.PRESCRIPTION_PARAMETER)));
                 product.setImage(imageBytes);
 
-                productItem = new ProductItem();
+                ProductItem productItem = new ProductItem();
                 productItem.setName(parametersMap.get(ProductProperty.NAME_PARAMETER));
                 productItem.setManufacture(parametersMap.get(ProductProperty.MANUFACTURE_PARAMETER));
                 productItem.setDescription(parametersMap.get(ProductProperty.DESCRIPTION_PARAMETER));
@@ -99,7 +94,7 @@ public class SaveProductServlet extends HttpServlet {
                 int id = productService.saveProduct(product);
                 ((List<Product>)this.getServletContext().getAttribute(ATTRIBUTE_PRODUCT_LIST)).add(product);
                 request.getSession().setAttribute(ATTRIBUTE_SAVED_PRODUCT,product);
-                response.sendRedirect(ControllerConstant.WebProperty.PAGE_PRODUCT_SETTING);
+                response.sendRedirect(ControllerConstant.WebProperty.PAGE_PRODUCT_SETTING+id);
             }
 
         } catch (FileUploadException  | ServiceException e) {
@@ -112,11 +107,8 @@ public class SaveProductServlet extends HttpServlet {
 
 
     private void createParametersMap(FileItem fi) throws UnsupportedEncodingException {
-
         String parameterName = fi.getFieldName();
         String parameterValue =  fi.getString("UTF-8");
         parametersMap.put(parameterName,parameterValue);
     }
-
-
 }

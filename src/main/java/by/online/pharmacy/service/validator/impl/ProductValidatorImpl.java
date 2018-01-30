@@ -27,7 +27,7 @@ public class ProductValidatorImpl extends AbstractValidator implements ProductVa
     @Override
     public boolean parametersValidate(final Map<String, String> parameters) {
 
-        final AtomicBoolean result = new AtomicBoolean(true);
+        AtomicBoolean result = new AtomicBoolean(true);
         dispatcher.forEach((key,value) ->{
             String parameter = parameters.get(key);
             if(!dispatcher.get(key).test(parameter)){

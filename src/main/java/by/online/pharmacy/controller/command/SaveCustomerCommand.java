@@ -24,10 +24,6 @@ public class SaveCustomerCommand implements Command {
     private final static Logger logger = Logger.getLogger(SaveCustomerCommand.class);
     private final ServiceFactory factory = ServiceFactory.getInstance();
     private final CustomerService service = factory.getCustomerService();
-    private final static String REGISTRATION_ERRORS_PARAMETER = "registration_errors";
-
-
-    private List<String> errorsList;
 
     @Override
     public void execute(HttpServletRequest request, HttpServletResponse response) throws ControllerException, IOException {
@@ -50,17 +46,15 @@ public class SaveCustomerCommand implements Command {
             Customer customer = new Customer(name,sureName,date,login,hashedPassword,
                     email,phoneNumber, role,birthDay,gender);
 
-           List<ValidationError> registrationErrors =  service.saveCustomer(customer);
+           boolean result =  service.saveCustomer(customer);
 
-           if(registrationErrors.isEmpty()){
-               response.sendRedirect(WebProperty.PAGE_MAIN);
+           if(result){
+               response.sendRedirect(WebProperty.PAGE_LOGIN);
            }else {
-               request.getSession().setAttribute(REGISTRATION_ERRORS_PARAMETER,registrationErrors);
                response.sendRedirect(WebProperty.PAGE_REGISTRATION);
            }
 
         } catch (ServiceException  | IOException | RuntimeException e) {
-
             logger.error("Exception from SaveCustomer",e);
             response.sendRedirect(WebProperty.PAGE_ERROR);
         }

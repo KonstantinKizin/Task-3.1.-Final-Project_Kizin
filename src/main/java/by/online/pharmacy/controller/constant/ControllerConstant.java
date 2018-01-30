@@ -28,9 +28,6 @@ public class ControllerConstant {
         public final static String PAGE_REGISTRATION = "/registration";
         public final static String PAGE_PRODUCT_SETTING = "/admin/product/setting?id=";
         public final static String PAGE_MAIN = "/home";
-        public final static String PAGE_SAVE_PRODUCT = "/admin/save/product";
-        public final static String PAGE_UPDATE_PRODUCT = "/admin/product/update?id=";
-        public final static String PAGE_ADD_PRODUCT_ITEMS = "/admin/product/add/items?id=";
         public final static String PAGE_NOT_FOUND = "/WEB-INF/PageNotFound.jsp";
         public final static String PAGE_LOGIN = "/login";
         public final static String PAGE_PRODUCT = "/product";

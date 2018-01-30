@@ -8,7 +8,7 @@ import java.util.List;
 
 public interface CustomerService {
 
-    List<ValidationError> saveCustomer(Customer customer) throws ServiceException;
+    boolean saveCustomer(Customer customer) throws ServiceException;
 
     Customer findCustomerByEmailAndPassword(String email , String password) throws ServiceException;
 
