@@ -21,9 +21,9 @@ import static by.online.pharmacy.controller.constant.ControllerConstant.Registra
 
 public class SinginCommand implements Command {
 
-    private final ServiceFactory factory = ServiceFactory.getInstance();
+    private ServiceFactory factory = ServiceFactory.getInstance();
 
-    private final CustomerService customerService = factory.getCustomerService();
+    private CustomerService customerService = factory.getCustomerService();
 
     private final static Logger logger = Logger.getLogger(SinginCommand.class);
 
@@ -31,7 +31,7 @@ public class SinginCommand implements Command {
 
     private final String SING_IN_ERROR_VALUE = "error_value";
 
-    private final Map<String,String> pages = new HashMap<>();
+    private Map<String,String> pages = new HashMap<>();
 
 
     public SinginCommand(){
@@ -44,6 +44,7 @@ public class SinginCommand implements Command {
         String email = null;
         String password = null;
         Customer customer = null;
+
         if(request.getSession().getAttribute(SING_IN_ERROR_PARAMETER) != null){
             request.getSession().removeAttribute(SING_IN_ERROR_PARAMETER);
         }
@@ -60,19 +61,19 @@ public class SinginCommand implements Command {
                 String page = pages.get(customer.getRole());
                 response.sendRedirect(page);
             }else {
-                request.getSession().setAttribute(SING_IN_ERROR_PARAMETER,
-                        SING_IN_ERROR_VALUE);
+                request.getSession().setAttribute(WebProperty.SING_IN_ERROR_PARAMETER,
+                        WebProperty.SING_IN_ERROR_VALUE);
                 response.sendRedirect(WebProperty.PAGE_LOGIN);
             }
 
         } catch (ServiceException | IOException e ) {
-            logger.error("Exception from singIn Command",e);
+            logger.error("Exception from singIn command",e);
             throw new ControllerException(e);
         }catch (ValidatorException e){
             request.getSession().setAttribute(SING_IN_ERROR_PARAMETER,
                     SING_IN_ERROR_VALUE);
             try {
-                response.sendRedirect(WebProperty.PAGE_MAIN);
+                response.sendRedirect(WebProperty.PAGE_LOGIN);
             } catch (IOException ex) {
                 logger.debug("Exception ",e);
                 throw new ControllerException("Exception in singinCommand while send redirect to main page",e);

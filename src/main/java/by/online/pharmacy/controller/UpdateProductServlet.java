@@ -23,20 +23,24 @@ import java.util.Iterator;
 
 public class UpdateProductServlet extends HttpServlet {
 
-    private final ServiceFactory factory = ServiceFactory.getInstance();
+    protected  ServiceFactory factory = ServiceFactory.getInstance();
 
-    private final ProductService productService = factory.getProductService();
+    protected  ProductService productService = factory.getProductService();
 
-    private Map<String,String> parametersMap = new HashMap<>();
+    protected Map<String,String> parametersMap = new HashMap<>();
 
-    private final static String PARAMETER_PRICE = "product_price";
-    private final static String PARAMETER_NAME = "product_name";
-    private final static String PARAMETER_DESCRIPTION = "product_description";
-    private final static String PARAMETER_LANGUAGE = "product_language";
-    private final static String PARAMETER_ID = "product_id";
-    private final static String PARAMETER_CURRENT_PRODUCT = "current_product";
-    private final static String PARAMETER_COUNT = "product_count";
-    private final static String PARAMETER_MANUFACTURE = "product_manufacture";
+    protected  DiskFileItemFactory diskFileItemFactory = new DiskFileItemFactory();
+
+    protected  ServletFileUpload upload = new ServletFileUpload(diskFileItemFactory);
+
+    protected final static String PARAMETER_PRICE = "product_price";
+    protected final static String PARAMETER_NAME = "product_name";
+    protected final static String PARAMETER_DESCRIPTION = "product_description";
+    protected final static String PARAMETER_LANGUAGE = "product_language";
+    protected final static String PARAMETER_ID = "product_id";
+    protected final static String PARAMETER_CURRENT_PRODUCT = "current_product";
+    protected final static String PARAMETER_COUNT = "product_count";
+    protected final static String PARAMETER_MANUFACTURE = "product_manufacture";
 
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -51,16 +55,12 @@ public class UpdateProductServlet extends HttpServlet {
 
         byte[] imageBytes = null;
 
-        DiskFileItemFactory factory = new DiskFileItemFactory();
-
-        ServletFileUpload upload = new ServletFileUpload(factory);
-
-        List fileItems = null;
+        List<FileItem> fileItems = null;
 
         try {
             fileItems = upload.parseRequest(request);
 
-            Iterator iterator = fileItems.iterator();
+            Iterator<FileItem> iterator = fileItems.iterator();
 
             imageBytes =  buildParametersMap(iterator);
 
@@ -144,13 +144,13 @@ public class UpdateProductServlet extends HttpServlet {
 
 
     private boolean checkForNullAndEmpty(String parameter){
-
         if(parameter == null || parameter.isEmpty()){
             return false;
         }else {
             return true;
         }
     }
+
 
     private ProductItem buildEmptyProductItems(){
         ProductItem items = new ProductItem();
@@ -159,7 +159,6 @@ public class UpdateProductServlet extends HttpServlet {
         items.setName("");
         items.setDescription("");
         return items;
-
     }
 
 }

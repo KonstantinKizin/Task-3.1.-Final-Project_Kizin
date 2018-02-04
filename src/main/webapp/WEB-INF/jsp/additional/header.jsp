@@ -30,7 +30,7 @@
             </li>
 
             <li class="nav-item">
-                <a class="nav-link" href="/products"><fmt:message key="header.catalog_page" /></a>
+                <a class="nav-link" href="/frontController?hidden=get_page&page=1"><fmt:message key="header.catalog_page" /></a>
             </li>
 
             <li class="nav-item">

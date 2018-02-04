@@ -16,10 +16,8 @@ public class GoToAccountCommand implements Command {
     private final Map<String,String> pages = new HashMap<>();
 
     public GoToAccountCommand(){
-
         pages.put(ControllerConstant.WebProperty.ADMIN_ROLE, ControllerConstant.WebProperty.PAGE_ADMIN);
         pages.put(ControllerConstant.WebProperty.CUSTOMER_ROLE, ControllerConstant.WebProperty.PAGE_CUSTOMER);
-
     }
 
     @Override

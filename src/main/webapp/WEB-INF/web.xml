@@ -13,10 +13,10 @@
     <welcome-file>index.jsp</welcome-file>
   </welcome-file-list>
 
-  <!--<error-page>-->
-    <!--<exception-type>java.lang.RuntimeException</exception-type>-->
-    <!--<location>/WEB-INF/jsp/Error.jsp</location>-->
-  <!--</error-page>-->
+  <error-page>
+    <exception-type>java.lang.RuntimeException</exception-type>
+    <location>/WEB-INF/jsp/Error.jsp</location>
+  </error-page>
 
   <error-page>
     <error-code>404</error-code>
@@ -209,8 +209,6 @@
     <filter-name>encodingFilter</filter-name>
     <filter-class>by.online.pharmacy.filter.EncodingFilter</filter-class>
 
-
-
     <init-param>
       <param-name>encoding</param-name>
       <param-value>UTF-8</param-value>
@@ -226,7 +224,6 @@
   <filter>
     <filter-name>ProductFilter</filter-name>
     <filter-class>by.online.pharmacy.filter.ProductPageFilter</filter-class>
-
 
     <init-param>
       <param-name>encoding</param-name>

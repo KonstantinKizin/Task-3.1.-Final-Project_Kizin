@@ -57,7 +57,7 @@ public class FrontController extends HttpServlet {
                     PRODUCT_LIST_ATTR_NAME,
                     productLoader.getProductList()
             );
-            
+
         } catch (ServiceException e){
             logger.error("Exception in init method",e);
             throw new InitializeServletException();

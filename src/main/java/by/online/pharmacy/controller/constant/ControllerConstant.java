@@ -4,21 +4,6 @@ package by.online.pharmacy.controller.constant;
 public class ControllerConstant {
 
 
-
-
-    public static class URL{
-        public final static String  CUSTOMER_PAGE = "/customer_autho";
-        public final static String ADMIN_PAGE = "/admin_autho";
-        public final static String ERROR_PAGE = "/error";
-        public final static String CUSTOMERS_LIST_PAGE= "/WEB-INF/jsp/admin/Customers.jsp";
-        public final static String  REGISTRATION_PAGE = "/Registration.jsp";
-        public final static String MAIN_PAGE = "/Index.jsp";
-        public final static String CUSTOMERS_URL="/admin/customers";
-
-    }
-
-
-
     public static class  WebProperty{
 
         public final static String PAGE_CUSTOMER = "/account";
@@ -42,6 +27,8 @@ public class ControllerConstant {
         public final static String CUSTOMER_LIST_ATTR_NAME = "customerList";
         public final static String CHARACTER_ENCODING = "utf-8";
         public final static String PAGE = "page";
+        public final static String SING_IN_ERROR_PARAMETER = "sing_in_error";
+        public final static String SING_IN_ERROR_VALUE = "error_value";
     }
 
     public static class RegistrationProperty{
@@ -66,6 +53,8 @@ public class ControllerConstant {
         public final static String DESCRIPTION_PARAMETER = "product_description";
         public final static String CATEGORY_PARAMETER = "product_category";
         public final static String LANGUAGE_PARAMETER = "product_language";
+        public final static String ID_PARAMETER = "product_id";
+        public final static String CURRENT_PRODUCT_PARAMETER = "current_product";
 
     }
 

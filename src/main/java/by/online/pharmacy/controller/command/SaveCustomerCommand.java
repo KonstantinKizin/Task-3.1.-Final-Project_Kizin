@@ -22,8 +22,8 @@ import static by.online.pharmacy.controller.constant.ControllerConstant.Registra
 public class SaveCustomerCommand implements Command {
 
     private final static Logger logger = Logger.getLogger(SaveCustomerCommand.class);
-    private final ServiceFactory factory = ServiceFactory.getInstance();
-    private final CustomerService service = factory.getCustomerService();
+    private  ServiceFactory factory = ServiceFactory.getInstance();
+    private  CustomerService service = factory.getCustomerService();
 
     @Override
     public void execute(HttpServletRequest request, HttpServletResponse response) throws ControllerException, IOException {

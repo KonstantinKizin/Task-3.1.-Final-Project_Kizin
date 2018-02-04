@@ -17,7 +17,7 @@ public class LogoutCommand implements Command {
         try {
             response.sendRedirect(WebProperty.PAGE_MAIN);
         } catch (IOException e) {
-            throw new ControllerException("exception from Logout Command ",e);
+            throw new ControllerException("exception from Logout command ",e);
         }
     }
 }

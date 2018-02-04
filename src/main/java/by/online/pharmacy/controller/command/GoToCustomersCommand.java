@@ -15,8 +15,8 @@ import java.util.List;
 
 public class GoToCustomersCommand implements Command {
 
-    private final ServiceFactory factory = ServiceFactory.getInstance();
-    private final CustomerService service = factory.getCustomerService();
+    private ServiceFactory factory = ServiceFactory.getInstance();
+    private CustomerService service = factory.getCustomerService();
     private final static Logger logger = Logger.getLogger(GoToCustomersCommand.class);
 
         @Override

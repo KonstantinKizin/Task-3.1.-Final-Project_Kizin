@@ -20,8 +20,8 @@ public class AdminUrlFilter implements Filter {
 
     @Override
     public void init(FilterConfig filterConfig) throws ServletException {
-
     }
+
 
     @Override
     public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain) throws IOException, ServletException {
@@ -40,9 +40,8 @@ public class AdminUrlFilter implements Filter {
         }
 
         if(!flag){
-            ((HttpServletRequest) servletRequest).getRequestDispatcher("/WEB-INF/jsp/Error.jsp?reason="+ERROR_MESSAGE).forward(servletRequest, servletResponse);
+             servletRequest.getRequestDispatcher("/WEB-INF/jsp/Error.jsp?reason="+ERROR_MESSAGE).forward(servletRequest, servletResponse);
         }
-
         filterChain.doFilter(servletRequest,servletResponse);
     }
 

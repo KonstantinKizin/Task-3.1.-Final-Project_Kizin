@@ -9,27 +9,24 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import static by.online.pharmacy.controller.constant.ControllerConstant.ProductProperty;
 
 public class GetProductCommand implements Command {
 
-    private final ServiceFactory factory = ServiceFactory.getInstance();
+    private ServiceFactory factory = ServiceFactory.getInstance();
 
-    private final ProductService service = factory.getProductService();
-
-    private final static String PRODUCT_ID_PARAMETER = "product_id";
-
-    private final static String CURRENT_PRODUCT_PARAMETER = "current_product";
+    private ProductService service = factory.getProductService();
 
 
     @Override
     public void execute(HttpServletRequest request, HttpServletResponse response) throws ControllerException, IOException {
 
-        int id = Integer.parseInt(request.getParameter(PRODUCT_ID_PARAMETER));
+        int id = Integer.parseInt(request.getParameter(ProductProperty.ID_PARAMETER));
         Product product = null;
         try{
             product = service.findProduct(id);
             if(product != null){
-                request.getSession().setAttribute(CURRENT_PRODUCT_PARAMETER,product);
+                request.getSession().setAttribute(ProductProperty.CURRENT_PRODUCT_PARAMETER,product);
                 response.sendRedirect(ControllerConstant.WebProperty.PAGE_PRODUCT);
 
             }else {
@@ -39,8 +36,11 @@ public class GetProductCommand implements Command {
                     throw new ControllerException(e);
                 }
             }
-        }catch (ServiceException  |NumberFormatException e ){
+        }catch (ServiceException  | NumberFormatException e ){
             response.sendRedirect(ControllerConstant.WebProperty.PAGE_ERROR);
         }
     }
+
+
+
 }

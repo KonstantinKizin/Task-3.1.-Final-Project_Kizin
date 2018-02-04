@@ -84,7 +84,7 @@ public class CommandMapCreator {
             logger.error("Build command map  Exception fom CommandMapCreatorFile",e);
             throw e;
         } catch (DAOException e) {
-            logger.error("From build Command map method",e);
+            logger.error("From build command map method",e);
             throw new ServiceException(e);
         }
 
