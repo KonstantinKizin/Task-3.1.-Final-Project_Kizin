@@ -16,24 +16,24 @@
     <jsp:include page="/WEB-INF/jsp/additional/AccountHeader.jsp"></jsp:include>
 </Header>
 <c:choose>
-        <c:when test="${empty found_product}">
+        <c:when test="${empty current_product}">
            <c:redirect url="/home"></c:redirect>
         </c:when>
     <c:otherwise>
         <div class="card" style="width: 18rem;">
             <img class="card-img-top" src="/ImageServlet?product_id=${found_product.id}" alt="Card image cap" height="200px" >
             <div class="card-body">
-                <h5 class="card-title">${found_product.productItemMap.get(language).name}</h5>
-                <p class="card-text">${found_product.productItemMap.get(language).description}.</p>
+                <h5 class="card-title">${current_product.productItemMap.get(language).name}</h5>
+                <p class="card-text">${current_product.productItemMap.get(language).description}.</p>
             </div>
             <ul class="list-group list-group-flush">
-                <li class="list-group-item"><h3>Price: </h3>${found_product.price}</li>
-                <li class="list-group-item"><h3>Count: </h3>${found_product.count}</li>
-                <li class="list-group-item"><h3>Manufacture: </h3>${found_product.productItemMap.get(language).manufacture}</li>
+                <li class="list-group-item"><h3>Price: </h3>${current_product.price}</li>
+                <li class="list-group-item"><h3>Count: </h3>${current_product.count}</li>
+                <li class="list-group-item"><h3>Manufacture: </h3>${current_product.productItemMap.get(language).manufacture}</li>
             </ul>
             <div class="card-body">
-                <a href="/admin/add/product/items?id=${found_product.id}" class="card-link">Add items in new Language</a>
-                <a href="/admin/update/product?id=${found_product.id}" class="card-link">Update</a>
+                <a href="/admin/add/product/items?id=${current_product.id}" class="card-link">Add items in new Language</a>
+                <a href="/admin/update/product?id=${current_product.id}" class="card-link">Update</a>
             </div>
         </div>
 

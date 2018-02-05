@@ -1,7 +1,6 @@
 package by.online.pharmacy.controller.command;
 
-import by.online.pharmacy.controller.constant.ControllerConstant;
-import by.online.pharmacy.controller.exception.ControllerException;
+import static by.online.pharmacy.controller.constant.ControllerConstant.WebProperty;
 import by.online.pharmacy.entity.Customer;
 
 import javax.servlet.http.HttpServletRequest;
@@ -16,22 +15,18 @@ public class GoToAccountCommand implements Command {
     private final Map<String,String> pages = new HashMap<>();
 
     public GoToAccountCommand(){
-        pages.put(ControllerConstant.WebProperty.ADMIN_ROLE, ControllerConstant.WebProperty.PAGE_ADMIN);
-        pages.put(ControllerConstant.WebProperty.CUSTOMER_ROLE, ControllerConstant.WebProperty.PAGE_CUSTOMER);
+        pages.put(WebProperty.ADMIN_ROLE, WebProperty.PAGE_ADMIN);
+        pages.put(WebProperty.CUSTOMER_ROLE, WebProperty.PAGE_CUSTOMER);
+        pages.put(WebProperty.GUEST_ROLE , WebProperty.PAGE_LOGIN);
     }
 
     @Override
-    public void execute(HttpServletRequest request, HttpServletResponse response) throws ControllerException, IOException {
+    public void execute(HttpServletRequest request, HttpServletResponse response) throws IOException {
 
         HttpSession session = request.getSession();
-        Customer customer = (Customer) session.getAttribute(ControllerConstant.WebProperty.USER_ATTRIBUTE_NAME);
-        if(customer != null){
-            String account_page = pages.get(customer.getRole());
-            response.sendRedirect(account_page);
-        }else {
-            response.sendRedirect(ControllerConstant.WebProperty.PAGE_LOGIN);
-        }
-
+        String role = (String)session.getAttribute(WebProperty.USER_ATTRIBUTE_ROLE);
+        String page = pages.get(role);
+        response.sendRedirect(page);
 
     }
 }

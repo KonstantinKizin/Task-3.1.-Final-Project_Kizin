@@ -21,10 +21,13 @@ public class ControllerConstant {
 
         public final static String HIDDEN_PARAMETER = "hidden";
         public final static String USER_ATTRIBUTE_NAME = "user";
+        public final static String USER_ATTRIBUTE_ROLE = "role";
         public final static String ADMIN_ROLE = "admin";
         public final static String CUSTOMER_ROLE = "customer";
+        public final static String GUEST_ROLE = "guest";
         public final static String LANGUAGE_PARAMETER = "language";
         public final static String CUSTOMER_LIST_ATTR_NAME = "customerList";
+        public final static String PRODUCT_LIST_ATTR_NAME = "productList";
         public final static String CHARACTER_ENCODING = "utf-8";
         public final static String PAGE = "page";
         public final static String SING_IN_ERROR_PARAMETER = "sing_in_error";
@@ -55,6 +58,7 @@ public class ControllerConstant {
         public final static String LANGUAGE_PARAMETER = "product_language";
         public final static String ID_PARAMETER = "product_id";
         public final static String CURRENT_PRODUCT_PARAMETER = "current_product";
+        public final static String IMAGE_PARAMETER = "product_image";
 
     }
 

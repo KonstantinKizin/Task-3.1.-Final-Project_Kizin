@@ -13,10 +13,10 @@
     <welcome-file>index.jsp</welcome-file>
   </welcome-file-list>
 
-  <error-page>
-    <exception-type>java.lang.RuntimeException</exception-type>
-    <location>/WEB-INF/jsp/Error.jsp</location>
-  </error-page>
+  <!--<error-page>-->
+    <!--<exception-type>java.lang.RuntimeException</exception-type>-->
+    <!--<location>/WEB-INF/jsp/Error.jsp</location>-->
+  <!--</error-page>-->
 
   <error-page>
     <error-code>404</error-code>
@@ -37,7 +37,7 @@
 
   <servlet>
     <servlet-name>ImageController</servlet-name>
-    <servlet-class>by.online.pharmacy.controller.ImageLoadServlet</servlet-class>
+    <servlet-class>by.online.pharmacy.controller.ImageLoaderServlet</servlet-class>
   </servlet>
 
   <servlet-mapping>
@@ -255,10 +255,10 @@
   </filter-mapping>
 
 
-  <filter>
-    <filter-name>AdminProductGetFilter</filter-name>
-    <filter-class>by.online.pharmacy.filter.AdminProductGetFilter</filter-class>
 
+  <filter>
+    <filter-name>MultidateFilter</filter-name>
+    <filter-class>by.online.pharmacy.filter.MultiDateFilter</filter-class>
 
 
     <init-param>
@@ -268,9 +268,24 @@
   </filter>
 
   <filter-mapping>
-    <filter-name>AdminProductGetFilter</filter-name>
-    <url-pattern>/admin/product/*</url-pattern>
+    <filter-name>MultidateFilter</filter-name>
+    <url-pattern>/saveProduct</url-pattern>
   </filter-mapping>
+
+
+  <filter-mapping>
+    <filter-name>MultidateFilter</filter-name>
+    <url-pattern>/updateProduct</url-pattern>
+  </filter-mapping>
+
+
+  <listener>
+    <listener-class>by.online.pharmacy.listener.SessionListener</listener-class>
+  </listener>
+
+
+
+
 
 
 

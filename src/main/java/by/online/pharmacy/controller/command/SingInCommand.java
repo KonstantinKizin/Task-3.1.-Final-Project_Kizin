@@ -58,6 +58,9 @@ public class SinginCommand implements Command {
             customer = customerService.findCustomerByEmailAndPassword(email,password);
             if(customer != null){
                 request.getSession().setAttribute(WebProperty.USER_ATTRIBUTE_NAME,customer);
+                request.getSession().setAttribute(
+                        WebProperty.USER_ATTRIBUTE_ROLE ,customer.getRole()
+                );
                 String page = pages.get(customer.getRole());
                 response.sendRedirect(page);
             }else {

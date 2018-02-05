@@ -12,12 +12,12 @@
 </head>
 
 <body>
-<form class="form-horizontal" enctype="multipart/form-data"  method="post" action="/saveProduct" >
+<form class="form-horizontal" enctype="multipart/form-data"  method="post" action="/frontController" >
+
+    <input type="hidden" name="hidden" value="save_product">
 
         <!-- Form Name -->
         <legend>Save Product</legend>
-
-
 
         <!-- Multiple Radios -->
         <div class="form-group">

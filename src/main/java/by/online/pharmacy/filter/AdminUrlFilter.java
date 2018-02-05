@@ -1,5 +1,6 @@
 package by.online.pharmacy.filter;
 
+import static by.online.pharmacy.controller.constant.ControllerConstant.WebProperty;
 import by.online.pharmacy.entity.Customer;
 import javax.servlet.ServletResponse;
 import javax.servlet.ServletRequest;
@@ -13,11 +14,6 @@ import java.io.IOException;
 
 public class AdminUrlFilter implements Filter {
 
-    private final static String ERROR_MESSAGE = "You don't have access for the page";
-
-    private Customer customer = null;
-
-
     @Override
     public void init(FilterConfig filterConfig) throws ServletException {
     }
@@ -26,28 +22,19 @@ public class AdminUrlFilter implements Filter {
     @Override
     public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain) throws IOException, ServletException {
 
-        boolean flag = true;
-
         HttpSession session = ((HttpServletRequest)servletRequest).getSession();
 
-        if(((Customer)session.getAttribute("user")) == null){
-            flag = false;
-        }else {
-            customer = (Customer)session.getAttribute("user");
-            if(!customer.getRole().equalsIgnoreCase("admin")){
-                flag = false;
-            }
+        Customer customer = (Customer) session.getAttribute(WebProperty.USER_ATTRIBUTE_NAME);
+
+        if(customer == null || !customer.getRole().equalsIgnoreCase(WebProperty.ADMIN_ROLE)){
+            servletRequest.getRequestDispatcher(WebProperty.PAGE_NOT_FOUND).forward(servletRequest, servletResponse);
         }
 
-        if(!flag){
-             servletRequest.getRequestDispatcher("/WEB-INF/jsp/Error.jsp?reason="+ERROR_MESSAGE).forward(servletRequest, servletResponse);
-        }
         filterChain.doFilter(servletRequest,servletResponse);
     }
 
     @Override
     public void destroy() {
-        customer = null;
 
     }
 }

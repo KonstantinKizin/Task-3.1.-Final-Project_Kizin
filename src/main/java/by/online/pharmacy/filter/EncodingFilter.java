@@ -19,12 +19,12 @@ public class EncodingFilter implements Filter {
 
     @Override
     public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain) throws IOException, ServletException {
-
         String requestCode = servletRequest.getCharacterEncoding();
         if(code != null && code.equalsIgnoreCase(requestCode)){
             servletRequest.setCharacterEncoding(code);
             servletResponse.setCharacterEncoding(code);
         }
+
         filterChain.doFilter(servletRequest,servletResponse);
     }
 

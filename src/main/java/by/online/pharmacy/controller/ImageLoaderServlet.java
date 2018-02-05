@@ -14,11 +14,10 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.util.List;
 
-public class ImageLoadServlet extends HttpServlet {
+public class ImageLoaderServlet extends HttpServlet {
 
-    private final static Logger logger = Logger.getLogger(ImageLoadServlet.class);
+    private final static Logger logger = Logger.getLogger(ImageLoaderServlet.class);
 
     private final ServiceFactory factory = ServiceFactory.getInstance();
 
