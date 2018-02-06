@@ -83,14 +83,15 @@ public class MultiDateFilterTest {
         //given
         when(iterator.hasNext()).thenReturn(true,false);
         when(iterator.next()).thenReturn(fileItem);
-        when(fileItem.isInMemory()).thenReturn(true);
+        when(fileItem.isFormField()).thenReturn(false);
+        byte[] arr = new byte[1];
+        when(fileItem.get()).thenReturn(arr);
         when(fileItem.getFieldName()).thenReturn(ProductProperty.IMAGE_PARAMETER);
-
         //when
         filter.doFilter(request,response,filterChain);
 
         //then
-        verify(request).setAttribute(anyString(),anyObject());
+        verify(request).setAttribute(eq(ProductProperty.IMAGE_PARAMETER),eq(arr));
         verifyNoMoreInteractions(request);
         verify(filterChain).doFilter(request,response);
     }

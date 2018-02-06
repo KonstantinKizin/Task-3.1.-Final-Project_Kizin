@@ -1,16 +1,21 @@
 package by.online.pharmacy.filter;
-
-
 import org.apache.commons.fileupload.FileItem;
 import org.apache.commons.fileupload.FileUploadException;
 import org.apache.commons.fileupload.disk.DiskFileItemFactory;
 import org.apache.commons.fileupload.servlet.ServletFileUpload;
 
-import javax.servlet.*;
+import javax.servlet.FilterChain;
+import javax.servlet.Filter;
+import javax.servlet.FilterConfig;
+import javax.servlet.ServletRequest;
+import javax.servlet.ServletResponse;
+import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
+
 import java.io.IOException;
 import java.util.Iterator;
 import java.util.List;
+;
 
 public class MultiDateFilter implements Filter {
 
@@ -27,13 +32,14 @@ public class MultiDateFilter implements Filter {
     public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain) throws IOException, ServletException {
         try {
             List<FileItem> fileItems = upload.parseRequest((HttpServletRequest) servletRequest);
+
             Iterator<FileItem> iterator = fileItems.iterator();
 
             while (iterator.hasNext()){
-                FileItem fi = (FileItem)iterator.next();
+                FileItem fi = iterator.next();
                 if(fi.isFormField()){
-                    servletRequest.setAttribute(fi.getFieldName(),fi.getString("UTF-8"));
-                }else if(fi.isInMemory()) {
+                    servletRequest.setAttribute(fi.getFieldName(),fi.getString("utf-8"));
+                }else {
                     servletRequest.setAttribute(fi.getFieldName(),fi.get());
                 }
             }
@@ -48,9 +54,7 @@ public class MultiDateFilter implements Filter {
 
     @Override
     public void destroy() {
-
         factory = null;
         upload = null;
-
     }
 }

@@ -2,7 +2,6 @@ package by.online.pharmacy.controller.command;
 
 import by.online.pharmacy.controller.exception.ControllerException;
 import by.online.pharmacy.entity.Customer;
-import by.online.pharmacy.entity.ValidationError;
 import by.online.pharmacy.service.CustomerService;
 import by.online.pharmacy.service.exception.ServiceException;
 import by.online.pharmacy.service.factory.ServiceFactory;
@@ -12,7 +11,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.Date;
-import java.util.List;
 
 import static by.online.pharmacy.controller.constant.ControllerConstant.WebProperty;
 import static by.online.pharmacy.controller.constant.ControllerConstant.RegistrationProperty;

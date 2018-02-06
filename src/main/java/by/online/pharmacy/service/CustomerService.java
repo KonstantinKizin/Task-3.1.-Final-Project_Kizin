@@ -1,7 +1,6 @@
 package by.online.pharmacy.service;
 
 import by.online.pharmacy.entity.Customer;
-import by.online.pharmacy.entity.ValidationError;
 import by.online.pharmacy.service.exception.ServiceException;
 
 import java.util.List;

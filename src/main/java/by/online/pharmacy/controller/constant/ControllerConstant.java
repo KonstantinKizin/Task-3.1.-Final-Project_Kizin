@@ -32,6 +32,7 @@ public class ControllerConstant {
         public final static String PAGE = "page";
         public final static String SING_IN_ERROR_PARAMETER = "sing_in_error";
         public final static String SING_IN_ERROR_VALUE = "error_value";
+        public final static String DEFAULT_PRODUCT_IMAGE_NAME = "default_product.png";
     }
 
     public static class RegistrationProperty{

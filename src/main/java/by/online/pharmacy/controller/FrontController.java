@@ -4,9 +4,7 @@ import by.online.pharmacy.controller.command.CommandMapCreator;
 import by.online.pharmacy.controller.command.CommandProvider;
 import by.online.pharmacy.controller.exception.ControllerException;
 import by.online.pharmacy.controller.exception.InitializeServletException;
-import by.online.pharmacy.entity.Product;
 import by.online.pharmacy.service.exception.ServiceException;
-import by.online.pharmacy.service.factory.ServiceFactory;
 import by.online.pharmacy.service.storage.ProductStorage;
 import org.apache.log4j.Logger;
 import javax.servlet.ServletException;
@@ -20,13 +18,9 @@ import static by.online.pharmacy.controller.constant.ControllerConstant.WebPrope
 
 public class FrontController extends HttpServlet {
 
-    private final ServiceFactory factory = ServiceFactory.getInstance();
     private final CommandMapCreator commandMapCreator = new CommandMapCreator();
-    private final Command producer = new CommandProvider();
     private final static Logger logger = Logger.getLogger(FrontController.class);
     private final ProductStorage productLoader = ProductStorage.getInstance();
-
-    private final static String PRODUCT_LIST_ATTR_NAME = "productList";
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         this.doGet(request,response);
@@ -38,7 +32,10 @@ public class FrontController extends HttpServlet {
             request.setCharacterEncoding(WebProperty.CHARACTER_ENCODING);
             response.setCharacterEncoding(WebProperty.CHARACTER_ENCODING);
             String commandName = request.getParameter(WebProperty.HIDDEN_PARAMETER);
-            Command command = ((CommandProvider)producer).getCommandMap().get(commandName);
+            if(commandName == null){
+                commandName = (String) request.getAttribute(WebProperty.HIDDEN_PARAMETER);
+            }
+            Command command = CommandProvider.getInstance().getCommandMap().get(commandName);
             command.execute(request,response);
         } catch (ControllerException e) {
             logger.error("Exception from FrontController",e);
@@ -52,9 +49,9 @@ public class FrontController extends HttpServlet {
         super.init();
         try {
             Map<String , Command> commandMap = commandMapCreator.getCommandMap();
-            ((CommandProvider) producer).getCommandMap().putAll(commandMap);
+            CommandProvider.getInstance().getCommandMap().putAll(commandMap);
             this.getServletContext().setAttribute(
-                    PRODUCT_LIST_ATTR_NAME,
+                    WebProperty.PRODUCT_LIST_ATTR_NAME,
                     productLoader.getProductList()
             );
 
@@ -62,8 +59,9 @@ public class FrontController extends HttpServlet {
             logger.error("Exception in init method",e);
             throw new InitializeServletException();
         }
-
     }
+
+
 
 
 }

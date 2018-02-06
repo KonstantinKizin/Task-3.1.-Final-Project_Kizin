@@ -1,5 +1,6 @@
 package by.online.pharmacy.dao.impl.connectionPool;
 
+import by.online.pharmacy.dao.exception.CloseConnectionException;
 import by.online.pharmacy.dao.exception.ConnectionPoolException;
 import by.online.pharmacy.dao.exception.ConnectionPoolInitializationException;
 import org.apache.log4j.Logger;
@@ -13,31 +14,31 @@ import java.util.concurrent.BlockingQueue;
 
 public final class ConnectionPoolImpl implements ConnectionPool {
 
-
     private final static Logger logger = Logger.getLogger(ConnectionPoolImpl.class);
 
     private final static String PROPERTY_NAME = "JDBCconfig";
 
     private final static ResourceBundle RESOURCE_BUNDLE = ResourceBundle.getBundle(PROPERTY_NAME);
 
-
     private final static int CONNECTION_POOL_SIZE = Integer.parseInt(
             RESOURCE_BUNDLE.getString(JDBCProperty.CONNECTION_POOL_SIZE.name())
     );
 
+    private static BlockingQueue<Connection> availableConnections;
+
     private static final ConnectionPool instance = new ConnectionPoolImpl();
-
-
-    private final BlockingQueue<Connection> availableConnections;
-
-
-
-
 
     private ConnectionPoolImpl()  {
 
-        availableConnections = new ArrayBlockingQueue<Connection>( CONNECTION_POOL_SIZE);
+    }
 
+    public static ConnectionPool getInstance(){
+        return instance;
+    }
+
+    @Override
+    public void init(){
+        availableConnections = new ArrayBlockingQueue<Connection>( CONNECTION_POOL_SIZE);
         try {
             Class.forName(RESOURCE_BUNDLE.getString(JDBCProperty.DB_DRIVER_NAME.name()));
             makeConnectionsQueue(CONNECTION_POOL_SIZE);
@@ -45,11 +46,6 @@ public final class ConnectionPoolImpl implements ConnectionPool {
             logger.error("Error in initialize ConnectionPool",e);
             throw new ConnectionPoolInitializationException("Error in initialize WrappedConnection Pool",e);
         }
-    }
-
-
-    public static ConnectionPool getInstance(){
-        return instance;
     }
 
 
@@ -95,9 +91,23 @@ public final class ConnectionPoolImpl implements ConnectionPool {
         }
     }
 
+    @Override
+    public void closeAll(){
+
+        if(!availableConnections.isEmpty()){
+            try {
+                for(Connection connection : availableConnections){
+                    connection.close();
+                }
+            } catch (SQLException e) {
+                throw new CloseConnectionException(e);
+            }
+        }
+    }
 
 
-    private void makeConnectionsQueue(int count) throws SQLException, ConnectionPoolException {
+
+    private  void makeConnectionsQueue(int count) throws SQLException, ConnectionPoolException {
         for(int i = 0; i < count;i++){
             Connection connection = null;
             try {

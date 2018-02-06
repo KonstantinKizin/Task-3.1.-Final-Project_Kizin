@@ -1,5 +1,6 @@
 package by.online.pharmacy.service.impl;
 
+import by.online.pharmacy.controller.constant.ControllerConstant;
 import by.online.pharmacy.dao.ProductDAO;
 import by.online.pharmacy.dao.exception.DAOException;
 import by.online.pharmacy.dao.factory.DAOFactory;
@@ -11,6 +12,12 @@ import by.online.pharmacy.service.exception.ValidatorException;
 import by.online.pharmacy.service.storage.ProductStorage;
 import by.online.pharmacy.service.validator.ProductValidator;
 import by.online.pharmacy.service.validator.impl.ProductValidatorImpl;
+
+import javax.imageio.ImageIO;
+import java.awt.image.BufferedImage;
+import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -18,33 +25,57 @@ import java.util.List;
 
 public class ProductServiceImpl implements ProductService {
 
-    private final DAOFactory factory = DAOFactory.getInstance();
+    private  DAOFactory factory = DAOFactory.getInstance();
 
-    private final ProductDAO productDAO  = factory.getProductDAO();
+    private  ProductDAO productDAO  = factory.getProductDAO();
 
-    private final ProductStorage storage = ProductStorage.getInstance();
+    private  ProductStorage storage = ProductStorage.getInstance();
 
-    private final ProductValidator validator = new ProductValidatorImpl();
+    private  ProductValidator validator = new ProductValidatorImpl();
 
 
-
-    /*
-    * As result of saving the method return just saved product id.
-    * */
 
     @Override
     public int saveProduct(Product product) throws ServiceException {
+        boolean result = false;
         try{
             if(!validator.validate(product)){
                 throw new ValidatorException("invalid product for save");
             }
-            int id = productDAO.save(product);
             storage.add(product);
-            return id;
+            int id = productDAO.save(product);
+            result = true;
+            if(result){
+                return id;
+            }else {
+                throw new DAOException("product was not save");
+            }
         } catch (DAOException | StorageException e) {
             throw new ServiceException("Exception in service save product method",e);
         }
+    }
 
+
+
+    @Override
+    public byte[] getDefaultImage() throws ServiceException {
+        ClassLoader classLoader = getClass().getClassLoader();
+        String path = new String(classLoader.getResource(
+                ControllerConstant.WebProperty.DEFAULT_PRODUCT_IMAGE_NAME)
+                .getPath());
+        File file = new File(path);
+        BufferedImage image = null;
+        byte[] arr = null;
+        try {
+            image  = ImageIO.read(file);
+            ByteArrayOutputStream baos = new ByteArrayOutputStream();
+            ImageIO.write( image, "png", baos );
+            baos.flush();
+            arr = baos.toByteArray();
+        } catch (IOException e) {
+            throw new ServiceException(e);
+        }
+        return arr;
     }
 
     @Override
@@ -98,10 +129,14 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public boolean deleteProduct(int id) throws ServiceException {
-
         try {
             productDAO.delete(id);
-            storage.remove(id);
+            for(Product product : storage.getProductList()){
+                if(product.getId() == id){
+                    storage.getProductList().remove(product);
+                    break;
+                }
+            }
             return true;
         } catch (DAOException e) {
             throw new ServiceException("Delete product in service ",e);

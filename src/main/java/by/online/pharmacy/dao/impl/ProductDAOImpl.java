@@ -9,14 +9,12 @@ import by.online.pharmacy.dao.impl.connectionPool.WrappedConnection;
 import by.online.pharmacy.entity.Product;
 import by.online.pharmacy.entity.ProductItem;
 import org.apache.log4j.Logger;
-
 import java.sql.Blob;
 import java.sql.PreparedStatement;
 import java.sql.Statement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
-
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -74,8 +72,6 @@ public class ProductDAOImpl implements ProductDAO {
     private final static String SQL_INSERT_PRODUCT_ITEMS = "INSERT INTO  "+TABLE_TRANSLATION_PRODUCT+" VALUES(?,?,?,?,?)" ;
 
     private final static String SQL_DELETE_PRODUCT = "DELETE from "+TABLE_PRODUCT+" WHERE product_id=?";
-
-    private final static String SQL_DELETE_PRODUCT_ITEMS = "DELETE from "+TABLE_TRANSLATION_PRODUCT+" WHERE product_id=?";
 
     private final static String SQL_GET_PRODUCTS = "SELECT \n" +
             "product.product_id, \n" +
@@ -243,14 +239,17 @@ public class ProductDAOImpl implements ProductDAO {
 
 
 
-    //no need to use this method.
     @Override
     public void delete(int id) throws DAOException{
-        try {
-            this.deleteProductAsTransaction(id);
-        } catch (SQLException | DAOException e) {
-            logger.error("Exception in delete product method", e);
-            throw new DAOException("Delete product method", e);
+
+        try(WrappedConnection connection = new WrappedConnection(connectionPool.getConnection());
+            PreparedStatement productStatement = connection.getPreparedStatement(SQL_DELETE_PRODUCT);
+        ){
+            productStatement.setInt(1,id);
+            productStatement.executeUpdate();
+        }catch (SQLException e){
+            logger.error("Delete product method",e);
+            throw new DAOException("Exception in delete product method",e);
         }
     }
 
@@ -264,8 +263,6 @@ public class ProductDAOImpl implements ProductDAO {
             logger.error("Exception in update product method", e);
             throw new DAOException("Update product method",e);
         }
-
-
     }
 
 
@@ -333,37 +330,6 @@ public class ProductDAOImpl implements ProductDAO {
     }
 
 
-
-
-
-    private void deleteProductAsTransaction(int id) throws DAOException, SQLException {
-        WrappedConnection connectionRefCopy = null;
-        try(WrappedConnection connection = new WrappedConnection(connectionPool.getConnection());
-            PreparedStatement productStatement = connection.getPreparedStatement(SQL_DELETE_PRODUCT);
-            PreparedStatement tProductStatement = connection.getPreparedStatement(SQL_DELETE_PRODUCT_ITEMS)){
-
-            connection.setAutoCommit(false);
-            connectionRefCopy = connection;
-
-            tProductStatement.setInt(1,id);
-            tProductStatement.executeUpdate();
-
-            productStatement.setInt(1,id);
-            productStatement.executeUpdate();
-
-            connection.commit();
-        }catch (SQLException e){
-            connectionRefCopy.rollback();
-            throw e;
-
-        }finally {
-            try {
-                connectionRefCopy.setAutoCommit(true);
-            } catch (SQLException e) {
-                throw new DAOException("Exception in save product method, in set autocommit true",e);
-            }
-        }
-    }
 
 
     private void updateProductAsTransaction(Product product, String language) throws SQLException {

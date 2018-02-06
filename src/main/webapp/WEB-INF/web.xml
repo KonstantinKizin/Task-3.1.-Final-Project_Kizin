@@ -18,10 +18,10 @@
     <!--<location>/WEB-INF/jsp/Error.jsp</location>-->
   <!--</error-page>-->
 
-  <error-page>
-    <error-code>404</error-code>
-    <location>/WEB-INF/jsp/PageNotFound.jsp</location>
-  </error-page>
+  <!--<error-page>-->
+    <!--<error-code>404</error-code>-->
+    <!--<location>/WEB-INF/jsp/PageNotFound.jsp</location>-->
+  <!--</error-page>-->
 
   <display-name>Archetype Created Web Application</display-name>
   <servlet>
@@ -43,6 +43,16 @@
   <servlet-mapping>
     <servlet-name>ImageController</servlet-name>
     <url-pattern>/ImageServlet</url-pattern>
+  </servlet-mapping>
+
+  <servlet>
+    <servlet-name>DispatcherServlet</servlet-name>
+    <servlet-class>by.online.pharmacy.controller.DispatcherServlet</servlet-class>
+  </servlet>
+
+  <servlet-mapping>
+    <servlet-name>DispatcherServlet</servlet-name>
+    <url-pattern>/DispatcherServlet</url-pattern>
   </servlet-mapping>
 
 
@@ -132,18 +142,6 @@
     <url-pattern>/product</url-pattern>
   </servlet-mapping>
 
-
-  <servlet>
-    <servlet-name>UpdateProductServlet</servlet-name>
-    <servlet-class>by.online.pharmacy.controller.UpdateProductServlet</servlet-class>
-  </servlet>
-
-  <servlet-mapping>
-    <servlet-name>UpdateProductServlet</servlet-name>
-    <url-pattern>/updateProduct</url-pattern>
-  </servlet-mapping>
-
-
   <servlet>
     <servlet-name>AddNewproductItems</servlet-name>
     <jsp-file>/WEB-INF/jsp/admin/AddProductItems.jsp</jsp-file>
@@ -173,6 +171,7 @@
     <servlet-name>Customers</servlet-name>
     <url-pattern>/admin/customers</url-pattern>
   </servlet-mapping>
+
 
   <servlet>
     <servlet-name>Admin</servlet-name>
@@ -269,18 +268,16 @@
 
   <filter-mapping>
     <filter-name>MultidateFilter</filter-name>
-    <url-pattern>/saveProduct</url-pattern>
-  </filter-mapping>
-
-
-  <filter-mapping>
-    <filter-name>MultidateFilter</filter-name>
-    <url-pattern>/updateProduct</url-pattern>
+    <url-pattern>/DispatcherServlet</url-pattern>
   </filter-mapping>
 
 
   <listener>
     <listener-class>by.online.pharmacy.listener.SessionListener</listener-class>
+  </listener>
+
+  <listener>
+    <listener-class>by.online.pharmacy.listener.ServletContextListener</listener-class>
   </listener>
 
 

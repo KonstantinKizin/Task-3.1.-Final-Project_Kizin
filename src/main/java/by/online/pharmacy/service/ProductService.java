@@ -10,6 +10,8 @@ public interface ProductService {
 
     int saveProduct(Product product) throws ServiceException;
 
+    byte[] getDefaultImage() throws ServiceException;
+
     Product findProduct(int id)throws ServiceException;
 
     Product findProductsByName(String productName, String language)throws ServiceException;

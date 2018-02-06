@@ -106,6 +106,7 @@ public class UpdateProductServlet extends HttpServlet {
                 product.setImage(imageBytes);
             }
 
+
             productService.updateProduct(product,currentLanguage);
 
             productService.getProductStorage().set(productIndex,product);
@@ -160,6 +161,8 @@ public class UpdateProductServlet extends HttpServlet {
         items.setDescription("");
         return items;
     }
+
+
 
 }
 

@@ -1,31 +1,24 @@
 package by.online.pharmacy.controller.command;
 
-import by.online.pharmacy.controller.exception.ControllerException;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
-import static by.online.pharmacy.controller.constant.ControllerConstant.WebProperty;
 
-public class CommandProvider implements Command {
 
-    private final Map<String , Command> commandMap = new HashMap<>();;
+public final class CommandProvider {
 
-    @Override
-    public void execute(HttpServletRequest request, HttpServletResponse response) throws ControllerException, IOException {
+    private final Map<String , Command> commandMap = new HashMap<>();
 
-        String commandName = request.getParameter(WebProperty.HIDDEN_PARAMETER);
-        Command command = commandMap.get(commandName);
-        command.execute(request,response);
+    private final static CommandProvider instance = new CommandProvider();
+
+    private CommandProvider(){
+
     }
 
     public Map<String, Command> getCommandMap() {
         return commandMap;
     }
 
-
-
-
+    public static CommandProvider getInstance() {
+        return instance;
+    }
 }

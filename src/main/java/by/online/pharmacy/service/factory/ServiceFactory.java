@@ -7,8 +7,9 @@ import by.online.pharmacy.service.impl.ProductServiceImpl;
 
 public class ServiceFactory {
 
-    private static final ServiceFactory instance = new ServiceFactory();    private final CustomerService customerService = new CustomerServiceImpl();
+    private static final ServiceFactory instance = new ServiceFactory();
 
+    private final CustomerService customerService = new CustomerServiceImpl();
 
     private final ProductService productService = new ProductServiceImpl();
 

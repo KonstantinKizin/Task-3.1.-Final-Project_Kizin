@@ -54,5 +54,17 @@
         <command-class>by.online.pharmacy.controller.command.SaveProductCommand</command-class>
     </command>
 
+    <command>
+        <command-name>update_product</command-name>
+        <command-class>by.online.pharmacy.controller.command.UpdateProductCommand</command-class>
+    </command>
+
+    <command>
+        <command-name>delete_product</command-name>
+        <command-class>by.online.pharmacy.controller.command.DeleteProductCommand</command-class>
+    </command>
+
+
+
 
 </commands>

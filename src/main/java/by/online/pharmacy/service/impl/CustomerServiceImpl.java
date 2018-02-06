@@ -4,7 +4,6 @@ import by.online.pharmacy.dao.CustomerDAO;
 import by.online.pharmacy.dao.exception.DAOException;
 import by.online.pharmacy.dao.factory.DAOFactory;
 import by.online.pharmacy.entity.Customer;
-import by.online.pharmacy.entity.ValidationError;
 import by.online.pharmacy.service.CustomerService;
 import by.online.pharmacy.service.exception.ServiceException;
 import by.online.pharmacy.service.exception.ValidatorException;

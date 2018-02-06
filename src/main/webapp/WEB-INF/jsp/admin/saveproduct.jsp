@@ -4,35 +4,36 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <c:set var="language" value="${not empty param.language ? param.language : not empty language ? language : pageContext.request.locale}" scope="session" />
 <fmt:setLocale value="${language}" />
-<fmt:setBundle basename="Category" />
+<fmt:setBundle basename="Product" />
 <html>
 <head>
     <title>Title</title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
 </head>
 
+<header>
+    <jsp:include page="/WEB-INF/jsp/additional/AccountHeader.jsp"></jsp:include>
+</header>
+
 <body>
-<form class="form-horizontal" enctype="multipart/form-data"  method="post" action="/frontController" >
+<form class="form-horizontal" enctype="multipart/form-data"  method="post" action="/DispatcherServlet" >
 
     <input type="hidden" name="hidden" value="save_product">
 
-        <!-- Form Name -->
-        <legend>Save Product</legend>
-
         <!-- Multiple Radios -->
         <div class="form-group">
-            <label class="col-md-4 control-label" for="radios">Language</label>
+            <label class="col-md-4 control-label" for="radios"><fmt:message key="product.language" /></label>
             <div class="col-md-4">
                 <div class="radio">
                     <label for="radios-0">
                         <input type="radio" name="product_language" id="radios-0" value="ru" checked="checked">
-                        Rus
+                        <fmt:message key="product.category.language.rus" />
                     </label>
                 </div>
                 <div class="radio">
                     <label for="radios-1">
                         <input type="radio" name="product_language" id="radios-1" value="en">
-                        Eng
+                        <fmt:message key="product.category.language.eng" />
                     </label>
                 </div>
             </div>
@@ -42,19 +43,19 @@
 
         <!-- Select Basic -->
         <div class="form-group">
-            <label class="col-md-4 control-label" for="selectbasic">Category</label>
+            <label class="col-md-4 control-label" for="selectbasic"><fmt:message key="product.category" /></label>
             <div class="col-md-4">
                 <select  name="product_category" class="form-control">
-                    <option value="<fmt:message key="category.skin_care" />"><fmt:message key="SKIN_CARE" /></option>
-                    <option value="<fmt:message key="category.vitamins_and_supplements" />"><fmt:message key="VITAMINS_AND_SUPPLEMENTS" /></option>
-                    <option value="<fmt:message key="category.pain_relief_and_managment" />"><fmt:message key="PAIN_RELIEF_AND_MANAGMENT" /></option>
+                    <option value="<fmt:message key="product.category.skin_care" />"></option>
+                    <option value="<fmt:message key="product.category.vitamins_and_supplements" />"></option>
+                    <option value="<fmt:message key="product.category.pain_relief_and_managment" />"></option>
                 </select>
             </div>
         </div>
 
         <!-- Text input-->
         <div class="form-group">
-            <label class="col-md-4 control-label" for="textinput">Name</label>
+            <label class="col-md-4 control-label" for="textinput"><fmt:message key="product.name" /></label>
             <div class="col-md-4">
                 <input  name="product_name" type="text" placeholder="" class="form-control input-md" required="">
 
@@ -63,41 +64,40 @@
 
         <!-- Select Basic -->
         <div class="form-group">
-            <label class="col-md-4 control-label" for="selectbasic">Manufacture</label>
+            <label class="col-md-4 control-label" for="selectbasic"><fmt:message key="product.manufacture" /></label>
             <div class="col-md-4">
                 <select id="selectbasic" name="product_manufacture" class="form-control">
-                    <option value="rus">Russia</option>
-                    <option value="fr">France</option>
-                    <option value="usa">USA</option>
-                    <option value="sweed">Sweeden</option>
-                    <option value="japan">Japan</option>
-                    <option value="poland">Poland</option>
-                    <option value="cro">Croatia</option>
+                    <option value="rus"><fmt:message key="product.manufacture.rus" /></option>
+                    <option value="fr"><fmt:message key="product.manufacture.fr" /></option>
+                    <option value="usa"><fmt:message key="product.manufacture.usa" /></option>
+                    <option value="sweed"><fmt:message key="product.manufacture.swe" /></option>
+                    <option value="japan"><fmt:message key="product.manufacture.jap" /></option>
+                    <option value="japan"><fmt:message key="product.manufacture.fr" /></option>
                 </select>
             </div>
         </div>
 
         <!-- Text input-->
         <div class="form-group">
-            <label class="col-md-4 control-label" for="textinput">Count</label>
+            <label class="col-md-4 control-label" for="textinput"><fmt:message key="product.count" /></label>
             <div class="col-md-4">
-                <input  name="product_count" type="text" placeholder="placeholder" class="form-control input-md" required="">
+                <input  name="product_count" type="text"  class="form-control input-md" required="">
                 <span class="help-block">help</span>
             </div>
         </div>
 
         <!-- Text input-->
         <div class="form-group">
-            <label class="col-md-4 control-label" for="textinput">Price</label>
+            <label class="col-md-4 control-label" for="textinput"><fmt:message key="product.price" /></label>
             <div class="col-md-4">
-                <input  name="product_price" type="text" placeholder="placeholder" class="form-control input-md">
+                <input  name="product_price" type="text"  class="form-control input-md">
                 <span class="help-block">help</span>
             </div>
         </div>
 
         <!-- Multiple Radios -->
         <div class="form-group">
-            <label class="col-md-4 control-label" for="radios">Prescription</label>
+            <label class="col-md-4 control-label" for="radios"><fmt:message key="product.prescription" /></label>
             <div class="col-md-4">
                 <div class="radio">
                     <label for="radios-2">
@@ -116,7 +116,7 @@
 
         <!-- Text input-->
         <div class="form-group">
-            <label class="col-md-4 control-label" for="textinput">Image</label>
+            <label class="col-md-4 control-label" for="textinput"><fmt:message key="product.image" /></label>
             <div class="col-md-4">
                 <input type="file" id="file" name="product_image" multiple class="form-control input-md">
 
@@ -125,7 +125,7 @@
 
         <!-- Textarea -->
         <div class="form-group">
-            <label class="col-md-4 control-label" for="textarea">Description</label>
+            <label class="col-md-4 control-label" for="textarea"><fmt:message key="product.description" /></label>
             <div class="col-md-4">
                 <textarea class="form-control" id="textarea" name="product_description">default text</textarea>
             </div>

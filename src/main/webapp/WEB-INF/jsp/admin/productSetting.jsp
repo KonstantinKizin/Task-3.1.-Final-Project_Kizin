@@ -4,8 +4,8 @@
 <c:set var="language" value="${not empty param.language ? param.language : not empty language ? language : pageContext.request.locale}" scope="session" />
 <fmt:setLocale value="${language}"/>
 
-<c:set var="product_id" value="${not empty param.id ? param.id : found_product.id}"></c:set>
-<jsp:include page="/frontController?hidden=find_product&product_id=${product_id}"></jsp:include>
+<c:set var="product_id" value="${not empty param.id ? param.id : current_product.id}"></c:set>
+<jsp:include page="/frontController?hidden=get_product&product_id=${product_id}"></jsp:include>
 <html>
 <head>
     <title>Title</title>
@@ -21,7 +21,7 @@
         </c:when>
     <c:otherwise>
         <div class="card" style="width: 18rem;">
-            <img class="card-img-top" src="/ImageServlet?product_id=${found_product.id}" alt="Card image cap" height="200px" >
+            <img class="card-img-top" src="/ImageServlet?product_id=${current_product.id}" alt="Card image cap" height="200px" >
             <div class="card-body">
                 <h5 class="card-title">${current_product.productItemMap.get(language).name}</h5>
                 <p class="card-text">${current_product.productItemMap.get(language).description}.</p>
@@ -32,11 +32,10 @@
                 <li class="list-group-item"><h3>Manufacture: </h3>${current_product.productItemMap.get(language).manufacture}</li>
             </ul>
             <div class="card-body">
-                <a href="/admin/add/product/items?id=${current_product.id}" class="card-link">Add items in new Language</a>
+                <a href="/frontController?hidden=delete_product&product_id=${current_product.id}" class="card-link">Delete</a>
                 <a href="/admin/update/product?id=${current_product.id}" class="card-link">Update</a>
             </div>
         </div>
-
     </c:otherwise>
 </c:choose>
 </body>

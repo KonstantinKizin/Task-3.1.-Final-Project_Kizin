@@ -4,7 +4,6 @@ import by.online.pharmacy.entity.Product;
 import by.online.pharmacy.service.ProductService;
 import by.online.pharmacy.service.exception.ServiceException;
 import by.online.pharmacy.service.factory.ServiceFactory;
-import by.online.pharmacy.service.storage.ProductStorage;
 import org.apache.log4j.Logger;
 
 import static by.online.pharmacy.controller.constant.ControllerConstant.WebProperty;
@@ -19,15 +18,11 @@ public class ImageLoaderServlet extends HttpServlet {
 
     private final static Logger logger = Logger.getLogger(ImageLoaderServlet.class);
 
-    private final ServiceFactory factory = ServiceFactory.getInstance();
+    private ServiceFactory factory = ServiceFactory.getInstance();
 
-    private final ProductService productService = factory.getProductService();
-
-    private final ProductStorage productStorage = ProductStorage.getInstance();
+    private ProductService productService = factory.getProductService();
 
     private final static String  PRODUCT_ID_PARAMETER = "product_id";
-
-    private final static String PRODUCT_LIST_ATTRIBUTE = "productList";
 
     private final static String RESPONSE_CONTENT_TYPE = "image/jpg";
 

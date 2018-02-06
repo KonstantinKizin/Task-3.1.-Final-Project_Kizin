@@ -9,11 +9,11 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
-public final class ProductStorage {
+public final  class ProductStorage {
 
-    private final static DAOFactory factory = DAOFactory.getInstance();
+    private static DAOFactory factory = DAOFactory.getInstance();
 
-    private final static ProductDAO productDAO  = factory.getProductDAO();
+    private static ProductDAO productDAO  = factory.getProductDAO();
 
     private static List<Product> productList = new ArrayList<>();
 
@@ -21,14 +21,14 @@ public final class ProductStorage {
 
     private ProductStorage(){}
 
-    static {
-        try {
-            List<Product> products =  productDAO.getAll();
-            productList.addAll(products);
-        } catch (DAOException e) {
-            throw new StorageException("Exception while product list is loading",e);
-        }
-    }
+//    static {
+//        try {
+//            List<Product> products =  productDAO.getAll();
+//            productList.addAll(products);
+//        } catch (DAOException e) {
+//            throw new StorageException("Exception while product list is loading",e);
+//        }
+//    }
 
     public  static ProductStorage getInstance(){
         return instance;
@@ -55,9 +55,17 @@ public final class ProductStorage {
     }
 
     public boolean remove(Product product){
-
         synchronized (productList){
             return productList.remove(product);
+        }
+    }
+
+    public void init(){
+        try {
+            List<Product> products =  productDAO.getAll();
+            productList.addAll(products);
+        } catch (DAOException e) {
+            throw new StorageException("Exception while product list is loading",e);
         }
     }
 
